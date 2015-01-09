@@ -82,9 +82,15 @@
 We started writing this book on November 2013. The initial goal was to provide guidelines to write the most clean Objective-C code possible: there are too many guidelines out there and all of them are debatable. We didn't aim introducing hard rules but, instead, a way for writing code to be more uniform as possible across different developers.
 With time the scope moved to explain how to design and architecture good code.
 
+我们在2013年11月份开始写这本书，最早希望提供写干净漂亮的 Objective-C 代码的指南：现在虽然有很多指南，但是它们都是存在一些问题的。我们不想介绍一些死板的规定，我们想提供一个在不同开发者之间能达成一致的写代码的方法。随时间的推移，这本书开始转向如何设计和构建优秀的代码。
+
 The idea underneath is that the code should not only compile, instead it should "validate". Good code has several characteristics: should be concise, self-explanatory, well organized, well documented, well named, well designed and stand the test of time.
 The main goals behind the curtain are that clarity always wins over performance and a rationale for a choice should always be provided.
 Some topics discussed here are general and independent from the language even if everything is tied up to Objective-C.
+
+这本书的理念是代码不仅是可以编译的，同时应该是 “有效” 的。好的代码有一些特性：简明，自我解释，好的组织，良好的文档，好的命名，好的设计和经得起时间的考验。
+这本书的幕后理念是是清晰性大于性能，并且应该提供为什么这么做的解释。
+一些主题是通用并且独立于语言的，即使所有的代码都是 Objective-C 写的。
 
 ## Swift
 
@@ -92,13 +98,19 @@ On June 6th, 2014 Apple announced the new programming language to be used for iO
 This new language is a radical departure from Objective-C and, of course, has caused a change in our plan for writing this book. It boiled down to the decision of releasing the current status of this essay without continuing our journey in unfolding the topics we originally planned to include.
 Objective-C is not going anywhere but at the same time continuing to write a book on a language that will not receive the same attention as it used to, is not a wise move.
 
-## For the Community
+在 2014年6月6日，苹果发布了面向 iOS 和Mac 开发的新语言： Swift。
+这个新语言与  Objective-C 截然不同，所以，也改变了我们书写这本书的计划，我们决定发布这本书目前的进度，而不是继续书写我们原来计划写下去的主题。
+Objective-C 没有消失 但是同时用一个慢慢失去关注的语言来继续写这本书并不是一个明智的选择。
+
+## For the Community 关于社区
 
 We have released this book for free and for the community because we hope to provide value to the reader, if each one of you can learn at least one best practice we have reached our goal.
 
 We have done our best to polish this text and make it pleasant to the reader but we may have made typos, mistakes or left any part incomplete. We strongly encourage you to give us feedback and suggest improvements, so please get in touch with us if have any. We particularly appreciate pull requests.
 
-## Authors
+我们将这本书免费发布并且贡献给社区，因为我们希望提供读者价值。如果你能学到至少一条最佳实践，我们的目标就达到了
+
+## Authors 作者
 
 **Luca Bernardi**
 
@@ -112,10 +124,13 @@ We have done our best to polish this text and make it pleasant to the reader but
 - @albertodebo
 - http://github.com/albertodebortoli
 
+-------------------
 
 # Conditionals 条件语句
 
 Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent errors. These errors include adding a second line and expecting it to be part of the if-statement. Another, even more dangerous defect, may happen where the line "inside" the if-statement is commented out, and the next line unwittingly becomes part of the if-statement.
+
+条件语句体总是应该被大括号包围来避免错误，即使可以不用（比如，只有一行内容）。这些错误包括谢了第二行，并且以为是 if 语句体里面的。此外，更危险的可能是，把 if 语句里的一行 注释了，之后一行会不知不觉成为 if 语句里的代码。
 
 **Preferred:**
 
@@ -140,6 +155,11 @@ if (!error) return success;
 
 In February 2014 the well-know [goto fail](https://gotofail.com/) was found in the Apple's SSL/TLS implementation. 
 The bug was due to a repeated `goto` statement after an `if` condition, wrapping the `if` branch in parentheses would have prevented the issue.
+
+
+在 2014年2月 苹果的 SSL/TLS 实现里面发现了知名的 [goto fail](https://gotofail.com/) 错误。
+
+代码在这里：
 
 The code extract:
 
@@ -171,6 +191,9 @@ Easy to spot, there are 2 `goto fail;` lines one after the other without parenth
 
 In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.
 
+显而易见，这里有连续的没有括号包围的2行 `goto fail;` 。我们当然不希望冒险发生上面的代码。
+
+此外，这种在其他条件表达式里面也应该这样统一，这样可以更容易检查。
 
 ## Yoda conditions  尤达表达式
 
@@ -195,6 +218,7 @@ if ([@42 isEqual:myValue]) { ...
 
 On a similar note of the Yoda conditions, also the nil check has been at the centre of debates. Some notous libraries out there use to check for an object to be or not to be nil as so:
 
+类似于 Yoda 表达式，所有的nil 检查也是争议的焦点。一些 notous 库 像这样检查对象是否为 nik 
 
 ```objective-c
 if (nil == myValue) { ...
@@ -202,11 +226,15 @@ if (nil == myValue) { ...
 
 One could argue that this is amiss or similar to a Yoda condition as nil is kind of a constant. The reason why sometimes programmers use this approach to prevent error that are difficult to debug. Consider the following code:
 
+或许有人会提出这是错的，类似于 Yoda 表达式， nil 作为一个常量的情况。 一些程序员这么做的愿意是为了避免调试的困难，看下面的代码
+
 ```objective-c
 if (myValue == nil) { ...
 ```
 
 If a typo occurs and the programmer actually types:
+
+如果程序员敲成这样：
 
 ```objective-c
 if (myValue = nil) { ...
@@ -214,7 +242,11 @@ if (myValue = nil) { ...
 
 it would be a valid assignment, indeed hard to debug if you are an experienced programmer (and therefore probably with some kind of visual impairment). That could never occur putting `nil` as argument on the left as it is nor assignable. There is also to be said that if the programmer uses this approach, he or she is perfectly aware of the underlying motivation and therefore the whole thing decades as it would be better to just double check what just typed.
 
+这是合法的语句，但是确实即使你是一个丰富经验的工程师，也很难调试出错误 (and therefore probably with some kind of visual impairment). 如果把 nil 放在 左边，因为它不能被赋值，所以就不会发生这样的错误，。There is also to be said 如果程序员使用这样的方法，他或者她就可以完美的知道可能的原因，比一遍一遍查看敲下的代码要好很多。
+
 More on this, to avoid all this fuss the approach that leave no space to doubt is to use the exclamation mark. Since `nil` resolves to `NO` it is unnecessary to compare it in conditions. Also, never compare something directly to `YES`, because `YES` is defined to 1 and a `BOOL` can be up to 8 bits as it is a char underneath.
+
+More on this, to avoid all this fuss the approach that leave no space to doubt is to use the exclamation mark. 因为 nil 是 解释到 NO 所以没必要在条件语句里面比较。同时，不要直接和 `YES` 比较，因为 `YES` 的定义是1 而 `BOOL` 是8 位的，实际上是 char 类型。
 
 **Preferred:**
 ```objective-c
@@ -232,9 +264,13 @@ if ([someObject boolValue] == NO) { ...
 
 This allows also for more consistency across files and greater visual clarity.
 
-## Golden Path
+这样同时也能提高一致性，以及提升可阅读性。
+
+## Golden Path 黄金大道
 
 When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't nest `if` statements.  Multiple return statements are OK. This will avoid the growth of cyclomatic complexity and make the code easier to read because the important part of your method is not nested inside a branch but you have a visual clue of what is the most relevant code. 
+
+当编写条件语句的时候，左边的代码间距应该是一个“黄金”或者“快乐”的大道。 这是说，不要嵌套`if`语句。多个 return 语句是OK的。这样可以避免Cyclomatic 复杂性。并且让代码更加容易阅读。因为你的方法的重要的部分没有嵌套在分支上，你可以很清楚找到相关的代码。
 
 **Preferred:**
 
@@ -278,6 +314,10 @@ if (isSwiftSession) {
 
 The Ternary operator, `?` , should only be used when it increases clarity or code neatness. A single condition is usually all that should be evaluated. Evaluating multiple conditions is usually more understandable as an if statement, or refactored into instance variables.
 
+
+三元运算符 ? 应该只用在它能让代码更加清楚的地方。 一个单独的状态状态语句通常是所有的变量已经被求值了的。计算多个条件子句通常会让语句更加难以理解，就像if语句的情况一样，或者or refactored into instance variables.
+
+
 **Preferred:**
 ```objective-c
 result = a > b ? x : y;
@@ -290,6 +330,8 @@ result = a > b ? x = c > d ? c : d : y;
 
 When the second argument of the ternary operator (the if branch) returns the same object that was checked for existence in the condition, the following syntax is neat:
 
+当三元运算符的第二个参数（if分支）返回已经在状态语句中检查的对象的时候，下面的语句是更灵巧的：
+
 **Preferred:**
 ```objective-c
 result = object ? : [self createObject];
@@ -300,9 +342,11 @@ result = object ? : [self createObject];
 result = object ? object : [self createObject];
 ```
 
-## Error handling
+## Error handling 错误处理
 
 When methods return an error parameter by reference, check the returned value, not the error variable.
+
+当方法返回一个错误参数的引用的时候，检查返回值，而不是错误的变量。
 
 **Preferred:**
 ```objective-c
@@ -314,8 +358,11 @@ if (![self trySomethingWithError:&error]) {
 
 Moreover, some of Apple's APIs write garbage values to the error parameter (if non-NULL) in successful cases, so checking the error can cause false negatives (and subsequently crash).
 
+更多shihi，一些Apple的API对 error 参数写了很多多余的值(if non-NULL)在成功的情况。所以检查错误so checking the error can cause false negatives (and subsequently crash).
 
-# Case Statements
+# Case Statements Case语句
+
+括号在case语句里面是不必要的，除非编译器强制要求。当一个 case 包含了多行语句的时候，需要加上括号。
 
 Braces are not required for case statements, unless enforced by the complier.  
 When a case contains more than one line, braces should be added.
@@ -341,6 +388,8 @@ switch (condition) {
 
 There are times when the same code can be used for multiple cases, and a fall-through should be used.  A fall-through is the removal of the 'break' statement for a case thus allowing the flow of execution to pass to the next case value.
 
+有时候可以在不同的case里面用相同的代码，并且要使用 fall-through。 一个 fall-through  是一个case语句不执行 break 而让下面的 case 继续执行。
+
 ```objective-c
 switch (condition) {
     case 1:
@@ -354,6 +403,8 @@ switch (condition) {
 ```
 
 When using an enumerated type for a switch, `default` is not needed. For example:
+
+当在Switch语句里面使用一个可枚举的变量的时候，`default` 是不必要的。比如：
 
 ```objective-c
 switch (menuType) {
@@ -371,11 +422,15 @@ switch (menuType) {
 
 Moreover, avoiding the default case, if new values are added to the enum, the programmer is immediately notified with a warning:
 
+此外，避免使用默认的case，如果新的值加入到enum，程序员会马上收到一个warning通知
+
 `Enumeration value 'ZOCEnumValue3' not handled in switch.`
 
-### Enumerated Types
+### Enumerated Types 枚举类型
 
 When using `enum`s, it is recommended to use the new fixed underlying type specification because it has stronger type checking and code completion. The SDK now includes a macro to facilitate and encourage use of fixed underlying types — `NS_ENUM()`
+
+当使用 `enum` 的时候，建议使用新的固定的基础类型定义，因它有更强大的的类型检查和代码补全。 sDK 现在有一个 宏来鼓励和促进用固定基础类型定义 - `NS_ENUM()`
 
 **Example:**
 
@@ -387,6 +442,9 @@ typedef NS_ENUM(NSUInteger, ZOCMachineState) {
     ZOCMachineStatePaused
 };
 ```
+
+
+-------------------
 
 # Naming
 
@@ -503,6 +561,9 @@ NSMutableArray *aMutableArray = [@[] mutableCopy];
 The problems with the previous notation are both of efficiency and readability. 
 On the efficiency side, an unnecessarily immutable object is created and immediately thrown away; this unlikely will slow down your app (unless the method here is called frequently) but there is really no reason to do this just to save some characters. 
 Regarding the readability, we can see two problems here: the first is that when scanning through the code and seeing `@[]` your mind is immediately connected to and instance of `NSArray`, but in this case you need to stop and check more thoughtfully. Another aspect to take into account is that it would be very likely that someone with less experience will see your code and depending on his background he might not be very comfortable with the dichotomy between mutable and immutable objects. He or she could not be very familiar with the meaning of creating a mutable copy (obviously we are not suggesting that this knowledge is not necessary). Again, this is not something absolutely wrong but is more about code usability (that includes readability).
+
+
+-------------------
 
 # Class
 
@@ -722,7 +783,7 @@ This is mostly to form the habit and to be consistent (and possibly having a mor
 - http://clang.llvm.org/docs/LanguageExtensions.html#related-result-types
 - http://nshipster.com/instancetype/
 
-
+-------------------
 
 ### Initialization Patterns 初始化陌生
 
@@ -904,7 +965,7 @@ There is however an exception to what stated before: you must never use the sett
 * in a [pull request](https://github.com/NYTimes/objective-c-style-guide/issues/6) form Dave DeLong's. 
 
 Moreover, using the setter in the init will not play nicely with `UIAppearence` proxy (please refer to [UIAppearance for Custom Views](http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/) for additional informations).
-
+-------------------
 #### Dot-Notation
 
 When using the setter/getter always prefer the dot notation.
@@ -1050,7 +1111,7 @@ This contracts boils down to how the lookup of those objects is done when are st
 
 @end
 ```
-
+-------------------
 It is important to notice that the hash method must not return a constant. This is a typical error and causes serious problems as it will cause 100% of collisions in the hash table as the value returned by the hash method is actually used as key in the hash table.
 
 You should also always implement a typed equality check method with the following format `isEqualTo<#class-name-without-prefix#>:`
@@ -1174,7 +1235,7 @@ A minimal step forward would be to follow the Single Responsibility Principle an
 - a feed reader to display the results
 
 The interfaces for these classes could be as so:
-
+-------------------
 ```objective-c
 
 @interface ZOCFeedParser : NSObject
@@ -1276,7 +1337,7 @@ Notice that the delegate protocol now deals with objects conforming to our new p
 
 As `ZOCFeedParser`now conforms to `ZOCFeedParserProtocol`, it must implement all the required methods.
 At this point the view controller can accept any object conforming to the new protocol, having the certaincy that the object will respond to `start` and `stop` methods and that it will provide info through the delegate property. This is all the view controller should know about the given objects and no implementation details should concern it.
-
+-------------------
 
 ```objective-c
 
@@ -1441,7 +1502,7 @@ A very obscure GCC behavior that it is also supported by Clang is the ability of
 一个GCC非常模糊的特性，以及同时Clang也有的特性是代码块如果在闭合的圆括号内的话，会返回最后语句的值
 
 
-
+-------------------
 ```objective-c
 NSURL *url = ({
     NSString *urlString = [NSString stringWithFormat:@"%@/%@", baseURLString, endpoint];
@@ -1690,7 +1751,7 @@ You should do this because:
 * Taking more than one block as arguments would make the call site potentially unwieldy in length. It also introduces complexity[1].
 
 Consider the above method, the signature of the completion block is very common: the first parameter regards the data the caller is interested in, the second parameter is the error encountered. The contract should be therefore as follow:
-
+-------------------
 * if `objects` is not nil, then `error` must be nil
 * if `objects` is nil, then `error` must not be nil
 
@@ -1862,7 +1923,7 @@ The next step is interesting.
 **Case 3: declaring a `__weak` reference to self outside the block and use a `__strong` reference inside the block**
 
 You may think, at first, this is a trick to use self inside the block avoiding the retain cycle warning. This is not the case. The strong reference to self is created at *block execution time* while using self in the block is evaluated at *block declaration time*, thus retaining the object.
-
+-------------------
 [Apple documentation][blocks_caveat1] reports that "For non-trivial cycles, however, you should use" this approach: 
 
 ```objective-c
@@ -2030,7 +2091,7 @@ Here is a concrete example:
 @end
 
 ```
-
+-------------------
 Delegate methods should be always have the caller as first parameter as in the above example otherwise delegate objects could not be able to distinguish between different instances of delegants. In other words, if the caller is not passed to the delegate object, there would be no way for any delegate to deal with 2 delegant object. So, following is close to blasphemy:
 
 ```objective-c
@@ -2194,7 +2255,7 @@ A simple component using weak objects to achieve multiple delegation:
 @property (nonatomic, strong) NSMutableSet *delegates;
 @end
 ```
-
+-------------------
 ```objective-c
 @implementation ZOCGeneralService
 - (void)registerDelegate:(id<ZOCServiceDelegate>)delegate {
