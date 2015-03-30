@@ -2077,7 +2077,7 @@ A simple component using weak objects to achieve multiple delegation:
     }
 }
 
-- (void)_notifyDelegates {
+- (void)notifyDelegates {
     ...
     for (ZOCWeakObject *object in self.delegates) {
         if (object.object) {
