@@ -2274,7 +2274,7 @@ Here are some of the documents from Apple that informed the style guide:
 
 Others:
 
-* [Objcetive-Clean](http://objclean.com): an attempt to write a standard for writing Objective-C code with Xcode integration;
+* [Objective-Clean](http://objclean.com): an attempt to write a standard for writing Objective-C code with Xcode integration;
 * [Uncrustify](http://uncrustify.sourceforge.net/): source code beautifier.
 
 ### Other Objective-C Style Guides
