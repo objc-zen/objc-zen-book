@@ -680,7 +680,7 @@ following this will actually lead to a non-deterministic behavior that will chan
 
 As stated in the previous paragraph, a secondary initializer is a sort of convenience method to provide default values / behaviors to the designated initializer.
 That said, it seems clear that you should not do any mandatory initialization in such method and you should never assume that this method will gets called. Again, the only methods that we are guaranteed to get called are the designated initializer.
-This imply that in your designated initializer you should always call another secondary initializer or your `self` designated initializer.  Sometimes, by mistake, one can type `super`; doing this will cause not to respect the aforementioned sequence of initialization (in this specific case by skipping the initialization of the current class).
+This imply that in your secondary designated initializer you should always call another secondary initializer or your `self` designated initializer.  Sometimes, by mistake, one can type `super`; doing this will cause not to respect the aforementioned sequence of initialization (in this specific case by skipping the initialization of the current class).
 
 ##### References
 
