@@ -579,7 +579,7 @@ Given the above example `initWithTitle:date:location:` is the designated initial
 
 #### Designated Initializer
 
-A class should always have one and only one designated initializer, all other init methods should call the designated one (even though there are an exception to this case).
+A class should always have one and only one designated initializer, all other init methods should call the designated one (even though there is an exception to this case).
 This dichotomy does not dictate any requirement about which initializer should be called.
 It should rather be valid to call any designated initializer in the class hierarchy, and it should be guaranteed that *all* the designated initializer in the class hierarchy are called starting from the furthest ancestor (typically `NSObject`) down to your class. 
 Practically speaking this means that the first initialization code executed is the furthest ancestor, and then going down to the class hierarchy; giving to all the classes in the hierarchy the chance to do their specific part of initialization. This totally make sense: you want that everything you inherit from your superclass is in an usable state before doing your actual work.
