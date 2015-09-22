@@ -1437,7 +1437,7 @@ Suppressing warnings for unused variables
 It's useful to be told that a variable you've defined is going unused. In most cases, you want to remove these references to improve performance (however slightly), but sometimes you want to keep them. Why? Perhaps they have a future usage or the functionality is only temporarily removed. Either way, a smarter way to suppress the warning without brutally commenting out the relevant lines, is to use the `#pragma unused()`:
 
 ```objective-c
-- (void)giveMeFive
+- (NSUInteger)giveMeFive
 {
     NSString *foo;
     #pragma unused (foo)
