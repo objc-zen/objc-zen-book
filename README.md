@@ -579,7 +579,7 @@ Given the above example `initWithTitle:date:location:` is the designated initial
 
 #### Designated Initializer
 
-A class should always have one and only one designated initializer, all other init methods should call the designated one (even though there are an exception to this case).
+A class should always have one and only one designated initializer, all other init methods should call the designated one (even though there is an exception to this case).
 This dichotomy does not dictate any requirement about which initializer should be called.
 It should rather be valid to call any designated initializer in the class hierarchy, and it should be guaranteed that *all* the designated initializer in the class hierarchy are called starting from the furthest ancestor (typically `NSObject`) down to your class. 
 Practically speaking this means that the first initialization code executed is the furthest ancestor, and then going down to the class hierarchy; giving to all the classes in the hierarchy the chance to do their specific part of initialization. This totally make sense: you want that everything you inherit from your superclass is in an usable state before doing your actual work.
@@ -648,7 +648,7 @@ Let's see an example of the correct way to implement this:
 In case you don't override `initWithNibName:bundle:` and the caller decides to initialize you class with this method (that would be a perfectly valid option) the method `initWithNews:` will never get called and this will bring to an incorrect initialization sequence where the specific initialization logic of your class is not executed.
 
 Even though it should be possible to infer what method is the designate initializer, it is always good to be clear and explicit (the future you or other developers that will work on your code will thank you). There are two strategies (non mutually exclusive) that you can decide to use: the first one you is to clearly state in the documentation which initializer is the designated one, but better yet you can be nice with your compiler and by using the compiler directive `__attribute__((objc_designated_initializer))` you can signal your intent.
-Using that directive will also helps the compiler helping you and in fact the compiler will issue a warning if in your new designate initializer you don't call your superclass's designated initializer.
+Using that directive will also help the compiler helping you and in fact the compiler will issue a warning if in your new designate initializer you don't call your superclass's designated initializer.
 There are, though, cases in which not calling the class designated initializer (and in turn providing the required parameters) and calling another designated initializer in the class hierarchy will bring the class in an useless state. Referring to the previous example, there is no point in instantiating a `ZOCNewsViewController` that should present a news, without the news itself. In this case you can enforce even more the need to call a very specific designated initializer by simply making all the other designated initializers not available. It is possible to do that by using another compiler directive `__attribute__((unavailable("Invoke the designated initializer"))) `, decorating a method with this attribute will make the compiler issuing an error if you try to call this method.
 
 Here the header relative to the implementation of the previous example (note the use of macros to don't repeat the code and being less verbose).
