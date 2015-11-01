@@ -1,116 +1,106 @@
-# Zen and the Art of the Objective-C Craftsmanship
+# 禅与 Objective-C 编程艺术 （Zen and the Art of the Objective-C Craftsmanship 中文翻译）
 
+- 原文 <https://github.com/objc-zen/objc-zen-book>
+- 中文翻译仓库<https://github.com/oa414/objc-zen-book-cn>
+- Gitbook 链接(包含 PDF, mobi, epub 格式): <http://yourtion.gitbooks.io/objc-zen-book-cn/> (感谢 [yourtion](https://github.com/yourtion) 整理 )
 
 
 ![](./images/zen-logo-thumb.png)
 
 
-
-
-* [Preface](#preface)
+* [前言](#前言)
   * [Swift](#swift)
-  * [For the Community](#for-the-community)
-  * [Authors](#authors)
-* [Conditionals](#conditionals)
-  * [Yoda conditions](#yoda-conditions)
-  * [nil and BOOL checks](#nil-and-bool-checks)
-  * [Golden Path](#golden-path)
-  * [Complex Conditions](#complex-conditions)
-  * [Ternary Operator](#ternary-operator)
-  * [Error handling](#error-handling)
-* [Case Statements](#case-statements)
-    * [Enumerated Types](#enumerated-types)
-* [Naming](#naming)
-  * [General conventions](#general-conventions)
-  * [Constants](#constants)
-  * [Methods](#methods)
-  * [Literals](#literals)
-* [Class](#class)
-  * [Class name](#class-name)
-  * [Initializer and dealloc](#initializer-and-dealloc)
-    * [Designated and Secondary Initializers](#designated-and-secondary-initializers)
+  * [贡献给社区](#贡献给社区)
+  * [作者](#作者)
+  * [关于中文翻译](#关于中文翻译)
+* [条件语句](#条件语句)
+  * [尤达表达式](#尤达表达式)
+  * [nil 和 BOOL 检查](#nil-和-bool-检查)
+  * [黄金大道](#黄金大道)
+  * [复杂的表达式](#复杂的表达式)
+  * [三元运算符](#三元运算符)
+  * [错误处理](#错误处理)
+* [Case语句](#case语句)
+    * [枚举类型](#枚举类型)
+* [命名](#命名)
+  * [通用的约定](#通用的约定)
+  * [常量](#常量)
+  * [方法](#方法)
+  * [字面值](#字面值)
+* [类](#类)
+  * [类名](#类名)
+  * [Initializer 和 dealloc](#initializer-和-dealloc)
+    * [Designated 和 Secondary 初始化方法](#designated-和-secondary初始化方法)
       * [Designated Initializer](#designated-initializer)
       * [Secondary Initializer](#secondary-initializer)
-        * [References](#references)
+        * [参考](#参考)
     * [instancetype](#instancetype)
-        * [Reference](#reference)
-    * [Initialization Patterns](#initialization-patterns)
-      * [Class cluster](#class-cluster)
-      * [Singleton](#singleton)
-  * [Properties](#properties)
-      * [Init and Dealloc](#init-and-dealloc)
-      * [Dot-Notation](#dot-notation)
-    * [Property Declaration](#property-declaration)
-      * [Private Properties](#private-properties)
-    * [Mutable Object](#mutable-object)
-    * [Lazy Loading](#lazy-loading)
-  * [Methods](#methods)
-    * [Parameter Assert](#parameter-assert)
-    * [Private methods](#private-methods)
-  * [Equality](#equality)
+        * [参考](#参考)
+    * [初始化模式](#初始化模式)
+      * [类簇 （class cluster)](#类簇-（class-cluster）)
+      * [单例](#单例)
+  * [属性](#属性)
+      * [Init 和 Dealloc](#init-和-dealloc)
+      * [点符号](#点符号)
+    * [属性定义](#属性定义)
+      * [私有属性](#私有属性)
+    * [可变对象](#可变对象)
+    * [懒加载 (Lazy Loading)](#懒加-（lazy-loading）)
+  * [方法](#方法)
+    * [参数断言](#参数断言)
+    * [私有方法](#私有方法)
+  * [相等性](#相等性)
 * [Categories](#categories)
 * [Protocols](#protocols)
 * [NSNotification](#nsnotification)
-* [Beautifying the code](#beautifying-the-code)
-    * [Spacing](#spacing)
-    * [Line Breaks](#line-breaks)
-    * [Brackets](#brackets)
-* [Code Organization](#code-organization)
-  * [Exploit Code Block](#exploit-code-block)
+* [美化代码](#美化代码)
+    * [空格](#空格)
+    * [换行](#换行)
+    * [括号](#括号)
+* [代码组织](#代码组织)
+  * [利用代码块](#利用代码块)
   * [Pragma](#pragma)
     * [Pragma Mark](#pragma-mark)
-  * [Explicit warnings and errors](#explicit-warnings-and-errors)
-  * [Docstrings](#docstrings)
-  * [Comments](#comments)
-    * [Header Documentation](#header-documentation)
-* [Inter-Object Communication](#inter-object-communication)
-  * [Blocks](#blocks)
-    * [Under the Hood](#under-the-hood)
-    * [Retain cycles on self](#retain-cycles-on-self)
-  * [Delegate and DataSource](#delegate-and-datasource)
-    * [Inheritance](#inheritance)
-    * [Multiple Delegation](#multiple-delegation)
-* [Aspect Oriented Programming](#aspect-oriented-programming)
-* [References](#references)
-    * [Other Objective-C Style Guides](#other-objective-c-style-guides)
+    * [忽略没用使用变量的编译警告](#忽略没用使用变量的编译警告)
+  * [明确编译器警告和错误](#明确编译器警告和错误)
+  * [字符串文档](#字符串文档)
+  * [注释](#注释)
+    * [头文档](#头文档)
+* [对象间的通讯](#对象间的通讯)
+  * [Block](#blocks)
+    * [深入 Block](#深入-block)
+    * [self 的循环引用](#self-的循环引用)
+  * [委托和数据源](#委托和数据源)
+    * [继承](#继承)
+    * [多重委托](#多重委托)
+* [面向切面编程](#面向切面编程)
+* [参考资料](#参考资料)
+    * [其他的 Objective-C 风格指南](#其他的-objective-c-风格指南)
 
+# 前言
 
+我们在 2013 年 11 月份开始写这本书，最初的目标是提供一份如何编写干净漂亮的 Objective-C 代码的指南：现在虽然有很多指南，但是它们都是有一些问题的。我们不想介绍一些死板的规定，我们想提供一个在开发者们之间写更一致的代码的途径。随时间的推移，这本书开始转向介绍如何设计和构建优秀的代码。
 
+这本书的观点是代码不仅是可以编译的，同时应该是 “有效” 的。好的代码有一些特性：简明，自我解释，优秀的组织，良好的文档，良好的命名，优秀的设计以及可以被久经考验。
 
-# Preface 前言
+本书的一个理念是是代码的清晰性优先于性能，同时阐述为什么应该这么做。
 
-We started writing this book on November 2013. The initial goal was to provide guidelines to write the most clean Objective-C code possible: there are too many guidelines out there and all of them are debatable. We didn't aim introducing hard rules but, instead, a way for writing code to be more uniform as possible across different developers.
-With time the scope moved to explain how to design and architecture good code.
-
-我们在2013年11月份开始写这本书，最早希望提供写干净漂亮的 Objective-C 代码的指南：现在虽然有很多指南，但是它们都是存在一些问题的。我们不想介绍一些死板的规定，我们想提供一个在不同开发者之间能达成一致的写代码的方法。随时间的推移，这本书开始转向如何设计和构建优秀的代码。
-
-The idea underneath is that the code should not only compile, instead it should "validate". Good code has several characteristics: should be concise, self-explanatory, well organized, well documented, well named, well designed and stand the test of time.
-The main goals behind the curtain are that clarity always wins over performance and a rationale for a choice should always be provided.
-Some topics discussed here are general and independent from the language even if everything is tied up to Objective-C.
-
-这本书的理念是代码不仅是可以编译的，同时应该是 “有效” 的。好的代码有一些特性：简明，自我解释，好的组织，良好的文档，好的命名，好的设计和经得起时间的考验。
-这本书的幕后理念是是清晰性大于性能，并且应该提供为什么这么做的解释。
-一些主题是通用并且独立于语言的，即使所有的代码都是 Objective-C 写的。
+虽然所有的代码都是 Objective-C 写的，但是一些主题是通用的，并且独立于编程语言。
 
 ## Swift
 
-On June 6th, 2014 Apple announced the new programming language to be used for iOS and Mac development in future: Swift.
-This new language is a radical departure from Objective-C and, of course, has caused a change in our plan for writing this book. It boiled down to the decision of releasing the current status of this essay without continuing our journey in unfolding the topics we originally planned to include.
-Objective-C is not going anywhere but at the same time continuing to write a book on a language that will not receive the same attention as it used to, is not a wise move.
+在 2014 年 6 月 6 日，苹果发布了面向 iOS 和 Mac 开发的新语言： Swift。
+这个新语言与 Objective-C 截然不同。所以，我们改变了写这本书的计划。我们决定发布这本书当前的状态，而不是继续书写我们原来计划写下去的主题。
 
-在 2014年6月6日，苹果发布了面向 iOS 和Mac 开发的新语言： Swift。
-这个新语言与  Objective-C 截然不同，所以，也改变了我们书写这本书的计划，我们决定发布这本书目前的进度，而不是继续书写我们原来计划写下去的主题。
-Objective-C 没有消失 但是同时用一个慢慢失去关注的语言来继续写这本书并不是一个明智的选择。
+Objective-C 没有消失，但是现在用一个慢慢失去关注的语言来继续写这本书并不是一个明智的选择。
 
-## For the Community 关于社区
+## 贡献给社区
 
-We have released this book for free and for the community because we hope to provide value to the reader, if each one of you can learn at least one best practice we have reached our goal.
+我们将这本书免费发布并且贡献给社区，因为我们希望提供给读者一些有价值的内容。如果你能学到至少一条最佳实践，我们的目的就达到了。
 
-We have done our best to polish this text and make it pleasant to the reader but we may have made typos, mistakes or left any part incomplete. We strongly encourage you to give us feedback and suggest improvements, so please get in touch with us if have any. We particularly appreciate pull requests.
+我们已经非常用心地打磨了这些文字，但是仍然可能有一些拼写或者其他错误。我们非常希望读者给我们一个反馈或者建议，以来改善本书。所以如果有什么问题的话，请联系我们。我们非常欢迎各种 pull-request。
 
-我们将这本书免费发布并且贡献给社区，因为我们希望提供读者价值。如果你能学到至少一条最佳实践，我们的目标就达到了
-
-## Authors 作者
+##  作者
 
 **Luca Bernardi**
 
@@ -124,15 +114,38 @@ We have done our best to polish this text and make it pleasant to the reader but
 - @albertodebo
 - http://github.com/albertodebortoli
 
--------------------
+## 关于中文翻译
 
-# Conditionals 条件语句
+译者
 
-Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent errors. These errors include adding a second line and expecting it to be part of the if-statement. Another, even more dangerous defect, may happen where the line "inside" the if-statement is commented out, and the next line unwittingly becomes part of the if-statement.
+**林翔宇**
+- http://linxiangyu.org
+- linxiangyu@nupter.org
+- http://github.com/oa414
 
-条件语句体总是应该被大括号包围来避免错误，即使可以不用（比如，只有一行内容）。这些错误包括谢了第二行，并且以为是 if 语句体里面的。此外，更危险的可能是，把 if 语句里的一行 注释了，之后一行会不知不觉成为 if 语句里的代码。
+**庞博**
+- bopang@sohu-inc.com
+- https://github.com/heistings
 
-**Preferred:**
+**Kevin.Xiao**
+- kevinxiao1919@gmail.com
+- https://github.com/KevinHM
+
+
+同时非常感谢[原作者、帮助修订原文和中文翻译的不妥之处和错误之处的朋友](https://github.com/oa414/objc-zen-book-cn/graphs/contributors)
+
+
+
+
+**部分译文表达可能存在不妥之处，非常欢迎各种修订建议和校队。译文的维护仓库在 <https://github.com/oa414/objc-zen-book-cn/>。**
+
+
+#  条件语句
+
+条件语句体应该总是被大括号包围。尽管有时候你可以不使用大括号（比如，条件语句体只有一行内容），但是这样做会带来问题隐患。比如，增加一行代码时，你可能会误以为它是 if 语句体里面的。此外，更危险的是，如果把 if 后面的那行代码注释掉，之后的一行代码会成为 if 语句里的代码。
+
+
+**推荐:**
 
 ```objective-c
 if (!error) {
@@ -140,28 +153,24 @@ if (!error) {
 }
 ```
 
-**Not preferred:**
+**不推荐:**
 
 ```objective-c
 if (!error)
     return success;
 ```
 
-or
+和
 
 ```objective-c
 if (!error) return success;
 ```
-
-In February 2014 the well-know [goto fail](https://gotofail.com/) was found in the Apple's SSL/TLS implementation. 
-The bug was due to a repeated `goto` statement after an `if` condition, wrapping the `if` branch in parentheses would have prevented the issue.
 
 
 在 2014年2月 苹果的 SSL/TLS 实现里面发现了知名的 [goto fail](https://gotofail.com/) 错误。
 
 代码在这里：
 
-The code extract:
 
 ```objective-c
 static OSStatus
@@ -187,92 +196,76 @@ fail:
 }
 ```
 
-Easy to spot, there are 2 `goto fail;` lines one after the other without parentheses. We definitely don't want to risk creating bugs like the one above right?
 
-In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.
+显而易见，这里有没有括号包围的2行连续的 `goto fail;` 。我们当然不希望写出上面的代码导致错误。
 
-显而易见，这里有连续的没有括号包围的2行 `goto fail;` 。我们当然不希望冒险发生上面的代码。
+此外，在其他条件语句里面也应该按照这种风格统一，这样更便于检查。
 
-此外，这种在其他条件表达式里面也应该这样统一，这样可以更容易检查。
-
-## Yoda conditions  尤达表达式
-
-Always avoid Yoda conditions. A Yoda condition is when comparing a constant to a variable instead of the other way around. It's like saying "if blue is the sky" or "if tall is the man" instead of "if the sky is blue" or "if the man is tall".
+## 尤达表达式
 
 
-不要使用有尤达表达式。尤达表达式是指，用一个常量去和变量比较。它就像是在说 “如果蓝色是天空的” 或者 “高是这个男人” 而不是  ”如果天空是蓝的“或者 "如果这个男人是高的"
+不要使用尤达表达式。尤达表达式是指，拿一个常量去和变量比较而不是拿变量去和常量比较。它就像是在表达 “蓝色是不是天空的颜色” 或者 “高个是不是这个男人的属性” 而不是  “天空是不是蓝的” 或者 “这个男人是不是高个子的” 
 
 ![Yoda](./images/yoda.png)
 
-**Preferred:**
+（译者注：名字起源于星球大战中尤达大师的讲话方式，总是用倒装的语序）
+
+**推荐:**
 ```objective-c
 if ([myValue isEqual:@42]) { ...
 ```
 
-**Not preferred:**
+**不推荐:**
 ```objective-c
 if ([@42 isEqual:myValue]) { ...
 ```
 
-## nil and BOOL checks nil 和 BOOL 检查
+## nil 和 BOOL 检查
 
-On a similar note of the Yoda conditions, also the nil check has been at the centre of debates. Some notous libraries out there use to check for an object to be or not to be nil as so:
 
-类似于 Yoda 表达式，所有的nil 检查也是争议的焦点。一些 notous 库 像这样检查对象是否为 nik 
+类似于 Yoda 表达式，nil 检查的方式也是存在争议的。一些 notous 库像这样检查对象是否为 nil：
 
 ```objective-c
 if (nil == myValue) { ...
 ```
 
-One could argue that this is amiss or similar to a Yoda condition as nil is kind of a constant. The reason why sometimes programmers use this approach to prevent error that are difficult to debug. Consider the following code:
-
-或许有人会提出这是错的，类似于 Yoda 表达式， nil 作为一个常量的情况。 一些程序员这么做的愿意是为了避免调试的困难，看下面的代码
+或许有人会提出这是错的，因为在 nil 作为一个常量的情况下，这样做就像 Yoda 表达式了。 但是一些程序员这么做的原因是为了避免调试的困难，看下面的代码：
 
 ```objective-c
 if (myValue == nil) { ...
 ```
 
-If a typo occurs and the programmer actually types:
-
-如果程序员敲成这样：
+如果程序员敲错成这样：
 
 ```objective-c
 if (myValue = nil) { ...
 ```
 
-it would be a valid assignment, indeed hard to debug if you are an experienced programmer (and therefore probably with some kind of visual impairment). That could never occur putting `nil` as argument on the left as it is nor assignable. There is also to be said that if the programmer uses this approach, he or she is perfectly aware of the underlying motivation and therefore the whole thing decades as it would be better to just double check what just typed.
 
-这是合法的语句，但是确实即使你是一个丰富经验的工程师，也很难调试出错误 (and therefore probably with some kind of visual impairment). 如果把 nil 放在 左边，因为它不能被赋值，所以就不会发生这样的错误，。There is also to be said 如果程序员使用这样的方法，他或者她就可以完美的知道可能的原因，比一遍一遍查看敲下的代码要好很多。
+这是合法的语句，但是即使你是一个丰富经验的程序员，即使盯着眼睛瞧上好多遍也很难调试出错误。但是如果把 nil 放在左边，因为它不能被赋值，所以就不会发生这样的错误。 如果程序员这样做，他/她就可以轻松检查出可能的原因，比一遍遍检查敲下的代码要好很多。
 
-More on this, to avoid all this fuss the approach that leave no space to doubt is to use the exclamation mark. Since `nil` resolves to `NO` it is unnecessary to compare it in conditions. Also, never compare something directly to `YES`, because `YES` is defined to 1 and a `BOOL` can be up to 8 bits as it is a char underneath.
+为了避免这些奇怪的问题，可以用感叹号来作为运算符。因为 nil 是 解释到 NO，所以没必要在条件语句里面把它和其他值比较。同时，不要直接把它和 `YES` 比较，因为 `YES` 的定义是 1， 而 `BOOL` 是 8 bit的，实际上是 char 类型。
 
-More on this, to avoid all this fuss the approach that leave no space to doubt is to use the exclamation mark. 因为 nil 是 解释到 NO 所以没必要在条件语句里面比较。同时，不要直接和 `YES` 比较，因为 `YES` 的定义是1 而 `BOOL` 是8 位的，实际上是 char 类型。
-
-**Preferred:**
+**推荐:**
 ```objective-c
 if (someObject) { ...
 if (![someObject boolValue]) { ...
 if (!someObject) { ...
 ```
 
-**Not Preferred:**
+**不推荐:**
 ```objective-c
 if (someObject == YES) { ... // Wrong
 if (myRawValue == YES) { ... // Never do this.
 if ([someObject boolValue] == NO) { ...
 ```
+同时这样也能提高一致性，以及提升可读性。
 
-This allows also for more consistency across files and greater visual clarity.
+## 黄金大道
 
-这样同时也能提高一致性，以及提升可阅读性。
+在使用条件语句编程时，代码的左边距应该是一条“黄金”或者“快乐”的大道。 也就是说，不要嵌套 `if` 语句。使用多个 return 可以避免增加循环的复杂度，并提高代码的可读性。因为方法的重要部分没有嵌套在分支里面，并且你可以很清楚地找到相关的代码。
 
-## Golden Path 黄金大道
-
-When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't nest `if` statements.  Multiple return statements are OK. This will avoid the growth of cyclomatic complexity and make the code easier to read because the important part of your method is not nested inside a branch but you have a visual clue of what is the most relevant code. 
-
-当编写条件语句的时候，左边的代码间距应该是一个“黄金”或者“快乐”的大道。 这是说，不要嵌套`if`语句。多个 return 语句是OK的。这样可以避免Cyclomatic 复杂性。并且让代码更加容易阅读。因为你的方法的重要的部分没有嵌套在分支上，你可以很清楚找到相关的代码。
-
-**Preferred:**
+**推荐:**
 
 ```objective-c
 - (void)someMethod {
@@ -284,7 +277,7 @@ When coding with conditionals, the left hand margin of the code should be the "g
 }
 ```
 
-**Not preferred:**
+**不推荐:**
 
 ```objective-c
 - (void)someMethod {
@@ -293,11 +286,9 @@ When coding with conditionals, the left hand margin of the code should be the "g
   }
 }
 ```
-## Complex Conditions 复杂的表达式 
+## 复杂的表达式 
 
-When you have complex condition in the `if` clause you should always extract them and assign to a `BOOL` variable to make more clear the logic and the meaning of every single conditions.
-
-当你有一个复杂的 if 子句的时候你应该把他们提取出来赋给一个 BOOL 变量，这样可以让逻辑更清楚，而且让每个子句的意义体现出来
+当你有一个复杂的 if 子句的时候，你应该把它们提取出来赋给一个 BOOL 变量，这样可以让逻辑更清楚，而且让每个子句的意义体现出来。
 
 
 ```objective-c
@@ -310,45 +301,39 @@ if (isSwiftSession) {
 }
 ```
 
-## Ternary Operator 三元运算符
-
-The Ternary operator, `?` , should only be used when it increases clarity or code neatness. A single condition is usually all that should be evaluated. Evaluating multiple conditions is usually more understandable as an if statement, or refactored into instance variables.
+## 三元运算符
 
 
-三元运算符 ? 应该只用在它能让代码更加清楚的地方。 一个单独的状态状态语句通常是所有的变量已经被求值了的。计算多个条件子句通常会让语句更加难以理解，就像if语句的情况一样，或者or refactored into instance variables.
+三元运算符 ? 应该只用在它能让代码更加清楚的地方。 一个条件语句的所有的变量应该是已经被求值了的。类似 if 语句，计算多个条件子句通常会让语句更加难以理解。或者可以把它们重构到实例变量里面。
 
 
-**Preferred:**
+**推荐:**
 ```objective-c
 result = a > b ? x : y;
 ```
 
-**Not preferred:**
+**不推荐:**
 ```objective-c
 result = a > b ? x = c > d ? c : d : y;
 ```
 
-When the second argument of the ternary operator (the if branch) returns the same object that was checked for existence in the condition, the following syntax is neat:
+当三元运算符的第二个参数（if 分支）返回和条件语句中已经检查的对象一样的对象的时候，下面的表达方式更灵巧：
 
-当三元运算符的第二个参数（if分支）返回已经在状态语句中检查的对象的时候，下面的语句是更灵巧的：
-
-**Preferred:**
+**推荐:**
 ```objective-c
 result = object ? : [self createObject];
 ```
 
-**Not preferred:**
+**不推荐:**
 ```objective-c
 result = object ? object : [self createObject];
 ```
 
-## Error handling 错误处理
+## 错误处理
 
-When methods return an error parameter by reference, check the returned value, not the error variable.
+有些方法通通过参数返回 error 的引用，使用这样的方法时应当检查方法的返回值，而非 error 的引用。
 
-当方法返回一个错误参数的引用的时候，检查返回值，而不是错误的变量。
-
-**Preferred:**
+**推荐:**
 ```objective-c
 NSError *error = nil;
 if (![self trySomethingWithError:&error]) {
@@ -356,16 +341,13 @@ if (![self trySomethingWithError:&error]) {
 }
 ```
 
-Moreover, some of Apple's APIs write garbage values to the error parameter (if non-NULL) in successful cases, so checking the error can cause false negatives (and subsequently crash).
+此外，一些苹果的 API 在成功的情况下会对 error 参数（如果它非 NULL）写入垃圾值（garbage values），所以如果检查 error 的值可能导致错误 （甚至崩溃）。
 
-更多shihi，一些Apple的API对 error 参数写了很多多余的值(if non-NULL)在成功的情况。所以检查错误so checking the error can cause false negatives (and subsequently crash).
 
-# Case Statements Case语句
+# Case语句
 
-括号在case语句里面是不必要的，除非编译器强制要求。当一个 case 包含了多行语句的时候，需要加上括号。
+除非编译器强制要求，括号在 case 语句里面是不必要的。但是当一个 case 包含了多行语句的时候，需要加上括号。
 
-Braces are not required for case statements, unless enforced by the complier.  
-When a case contains more than one line, braces should be added.
 
 ```objective-c
 switch (condition) {
@@ -386,9 +368,8 @@ switch (condition) {
 }
 ```
 
-There are times when the same code can be used for multiple cases, and a fall-through should be used.  A fall-through is the removal of the 'break' statement for a case thus allowing the flow of execution to pass to the next case value.
 
-有时候可以在不同的case里面用相同的代码，并且要使用 fall-through。 一个 fall-through  是一个case语句不执行 break 而让下面的 case 继续执行。
+有时候可以使用 fall-through 在不同的 case 里面执行同一段代码。一个 fall-through  是指移除 case 语句的 “break” 然后让下面的 case 继续执行。
 
 ```objective-c
 switch (condition) {
@@ -402,9 +383,8 @@ switch (condition) {
 }
 ```
 
-When using an enumerated type for a switch, `default` is not needed. For example:
 
-当在Switch语句里面使用一个可枚举的变量的时候，`default` 是不必要的。比如：
+当在 switch 语句里面使用一个可枚举的变量的时候，`default` 是不必要的。比如：
 
 ```objective-c
 switch (menuType) {
@@ -420,19 +400,17 @@ switch (menuType) {
 }
 ```
 
-Moreover, avoiding the default case, if new values are added to the enum, the programmer is immediately notified with a warning:
 
-此外，避免使用默认的case，如果新的值加入到enum，程序员会马上收到一个warning通知
+此外，为了避免使用默认的 case，如果新的值加入到 enum，程序员会马上收到一个 warning 通知
 
-`Enumeration value 'ZOCEnumValue3' not handled in switch.`
+`Enumeration value 'ZOCEnumValue3' not handled in switch.（枚举类型 'ZOCEnumValue3' 没有被 switch 处理）`
 
-### Enumerated Types 枚举类型
+### 枚举类型
 
-When using `enum`s, it is recommended to use the new fixed underlying type specification because it has stronger type checking and code completion. The SDK now includes a macro to facilitate and encourage use of fixed underlying types — `NS_ENUM()`
 
-当使用 `enum` 的时候，建议使用新的固定的基础类型定义，因它有更强大的的类型检查和代码补全。 sDK 现在有一个 宏来鼓励和促进用固定基础类型定义 - `NS_ENUM()`
+当使用 `enum` 的时候，建议使用新的固定的基础类型定义，因它有更强大的的类型检查和代码补全。 SDK 现在有一个 宏来鼓励和促进使用固定类型定义 - `NS_ENUM()`
 
-**Example:**
+**例子:**
 
 ```objective-c
 typedef NS_ENUM(NSUInteger, ZOCMachineState) {
@@ -443,74 +421,72 @@ typedef NS_ENUM(NSUInteger, ZOCMachineState) {
 };
 ```
 
+#  命名
 
--------------------
+##  通用的约定
 
-# Naming
 
-## General conventions
+尽可能遵守 Apple 的命名约定，尤其是和 [内存管理规则](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html) ([NARC](http://stackoverflow.com/a/2865194/340508)) 相关的地方。
 
-Apple naming conventions should be adhered to wherever possible, especially those related to [memory management rules](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html) ([NARC](http://stackoverflow.com/a/2865194/340508)).
+推荐使用长的、描述性的方法和变量名。
 
-Long, descriptive method and variable names are good.
-
-**Preferred:**
-
+**推荐:**
 ```objective-c
 UIButton *settingsButton;
 ```
 
-**Not Preferred:**
+**不推荐:**
 ```objective-c
 UIButton *setBut;
 ```
 
-## Constants
+##  常量
 
-Constants should be camel-case with all words capitalized and prefixed by the related class name for clarity.
+常量应该以驼峰法命名，并以相关类名作为前缀。
 
-**Preferred:**
+**推荐:**
 ```objective-c
 static const NSTimeInterval ZOCSignInViewControllerFadeOutAnimationDuration = 0.4;
 ```
 
-**Not Preferred:**
+**不推荐:**
 ```objective-c
 static const NSTimeInterval fadeOutTime = 0.4;
 ```
 
-Constants are preferred over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants should be declared as `static` constants and not `#define`s unless explicitly being used as a macro.
+推荐使用常量来代替字符串字面值和数字，这样能够方便复用，而且可以快速修改而不需要查找和替换。常量应该用 `static` 声明为静态常量，而不要用 `#define`，除非它明确的作为一个宏来使用。
 
-**Preferred:**
+**推荐:**
+
 ```objective-c
 static NSString * const ZOCCacheControllerDidClearCacheNotification = @"ZOCCacheControllerDidClearCacheNotification";
 static const CGFloat ZOCImageThumbnailHeight = 50.0f;
 ```
 
-**Not Preferred:**
+**不推荐:**
 
 ```objective-c
 #define CompanyName @"Apple Inc."
 #define magicNumber 42
 ```
 
-Constants exposed externally should use this pattern in the interface file:
+常量应该在头文件中以这样的形式暴露给外部：
 
 ```objective-c
 extern NSString *const ZOCCacheControllerDidClearCacheNotification;
 ```
-and the previously defined assignment should be in the implementation file.
+并在实现文件中为它赋值。
 
-You only need to add the namespace to a constant that is made public. Even though constants used within an implementation could follow a different pattern, there is no need not to be consistent with the rule.
+只有公有的常量才需要添加命名空间作为前缀。尽管实现文件中私有常量的命名可以遵循另外一种模式，你仍旧可以遵循这个规则。
 
 
-## Methods
+##  方法
 
-In method signatures, there should be a space after the method type (`-`/`+` symbol). There should be a space between the method segments (matching Apple's style).  Always include a keyword and be descriptive with the word before the argument which describes the argument.
+方法名与方法类型 (`-`/`+` 符号)之间应该以空格间隔。方法段之间也应该以空格间隔（以符合 Apple 风格）。参数前应该总是有一个描述性的关键词。
 
-The usage of the word "and" is reserved.  It should not be used for multiple parameters as illustrated in the `initWithWidth:height:` example below.
+尽可能少用 "and" 这个词。它不应该用来阐明有多个参数，比如下面的 `initWithWidth:height:` 这个例子：
 
-**Preferred:**
+**推荐:**
 ```objective-c
 - (void)setExampleText:(NSString *)text image:(UIImage *)image;
 - (void)sendAction:(SEL)aSelector to:(id)anObject forAllCells:(BOOL)flag;
@@ -518,7 +494,7 @@ The usage of the word "and" is reserved.  It should not be used for multiple par
 - (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height;
 ```
 
-**Not Preferred:**
+**不推荐:**
 
 ```objective-c
 - (void)setT:(NSString *)text i:(UIImage *)image;
@@ -528,11 +504,11 @@ The usage of the word "and" is reserved.  It should not be used for multiple par
 - (instancetype)initWith:(int)width and:(int)height;  // Never do this.
 ```
 
-## Literals
+##  字面值
 
-`NSString`, `NSDictionary`, `NSArray`, and `NSNumber` literals should be used whenever creating immutable instances of those objects. Pay special care that `nil` values not be passed into `NSArray` and `NSDictionary` literals, as this will cause a crash.
+使用字面值来创建不可变的 `NSString`, `NSDictionary`, `NSArray`, 和 `NSNumber` 对象。注意不要将 `nil` 传进 `NSArray` 和 `NSDictionary` 里，因为这样会导致崩溃。
 
-**For example:**
+**例子：**
 
 ```objective-c
 NSArray *names = @[@"Brian", @"Matt", @"Chris", @"Alex", @"Steve", @"Paul"];
@@ -541,7 +517,7 @@ NSNumber *shouldUseLiterals = @YES;
 NSNumber *buildingZIPCode = @10018;
 ```
 
-**Not:**
+**不要这样:**
 
 ```objective-c
 NSArray *names = [NSArray arrayWithObjects:@"Brian", @"Matt", @"Chris", @"Alex", @"Steve", @"Paul", nil];
@@ -550,38 +526,42 @@ NSNumber *shouldUseLiterals = [NSNumber numberWithBool:YES];
 NSNumber *buildingZIPCode = [NSNumber numberWithInteger:10018];
 ```
 
-For the mutable counterparts of these classes we recommend, instead, the use of the explicit classes such as `NSMutableArray`, `NSMutableString`, and so on. 
+如果要用到这些类的可变副本，我们推荐使用 `NSMutableArray`, `NSMutableString` 这样的类。
 
-The following **should be avoided**:
+**应该避免**下面这样:
 
 ```objective-c
 NSMutableArray *aMutableArray = [@[] mutableCopy];
 ```
 
-The problems with the previous notation are both of efficiency and readability. 
-On the efficiency side, an unnecessarily immutable object is created and immediately thrown away; this unlikely will slow down your app (unless the method here is called frequently) but there is really no reason to do this just to save some characters. 
-Regarding the readability, we can see two problems here: the first is that when scanning through the code and seeing `@[]` your mind is immediately connected to and instance of `NSArray`, but in this case you need to stop and check more thoughtfully. Another aspect to take into account is that it would be very likely that someone with less experience will see your code and depending on his background he might not be very comfortable with the dichotomy between mutable and immutable objects. He or she could not be very familiar with the meaning of creating a mutable copy (obviously we are not suggesting that this knowledge is not necessary). Again, this is not something absolutely wrong but is more about code usability (that includes readability).
+上面这种书写方式的效率和可读性的都存在问题。
+
+效率方面，一个不必要的不可变对象被创建后立马被废弃了；虽然这并不会让你的 App 变慢（除非这个方法被频繁调用），但是确实没必要为了少打几个字而这样做。
+
+可读性方面，存在两个问题：第一个问题是当你浏览代码并看见 `@[]` 的时候，你首先联想到的是 `NSArray` 实例，但是在这种情形下你需要停下来深思熟虑的检查；另一个问题是，一些新手以他的水平看到你的代码后可能会对这是一个可变对象还是一个不可变对象产生分歧。他/她可能不熟悉可变拷贝构造的含义（这并不是说这个知识不重要）。当然，不存在绝对的错误，我们只是讨论代码的可用性（包括可读性)。
+
+#  类 
+
+##  类名
+
+类名应该以**三**个大写字母作为前缀（双字母前缀为 Apple 的类预留）。尽管这个规范看起来有些古怪，但是这样做可以减少 Objective-c 没有命名空间所带来的问题。
+
+一些开发者在定义模型对象时并不遵循这个规范（对于 Core Data 对象，我们更应该遵循这个规范）。我们建议在定义 Core Data 对象时严格遵循这个约定，因为最终你可能需要把你的 Managed Object Model（托管对象模型）与其他（第三方库）的 MOMs（Managed Object Model）合并。
+
+你可能注意到了，这本书里类的前缀（不仅仅是类，也包括公开的常量、Protocol 等的前缀）是`ZOC`。
+
+另一个好的类的命名规范：当你创建一个子类的时候，你应该把说明性的部分放在前缀和父类名的在中间。
+
+举个例子：如果你有一个 `ZOCNetworkClient` 类，子类的名字会是`ZOCTwitterNetworkClient` (注意 "Twitter" 在 "ZOC" 和 "NetworkClient" 之间); 按照这个约定， 一个`UIViewController` 的子类会是 `ZOCTimelineViewController`.
 
 
--------------------
+## Initializer 和 dealloc 
 
-# Class
+推荐的代码组织方式是将 `dealloc` 方法放在实现文件的最前面（直接在  `@synthesize` 以及 `@dynamic` 之后），`init` 应该跟在 `dealloc` 方法后面。
 
-## Class name
+如果有多个初始化方法， 指定初始化方法 (designated initializer) 应该放在最前面，间接初始化方法 (secondary initializer) 跟在后面，这样更有逻辑性。如今有了 ARC，dealloc 方法几乎不需要实现，不过把 init 和 dealloc 放在一起可以从视觉上强调它们是一对的。通常，在 init 方法中做的事情需要在 dealloc 方法中撤销。
 
-You should always prefix your class with **three** capital-case letters (two letters are reserved for Apple classes), this looking-weird practice is done to mitigate the notable absence of namespaces in our favorite language.
-Some developers don't follow this practice for model objects (we observed this practice especially for Core Data objects), we advice to strictly follow this convention also in the case of Core Data objects because you might end up merging your Managed Object Model with other MOMs, maybe coming from third party library. 
-As you may already have noticed, in this book the class (but not only) prefix is `ZOC`.
-
-There is another good practice that you might want to follow while choosing the name for your classes: when you're creating a subclass, you should put the specifying name part between the class prefix and the superclass name. This is better explained with an example: if you have a class named `ZOCNetworkClient`, example of subclass name will be `ZOCTwitterNetworkClient` (note "Twitter" between "ZOC" and "NetworkClient"); or, following the same rule, a `UIViewController` subclass would `ZOCTimelineViewController`.
-
-
-## Initializer and dealloc
-
-The recommended way to organize the  code is to  have `dealloc` method placed at the top of the implementation (directly after the `@synthesize` and `@dynamic` statements) and the `init` should be placed directly below the `dealloc` methods of any class. In case of multiple initializer the designated initializer should be placed as first method, because is the one where most likely there is more logic, and the secondary initializers should follow.
-In these days with ARC, it is less likely that you will need to implement the dealloc method, but still the rationale is that by having the dealloc very close to your init methods, you are visually emphasizing the pairing between the methods. Usually in the dealloc method you will undo things that you have done in the init methods.
-
-`init` methods should be structured like this:
+`init` 方法应该是这样的结构：
 
 ```objective-c
 - (instancetype)init
@@ -594,24 +574,28 @@ In these days with ARC, it is less likely that you will need to implement the de
 }
 ```
 
-It's interesting to understand why do we need to set the value of `self` with the return value of `[super init]` and what happens if we don't do that.
 
-Let's do a step back: we are so used to type expressions like `[[NSObject alloc] init]` that the difference between `alloc` and `init` fades away. A peculiarity of Objective-C  is the so called *two stage creation*. This means that the allocation and the initialization are two separate steps, and therefore two different methods need to be called: `alloc` and `init`.
-- `alloc` is responsible for the object allocation. This process involve the allocation of enough memory to hold the object from the application virtual memory, writing the `isa` pointer, initializes the retain count, and zeroing all the instance variables. 
-- `init` is responsible for initializing the object, that means brings the object in an usable state. This typically means set the instance variable of an object to reasonable and useful initial values.
+为什么设置 `self` 为 `[super init]` 的返回值，以及中间发生了什么呢？这是一个十分有趣的话题。
 
-The `alloc` method will return a valid instance of an uninitialized object. Every message sent to this instance will be translated into an `objc_msgSend()` call where the parameter named `self` will be the pointer returned by `alloc`; in this way `self` is implicitly available in the scope of every methods. 
-To conclude the two step creation the first method sent to a newly allocated instance should, by convention, be an `init` method. Notably the `init` implementation of `NSObject` is not doing more than simply return `self`. 
+我们退一步讲：我们常常写 `[[NSObject alloc] init]` 这样的代码，从而淡化了 `alloc` 和 `init` 的区别。Objective-C 的这个特性叫做 *两步创建* 。 
 
-There is another important part of the contract with `init`: the method can (and should) signal to the caller that it wasn't able to successfully finish the initialization by returning `nil`; the initialization can fail for various reasons such as an input passed in the wrong format or the failure in successfully initialize a needed object.
-This is lead us to understand why you should always call `self = [super init]`, if your superclass is stating that it wasn't able to successfully initialize itself, you must assume that you are in an inconsistent state and therefore do not proceed with your own initialization and return `nil` as well in your implementation. If you fail to do so you might end up dealing with an object that is not usable, that will not behave as expected and that might eventually lead to crash your app.
+这意味着申请分配内存和初始化被分离成两步，`alloc` 和 `init`。
+- `alloc` 负责创建对象，这个过程包括分配足够的内存来保存对象，写入 `isa` 指针，初始化引用计数，以及重置所有实例变量。
+- `init` 负责初始化对象，这意味着使对象处于可用状态。这通常意味着为对象的实例变量赋予合理有用的值。
 
-The ability to re-assign `self` can also be exploited by the `init` methods to return a different instance than the one they have been called on. Examples of this behavior are [Class cluster](#class-cluster) or some Cocoa classes that returns the same instance for identical (immutable) objects.
+`alloc` 方法将返回一个有效的未初始化的对象实例。每一个对这个实例发送的消息会被转换成一次 `objc_msgSend()` 函数的调用，形参 `self` 的实参是 `alloc` 返回的指针；这样 `self` 在所有方法的作用域内都能够被访问。
 
-### Designated and Secondary Initializers
+按照惯例，为了完成两步创建，新创建的实例第一个被调用的方法将是 `init` 方法。注意，`NSObject` 在实现 `init` 时，只是简单的返回了 `self`。
 
-Objective-C have the concept of designated and secondary initializers. 
-The designated initializer is the initializer that takes the full complement of initialization parameters, the secondary initializers are one or more initializer methods that calls the designated initializer providing one or more default values for the initialization parameter.
+关于 `init` 的约定还有一个重要部分：这个方法可以（并且应该）通过返回 `nil` 来告诉调用者，初始化失败了；初始化可能会因为各种原因失败，比如一个输入的格式错误了，或者另一个需要的对象初始化失败了。
+这样我们就能理解为什么总是需要调用 `self = [super init]`。如果你的父类说初始化自己的时候失败了，那么你必须假定你正处于一个不稳定的状态，因此在你的实现里不要继续你自己的初始化并且也返回 `nil`。如果不这样做，你可能会操作一个不可用的对象，它的行为是不可预测的，最终可能会导致你的程序崩溃。
+
+`init` 方法在被调用的时候可以通过重新给 `self` 重新赋值来返回另一个实例，而非调用的那个实例。例如[类簇](#类簇)，还有一些 Cocoa 类为相等的（不可变的）对象返回同一个实例。
+
+### Designated 和 Secondary 初始化方法
+
+Objective-C 有指定初始化方法(designated initializer)和间接(secondary initializer)初始化方法的观念。
+designated 初始化方法是提供所有的参数，secondary 初始化方法是一个或多个，并且提供一个或者更多的默认参数来调用 designated 初始化的初始化方法。
 
 ```objective-c
 @implementation ZOCEvent
@@ -643,25 +627,35 @@ The designated initializer is the initializer that takes the full complement of 
 @end
 ```
 
-Given the above example `initWithTitle:date:location:` is the designated initializer. The other two init methods are the secondary initializers because they are just calling the designated initializer of the class where they are implemented.
 
-#### Designated Initializer
 
-A class should always have one and only one designated initializer, all other init methods should call the designated one (even though there are an exception to this case).
-This dichotomy does not dictate any requirement about which initializer should be called.
-It should rather be valid to call any designated initializer in the class hierarchy, and it should be guaranteed that *all* the designated initializer in the class hierarchy are called starting from the furthest ancestor (typically `NSObject`) down to your class. 
-Practically speaking this means that the first initialization code executed is the furthest ancestor, and then going down to the class hierarchy; giving to all the classes in the hierarchy the chance to do their specific part of initialization. This totally make sense: you want that everything you inherit from your superclass is in an usable state before doing your actual work.
-Even though it isn't explicitly stated, all the classes in Apple's frameworks are guaranteed to respect this contract and your classes should do the same to be sure to be a good citizen and behave correctly and as expected.
+`initWithTitle:date:location:` 就是 designated 初始化方法，另外的两个是 secondary 初始化方法。因为它们仅仅是调用类实现的 designated 初始化方法
 
-There are three different situations that may present when defining a new class:
+#### Designated Initializer 
 
-1. No need to override any initializers
-2. Overriding designated initializer
-3. Define a new designated initializer
 
-The first case is the most trivial: you don't need to add any specific logic at the initialization of your class you simply rely on you parent designated initializer.
-When you want to provide additional initialization logic you can decide to override the designated initializer. You should only override your immediate superclass's designated initializer and be sure that your implementation calls the super of the method you're overriding.  
-A typical example is whether you create a `UIViewController` subclass overriding `initWithNibName:bundle:`:
+一个类应该有且只有一个 designated 初始化方法，其他的初始化方法应该调用这个 designated 的初始化方法（虽然这个情况有一个例外）
+
+这个分歧没有要求那个初始化函数需要被调用。
+
+
+在类继承中调用任何 designated 初始化方法都是合法的，而且应该保证 *所有的* designated initializer 在类继承中是从祖先（通常是  `NSObject`）到你的类向下调用的。
+
+实际上这意味着第一个执行的初始化代码是最远的祖先，然后从顶向下的类继承，所有类都有机会执行他们特定初始化代码。这样，你在做特定初始化工作前，所有从超类继承的东西都是不可用的状态。 虽然这没有明确的规定，但是所有 Apple 的框架都保证遵守这个约定，你的类也应该这样做。
+
+
+当定义一个新类的时候有三个不同的方式：
+
+1. 不需要重载任何初始化函数
+2. 重载 designated initializer
+3. 定义一个新的 designated initializer
+
+
+第一个方案是最简单的：你不需要增加类的任何初始化逻辑，只需要依照父类的designated initializer。
+
+当你希望提供额外的初始化逻辑的时候，你可以重载 designated initializer。你只需要重载直接超类的 designated initializer 并且确认你的实现调用了超类的方法。
+
+一个典型的例子是你创造`UIViewController`子类的时候重载`initWithNibName:bundle:`方法。
 
 ```objective-c
 @implementation ZOCViewController
@@ -671,7 +665,7 @@ A typical example is whether you create a `UIViewController` subclass overriding
     // call to the superclass designated initializer
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        // Custom initialization （自定义的初始化过程）
     }
     return self;
 }
@@ -679,23 +673,26 @@ A typical example is whether you create a `UIViewController` subclass overriding
 @end
 ```
 
-In case of `UIViewController` subclass it would be an error to override `init` as, in the case that the caller will try to initialize your class by calling `initWithNib:bundle`, your implementation will not be called. This also contradicts the rule that states that it should be valid to call any designated initializer.
+在 `UIViewController`  子类的例子里面如果重载  `init` 会是一个错误，这个情况下调用者会尝试调用 `initWithNib:bundle` 初始化你的类，你的类实现不会被调用。这同样违背了它应该是合法调用任何 designated initializer 的规则。
 
-In case you want to provide your own designated initializer there are three steps that you need to follow in order to guarantee the correct behavior:
 
-1. Declare your designated initializer, being sure to call your immediate superclass's designated initializer.
-2. Override the immediate superclass's designated initializer calling your new designated initializer.
-3. Document the new designated initializer. 
+在你希望提供你自己的初始化函数的时候，你应该遵守这三个步骤来保证获得正确的行为：
 
-Lots of developers often miss the last two steps, this is not only a sign of little care, but in the case of the step two is clearly against the contract with the framework and can lead to very non-deterministic behaviors and bugs.
-Let's see an example of the correct way to implement this:
+
+1. 定义你的 designated initializer，确保调用了直接超类的 designated initializer。
+2. 重载直接超类的 designated initializer。调用你的新的  designated initializer。
+3. 为新的 designated initializer 写文档。
+
+
+很多开发者忽略了后两步，这不仅仅是一个粗心的问题，而且这样违反了框架的规则，可能导致不确定的行为和bug。
+让我们看看正确的实现的例子：
 
 ```objective-c
 @implementation ZOCNewsViewController
 
 - (id)initWithNews:(ZOCNews *)news
 {
-    // call to the immediate superclass's designated initializer
+    // call to the immediate superclass's designated initializer （调用直接超类的 designated initializer）
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         _news = news;
@@ -703,7 +700,7 @@ Let's see an example of the correct way to implement this:
     return self;
 }
 
-// Override the immediate superclass's designated initializer
+// Override the immediate superclass's designated initializer （重载直接父类的  designated initializer）
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     // call the new designated initializer
@@ -713,13 +710,21 @@ Let's see an example of the correct way to implement this:
 @end
 ```
 
-In case you don't override `initWithNibName:bundle:` and the caller decides to initialize you class with this method (that would be a perfectly valid option) the method `initWithNews:` will never get called and this will bring to an incorrect initialization sequence where the specific initialization logic of your class is not executed.
 
-Even though it should be possible to infer what method is the designate initializer, it is always good to be clear and explicit (the future you or other developers that will work on your code will thank you). There are two strategies (non mutually exclusive) that you can decide to use: the first one you is to clearly state in the documentation which initializer is the designated one, but better yet you can be nice with your compiler and by using the compiler directive `__attribute__((objc_designated_initializer))` you can signal your intent.
-Using that directive will also helps the compiler helping you and in fact the compiler will issue a warning if in your new designate initializer you don't call your superclass's designated initializer.
-There are, though, cases in which not calling the class designated initializer (and in turn providing the required parameters) and calling another designated initializer in the class hierarchy will bring the class in an useless state. Referring to the previous example, there is no point in instantiating a `ZOCNewsViewController` that should present a news, without the news itself. In this case you can enforce even more the need to call a very specific designated initializer by simply making all the other designated initializers not available. It is possible to do that by using another compiler directive `__attribute__((unavailable("Invoke the designated initializer"))) `, decorating a method with this attribute will make the compiler issuing an error if you try to call this method.
+如果你没重载 `initWithNibName:bundle:` ，而且调用者决定用这个方法初始化你的类(这是完全合法的)。 `initWithNews:` 永远不会被调用，所以导致了不正确的初始化流程，你的类的特定初始化逻辑没有被执行。
 
-Here the header relative to the implementation of the previous example (note the use of macros to don't repeat the code and being less verbose).
+
+
+
+即使可以推断那个方法是 designate initializer，也最好清晰地明确它（未来的你或者其他开发者在改代码的时候会感谢你的）。
+
+你应该考虑来用这两个策略（不是互斥的）：第一个是你在文档中明确哪一个初始化方法是 designated 的，你可以用编译器的指令 `__attribute__((objc_designated_initializer))`  来标记你的意图。
+
+用这个编译指令的时候，编译器会来帮你。如果你的新的 designate initializer 没有调用超类的 designated initializer，那么编译器会发出警告。
+
+然而，当没有调用类的  designated initializer 的时候（并且依次提供必要的参数），并且调用其他父类中的 designated initialize 的时候，会变成一个不可用的状态。参考之前的例子，当实例化一个 `ZOCNewsViewController`  展示一个新闻而那条新闻没有展示的话，就会毫无意义。这个情况下你应该只需要让其他的 designated initializer 失效，来强制调用一个非常特别的 designated initializer。通过使用另外一个编译器指令  `__attribute__((unavailable("Invoke the designated initializer"))) ` 来修饰一个方法，通过这个属性，会让你在试图调用这个方法的时候产生一个编译错误。
+
+这是之前的例子相关的实现的头文件(这里使用宏来让代码没有那么啰嗦)
 
 ```objective-c
 
@@ -733,24 +738,28 @@ Here the header relative to the implementation of the previous example (note the
 
 ```
 
-A corollary of what described above is that you should never call a secondary initializer from within the designated one (if the secondary initializer respects the contract, it will call the designated one). Doing so, the call is very likely to invoke one of the subclass's overridden init methods and it will result in infinite recursion.
 
-There is however an exception to all the rules laid out before that is whether an object conforms to the `NSCoding` protocol and it is initialized through the method `initWithCoder:`.
-We should distinguish between the case where the superclass is adopting `NSCoding` and when not. 
-In the former case, if you just call `[super initWithCoder:]` you will probably have some shared initialization code with the designated initializer. A good way to handle this is to extract this code in a private method (i.e.  `p_commonInit`).
-When your superclass does not adopt `NSCoding` the recommendation is to threat `initWithCoder:` as a secondary initializer and therefore call the `self` designated initializer. Note that this is against what suggested by Apple in the [Archives and Serializations Programming Guide](https://developer.apple.com/library/mac/documentation/cocoa/Conceptual/Archiving/Articles/codingobjects.html#//apple_ref/doc/uid/20000948-BCIHBJDE) where is stated:
+上述的一个推论是：你应该永远不从 designated initializer 里面调用一个 secondary initializer （如果secondary initializer 遵守约定，它会调用 designated initializer）。如果这样，调用很可能会调用一个子类重写的 init 方法并且陷入无限递归之中。
 
-> the object should first invoke its superclass's designated initializer to initialize inherited state
 
-following this will actually lead to a non-deterministic behavior that will change if your class is or not a direct subclass of `NSObject`.
+不过一个例外是一个对象是否遵守 `NSCoding` 协议，并且它通过方法 `initWithCoder:` 初始化。
+我们应该看超类是否符合 `NSCoding` 协议来区别对待。
+符合的时候，如果你只是调用 `[super initWithCoder:]` ，你可能需要在 designated initializer 里面写一些通用的初始化代码，处理这种情况的一个好方法是把这些代码放在私有方法里面(比如  `p_commonInit` )。
+当你的超类不符合 `NSCoding` 协议的时候，推荐把 `initWithCoder:` 作为 secondary initializer 来对待，并且调用 `self` 的 designated initializer。 注意这违反了 Apple 写在 [Archives and Serializations Programming Guide](https://developer.apple.com/library/mac/documentation/cocoa/Conceptual/Archiving/Articles/codingobjects.html#//apple_ref/doc/uid/20000948-BCIHBJDE)  上面的规定：
 
-#### Secondary Initializer
 
-As stated in the previous paragraph, a secondary initializer is a sort of convenience method to provide default values / behaviors to the designated initializer.
-That said, it seems clear that you should not do any mandatory initialization in such method and you should never assume that this method will gets called. Again, the only methods that we are guaranteed to get called are the designated initializer.
-This imply that in your designated initializer you should always call another secondary initializer or your `self` designated initializer.  Sometimes, by mistake, one can type `super`; doing this will cause not to respect the aforementioned sequence of initialization (in this specific case by skipping the initialization of the current class).
+> the object should first invoke its superclass's designated initializer to initialize inherited state（对象总是应该首先调用超类的 designated initializer 来初始化继承的状态）
 
-##### References
+
+如果你的类不是  `NSObject` 的直接子类，这样做的话，会导致不可预测的行为。
+
+####  Secondary Initializer 
+
+
+正如之前的描述，secondary initializer 是一种提供默认值、行为到 designated initializer的方法。也就是说，在这样的方法里面你不应该有初始化实例变量的操作，并且你应该一直假设这个方法不会得到调用。我们保证的是唯一被调用的方法是 designated initializer。
+这意味着你的 secondary initializer 总是应该调用 Designated initializer  或者你自定义(上面的第三种情况：自定义Designated initializer)的 `self`的 designated initializer。有时候，因为错误，可能打成了  `super`，这样会导致不符合上面提及的初始化顺序（在这个特别的例子里面，是跳过当前类的初始化）
+
+#####  参考
 
 - https://developer.apple.com/library/ios/Documentation/General/Conceptual/DevPedia-CocoaCore/ObjectCreation.html
 - https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/Initialization/Initialization.html
@@ -759,14 +768,19 @@ This imply that in your designated initializer you should always call another se
 
 
 
-### instancetype
+### instancetype 
 
-One often doesn't realize that Cocoa is full of conventions, and they can help the compiler being a little bit more smart. Whether the compiler encounters `alloc` or `init` methods, it will know that, even though the return type of both method is `id`, those methods will always return objects that are an instance of the receiving class's type. As a consequence, this allows the compiler to provide and enforce the type checking (i.e. check that the methods called on the returned instance are valid). This kind of Clang smartness is due to what is called [related result type](http://clang.llvm.org/docs/LanguageExtensions.html#related-result-types), meaning that 
 
-> messages sent to one of alloc and init methods will have the same static type as the instance of the receiver class
+我们经常忽略 Cocoa 充满了约定，并且这些约定可以帮助编译器变得更加聪明。无论编译器是否遭遇 `alloc` 或者 `init` 方法，他会知道，即使返回类型都是 `id` ，这些方法总是返回接受到的类类型的实例。因此，它允许编译器进行类型检查。（比如，检查方法返回的类型是否合法）。Clang的这个好处来自于 [related result type](http://clang.llvm.org/docs/LanguageExtensions.html#related-result-types)， 意味着：
 
-To have more information about the convention that allow to automatically identify the related result type please refer to the [appropriate section]((http://clang.llvm.org/docs/LanguageExtensions.html#related-result-types)) in the Clang Language Extensions guide.
-A related result type can be explicitly stated using the `instancetype` keyword as return type and this can be very helpful in situation where a factory method or convenience constructor is used. This will hint the compiler with the correct type checking and, probably more important, will behave correctly also when subclassing.
+
+> messages sent to one of alloc and init methods will have the same static type as the instance of the receiver class （发送到 alloc 或者 init 方法的消息会有同样的静态类型检查是否为接受类的实例。）
+
+
+更多的关于这个自动定义相关返回类型的约定请查看 Clang Language Extensions guide 的[appropriate section]((http://clang.llvm.org/docs/LanguageExtensions.html#related-result-types)) 
+
+
+一个相关的返回类型可以明确地规定用 `instancetype` 关键字作为返回类型，并且它可以在一些工厂方法或者构造器方法的场景下很有用。它可以提示编译器正确地检查类型，并且更加重要的是，这同时适用于它的子类。
 
 ```objective-c
 @interface ZOCPerson
@@ -774,10 +788,11 @@ A related result type can be explicitly stated using the `instancetype` keyword 
 @end
 ```
 
-Even though, according to the clang specification, `id` can be promoted to `instancetype` by the compiler. In the case of `alloc` or `init` we strongly encourage to use the return type `instancetype` for all class and instance methods that returns an instance of the class.
-This is mostly to form the habit and to be consistent (and possibly having a more readable interface) in all your APIs. Once again, by making small adjustments to your code you can improve the readability: with a simple glance you will be able to distinguish which methods are returning an instance of your class. Sort of details you will appreciate in the long run.
+虽然如此，根据 clang 的定义，`id` 可以被编译器提升到 `instancetype` 。在 `alloc` 或者 `init` 中，我们强烈建议对所有返回类的实例的类方法和实例方法使用 `instancetype` 类型。
 
-##### Reference
+
+在你的 API 中要构成习惯以及保持始终如一的，此外，通过对你代码的小调整你可以提高可读性：在简单的浏览的时候你可以区分哪些方法是返回你类的实例的。你以后会感谢这些注意过的小细节的。
+##### 参考
 - http://tewha.net/2013/02/why-you-should-use-instancetype-instead-of-id/
 - http://tewha.net/2013/01/when-is-id-promoted-to-instancetype/
 - http://clang.llvm.org/docs/LanguageExtensions.html#related-result-types
@@ -785,58 +800,39 @@ This is mostly to form the habit and to be consistent (and possibly having a mor
 
 -------------------
 
-### Initialization Patterns 初始化陌生
+###  初始化模式
 
-#### Class cluster 类簇
-Class cluster as described in the Apple's documentation is
+####  类簇 （class cluster)
 
 类簇在Apple的文档中这样描述：
 
-> an architecture that groups a number of private, concrete subclasses under a public, abstract superclass.
+> an architecture that groups a number of private, concrete subclasses under a public, abstract superclass. （一个在共有的抽象超类下设置一组私有子类的架构）
 
-【问题】
-一个把一组子类暴露为共有的私有抽象超类架构。
-
-If this description sounds familiar probably your instinct is correct. Class cluster is the Apple lingo for the [Abstract Factory](http://en.wikipedia.org/wiki/Abstract_factory_pattern) design pattern.
-
-如果这个描述听起来很熟悉，说明你的直觉是对的。 Class cluster 是 Apple 对[Abstract Factory](http://en.wikipedia.org/wiki/Abstract_factory_pattern)设计模式的称呼。
-
-The idea with class cluster is very simple: you typically have an abstract class that during the initialization process uses information, generally provided as parameters of the initializer method or available in the environment, to apply a logic and instantiate a concrete subclass. This "public facing" class should internally have a good knowledge of its subclass to be able to return the private subclass that best suited the task.
-
-class cluster 的想法很简单，你经常有一个抽象类在初始化期间处理信息，经常作为一个构造器里面的参数或者环境中读取，来完成特定的逻辑并且实例化自雷。这个"public facing" 应该知晓它的子类而且返回适合的私有子类。
-
-
-This pattern is very useful because it removes the complexity of this initialization logic from the caller that only knows about the interface to comunicate with the object, without actually caring about the underlying  implementation.
-
-这个模式非常有用，因为它减少了构造器调用中的复杂性，只需要知道接口如何与对象通信，而不需要知道怎么实现。
-
-Class clusters are widely used in the Apple's frameworks; some of the most notably examples are `NSNumber` that can return an appropriate subclass depending of the type of number provided (Integer, Float, etc...) or `NSArray` that will return a concrete subclass with the best storage policy.
-
-Class clusters 在 Apple 的Framework 中广泛使用：一些明显的例子比如  `NSNumber` 可以返回不同哦给你的子类，取决于 数字类型如何提供  (Integer, Float, etc...) 或者 `NSArray` 返回不同的最优存储策略的子类。
-
-
-The beauty of this pattern is that the caller can be completely unaware of the concrete subclass; in fact it can be used when designing a library to be able to swap the underlaying returned class without leaking any implementation detail as long as is respectful of the contract established in the abstract class.
-
-这个陌生的美丽的地方在于，调用者可以完全不管子类，事实上，这可以用在设计一个库，可以用来
-
-In our experience the use of a Class Cluster can be very helpful in removing a lot of conditional code.
-
-我们的经验是使用类簇可以帮助移除很多调节语句。
+如果这个描述听起来很熟悉，说明你的直觉是对的。 Class cluster 是 Apple 对[抽象工厂](http://en.wikipedia.org/wiki/Abstract_factory_pattern)设计模式的称呼。
 
 
 
-A typical example of this is when you have the same UIViewController subclass for both iPhone and iPad, but the behavior is slightly different depending on the the device.
+class cluster 的想法很简单: 使用信息进行(类的)初始化处理期间，会使用一个抽象类（通常作为初始化方法的参数或者判定环境的可用性参数）来完成特定的逻辑或者实例化一个具体的子类。而这个"Public Facing（面向公众的）"类，必须非常清楚他的私有子类，以便在面对具体任务的时候有能力返回一个恰当的私有子类实例。对调用者来说只需知道对象的各种API的作用即可。这个模式隐藏了他背后复杂的初始化逻辑，调用者也不需要关心背后的实现。
 
 
-一个经典的李姿势如果有一个一样的 UIViewController 子类，为 iPad 和 iPhone 写，但是在不同的设备上有不同的行为。
+Class clusters 在 Apple 的Framework 中广泛使用：一些明显的例子比如  `NSNumber` 可以返回不同类型给你的子类，取决于 数字类型如何提供  (Integer, Float, etc...) 或者 `NSArray` 返回不同的最优存储策略的子类。
 
 
-The naïve implementation is to put some conditional code checking the device in the methods where the different logic is needed, even though initially the place where this conditional logic is applied may be quite few they naturally tend to grow producing an explosion of code paths.
-A better design can be achieved by creating an abstract and generic view controller that will contain all the shared logic and then two specializing subclass for every device. 
+这个模式的精妙的地方在于，调用者可以完全不管子类，事实上，这可以用在设计一个库，可以用来交换实际的返回的类，而不用去管相关的细节，因为它们都遵从抽象超类的方法。
 
-比较基础的实现是用条件雨具检查设备，然后执行不同的逻辑。虽然刚开始可能不错但是随着代码的增长，运行逻辑也会趋于复杂。
 
-The generic view controller will check the current device idiom and depending on that it will return the appropriate subclass.
+我们的经验是使用类簇可以帮助移除很多条件语句。
+
+
+
+一个经典的例子是如果你有为 iPad 和 iPhone 写的一样的 UIViewController 子类，但是在不同的设备上有不同的行为。
+
+
+
+
+比较基础的实现是用条件语句检查设备，然后执行不同的逻辑。虽然刚开始可能不错，但是随着代码的增长，运行逻辑也会趋于复杂。
+一个更好的实现的设计是创建一个抽象而且宽泛的 view controller 来包含所有的共享逻辑，并且对于不同设备有两个特别的子例。
+
 
 通用的 view controller  会检查当前设备并且返回适当的子类。
 
@@ -863,17 +859,22 @@ The generic view controller will check the current device idiom and depending on
 @end
 ```
 
-The previous code example show how to create a class cluster. First of all the `[self isMemberOfClass:ZOCKintsugiPhotoViewController.class]` is done to prevent the necessity to override the init method in the subclass in order to prevent an infinite recursion. 
-When `[[ZOCKintsugiPhotoViewController alloc] initWithPhotos:photos]` will get called the previous check will be true, the `self = nil` is to remove every reference to the instance of `ZOCKintsugiPhotoViewController` that it will be deallocated , following there is the logic to choose which subclass should be initialized. 
-Let's assume that we are running this code on an iPhone and that `ZOCKintsugiPhotoViewController_iPhone` is not overriding `initWithPhotos:`; in this case, when executing `self = [[ZOCKintsugiPhotoViewController_iPhone alloc] initWithPhotos:photos];` the `ZOCKintsugiPhotoViewController` will be called and here is when the first check comes handy, given that now is not exactly  `ZOCKintsugiPhotoViewController` the check will be false calling the `return [super initWithNibName:nil bundle:nil];` this will make continue the initialization following the correct initialization path highlighted in the previous session.
 
-#### Singleton  单例
+这个子例程展示了如何创建一个类簇。
 
-Generally avoid using them if possible, use dependency injection instead.
-Nevertheless, unavoidable singleton objects should use a thread-safe pattern for creating their shared instance. As of GCD, it is possible to use the `dispatch_once()` function to
+   1. 使用`[self isMemberOfClass:ZOCKintsugiPhotoViewController.class]`防止子类中重载初始化方法，避免无限递归。当`[[ZOCKintsugiPhotoViewController alloc] initWithPhotos:photos]`被调用时，上面条件表达式的结果将会是True。
+   
+   2. `self = nil`的目的是移除`ZOCKintsugiPhotoViewController`实例上的所有引用，实例(抽象类的实例)本身将会解除分配（ 当然ARC也好MRC也好dealloc都会发生在Main Runloop这一次的结束时）。
+   
+   3. 接下来的逻辑就是判断哪一个私有子类将被初始化。我们假设在iPhone上运行这段代码并且`ZOCKintsugiPhotoViewController_iPhone`没有重载`initWithPhotos:`方法。这种情况下，当执行`self = [[ZOCKintsugiPhotoViewController_iPhone alloc] initWithPhotos:photos];`,`ZOCKintsugiPhotoViewController`将会被调用，第一次检查将会在这里发生，鉴于`ZOCKintsugiPhotoViewController_iPhone`不完全是`ZOCKintsugiPhotoViewController`，表达式`[self isMemberOfClass:ZOCKintsugiPhotoViewController.class]`将会是False,于是就会调用`[super initWithNibName:nil bundle:nil]`，于是就会进入`ZOCKintsugiPhotoViewController`的初始化过程，这时候因为调用者就是`ZOCKintsugiPhotoViewController`本身，这一次的检查必定为True,接下来就会进行正确的初始化过程。(NOTE：这里必须是完全遵循Designated initializer 以及Secondary initializer的设计规范的前提下才会其效果的!不明白这个规范的可以后退一步熟悉这种规范在回头来看这个说明)
+
+> NOTE: 这里的意思是，代码是在iPhone上调试的，程序员使用了`self = [[ZOCKintsugiPhotoViewController_iPhone alloc] initWithPhotos:photos];`来初始化某个view controller的对象，当代码运行在iPad上时，这个初始化过程也是正确的，因为无论程序员的代码中使用`self = [[ZOCKintsugiPhotoViewController_iPhone alloc] initWithPhotos:photos];`来初始化viewController(iPhone上编写运行在iPad上)，还是使用`self = [[ZOCKintsugiPhotoViewController_iPad alloc] initWithPhotos:photos];`来初始化viewController(iPad上编写，运行在iPhone上)，都会因为ZOCKintsugiPhotoViewController的`initWithPhotos:`方法的存在而变得通用起来。
+
+
+####   单例
 
 如果可能，请尽量避免使用单例而是依赖注入。
-然而，如果一定要用，请使用一个线程安全的模式来创建共享的实例。 对于GCD，用 `dispatch_once()` 函数就可以咯。
+然而，如果一定要用，请使用一个线程安全的模式来创建共享的实例。对于 GCD，用 `dispatch_once()` 函数就可以咯。
 
 
 ```objective-c
@@ -888,9 +889,8 @@ Nevertheless, unavoidable singleton objects should use a thread-safe pattern for
 }
 ```
 
-The use of dispatch_once(), which is synchronous, replaces the following, yet obsolete, idiom:
 
-使用dispatch_once()，来控制代码同步，取代了原来老的约定俗成的用法。
+使用 dispatch_once()，来控制代码同步，取代了原来的约定俗成的用法。
 
 
 ```objective-c
@@ -906,124 +906,148 @@ The use of dispatch_once(), which is synchronous, replaces the following, yet ob
 }
 ```
 
-The benefits of `dispatch_once()` over this are that it's faster, it's also semantically cleaner, because the entire idea of dispatch_once() is "perform something once and only once", which is precisely what we're doing. This approach will also prevent [possible and sometimes prolific crashes][singleton_cocoasamurai].
 
- `dispatch_once()`  的优点是，它更快，而且语法上更干净，因为dispatch_once()的意思就是 ”把一些东西执行一次“，就像我们做的一样。 这样同时可以避免[possible and sometimes prolific crashes][singleton_cocoasamurai].
-
-Classic examples of acceptable singleton objects are the GPS and the accelerometer of a device. Even though Singleton objects can be subclassed, the cases where this comes useful are rare. The interface should put in evidence that the given class is intended to be used as a Singleton. Therefore, often a single public `sharedInstance` class method would suffice and no writable properties should be exposed.
+ `dispatch_once()`  的优点是，它更快，而且语法上更干净，因为dispatch_once()的意思就是 “把一些东西执行一次”，就像我们做的一样。 这样同时可以避免 [possible and sometimes prolific crashes][singleton_cocoasamurai].
 
 
+经典的单例对象是：一个设备的GPS以及它的加速度传感器(也称动作感应器)。
+虽然单例对象可以子类化，但这种方式能够有用的情况非常少见。
+必须有证据表明，给定类的接口趋向于作为单例来使用。
+所以，单例通常公开一个`sharedInstance`的类方法就已经足够了，没有任何的可写属性需要被暴露出来。
 
-Trying to use a Singleton as a container for objects to share across the code or layer of your application is ugly and nasty, and should be interpreted as a design smell.
+尝试着把单例作为一个对象的容器，在代码或者应用层面上共享，是一个糟糕和丑陋的设计。
 
-
+> NOTE：单例模式应该运用于类及类的接口趋向于作为单例来使用的情况 （译者注）
 
 [singleton_cocoasamurai]: http://cocoasamurai.blogspot.com/2011/04/singletons-your-doing-them-wrong.html
 
-## Properties
+##  属性
 
-Properties should be named as descriptively as possible, avoiding abbreviation, and camel-case with the leading word being lowercase. Luckily our tool of choice is able to autocomplete everything we type (well... almost everything. Yes, I'm looking at you Xcode's Derived Data) so there is no reason to save a couple of chars, and it's better to convey as much information as possible in your source code.
+属性应该尽可能描述性地命名，避免缩写，并且是小写字母开头的驼峰命名。我们的工具可以很方便地帮我们自动补全所有东西（嗯。。几乎所有的，Xcode 的Derived Data 会索引这些命名）。所以没理由少打几个字符了，并且最好尽可能在你源码里表达更多东西。
 
-**For example:**
+**例子 :**
 ```objective-c
 NSString *text;
 ```
 
-**Not:**
+**不要这样 :**
 ```objective-c
 NSString* text;
 NSString * text;
 ```
-(Note: this preference is different for constants. This is actually a matter of common sense and readability: C++ developers often prefer to separate the type from the name of the variable, and as the type in its pure form would be `NSString*` (for objects allocated on the heap, as in C++ it'd be possible to allocate objects on the stack) the format `NSString* text;` is used.)
 
-Use auto-synthesize for properties rather than manual `@synthesize` statements unless your properties are part of a protocol rather than a concrete class. If Xcode can automatically synthesize the variable, then let it do so; moreover it'd be a part of the code that is just redundant and that you have to maintain without a real benefit.
 
-You should always use the setter and getter to access the property, except for the `init` and `dealloc` methods. Generally speaking, using the property gives you an increased visual clue that what you're accessing is outside you current scope and therefor is subject to side-effect.
+（注意：这个习惯和常量不同，这是主要从常用和可读性考虑。 C++ 的开发者偏好从变量名中分离类型，作为类型它应该是
+`NSString*` （对于从堆中分配的对象，对于C++是能从栈上分配的）格式。）
 
-You should always prefer the setter because:
 
-* Using the setter will respect the defined memory-management semantics (`strong`, `weak`, `copy` etc...). This was definitely more relevant before ARC but it's still relevant; think, for example, the `copy` semantic, every time you use the setter the passed value is copied without any additional operation;
-* KVO notifications (`willChangeValueForKey`, `didChangeValueForKey`) are fired automatically;
-* It is easier to debug: you can set a breakpoint on the property declaration and the breakpoint will fire every time the getter/setter is called, or you can set a breakpoint inside a custom setter/getter;
-* It allows to add extra logic when setting a value in a single place.
+使用属性的自动同步 (synthesize) 而不是手动的  `@synthesize` 语句，除非你的属性是 protocol 的一部分而不是一个完整的类。如果 Xcode 可以自动同步这些变量，就让它来做吧。否则只会让你抛开 Xcode 的优点，维护更冗长的代码。
 
-You should alway prefer the getter:
+你应该总是使用 setter 和 getter 方法访问属性，除了 `init` 和 `dealloc` 方法。通常，使用属性让你增加了在当前作用域之外的代码块的可能所以可能带来更多副作用。
 
-* It is resilient to future change (e.g. the property is dynamically generated);
-* It allows subclassing;
-* It is easier to debug (i.e. Is possible to put a breakpoint in the getter and see who's accessing that specific getter);
-* It makes the intent clear and explicit: by accessing an ivar `_anIvar` you are actually accessing `self->_anIvar`. This can lead to problems, for instance, accessing the iVar inside a block (you're capturing and retaining self even if you don't explicitly see the keyword `self`);
-* It automatically fires KVO notifications;
-* The overhead introduced by the message sending is very low and in the most of the case is negligible. For more information on the performance penalty introduced by the property you may find an interesting performance rundown  [Should I Use a Property or an Instance Variable?](http://blog.bignerdranch.com/4005-should-i-use-a-property-or-an-instance-variable/)
+你总应该用 getter 和 setter ，因为：
 
-#### Init and Dealloc
+- 使用  setter 会遵守定义的内存管理语义(`strong`, `weak`, `copy` etc...) ，这个在 ARC 之前就是相关的内容。举个例子，`copy` 属性定义了每个时候你用 setter 并且传送数据的时候，它会复制数据而不用额外的操作。
+- KVO 通知(`willChangeValueForKey`, `didChangeValueForKey`) 会被自动执行。
+- 更容易debug：你可以设置一个断点在属性声明上并且断点会在每次 getter / setter 方法调用的时候执行，或者你可以在自己的自定义 setter/getter 设置断点。
+- 允许在一个单独的地方为设置值添加额外的逻辑。
 
-There is however an exception to what stated before: you must never use the setter (or the getter) in the `init` (and other initializer method), and instead you should always access directly the variable using the instance variable. This is to be defensive against subclassing: eventually a subclass can override the setter (or getter) and trying to call other methods, access properties or iVars that aren't in a consistent state or fully-initialized. Remember that an object is considered fully initialized and in a consistent state only after the init returns. The same applies for the `dealloc` method (during the `dealloc` method an object can be in a inconsistent state). This is also clearly stated many times over time:
+你应该倾向于用 getter：
+
+- 它是对未来的变化有扩展能力的（比如，属性是自动生成的）。
+- 它允许子类化。
+- 更简单的debug（比如，允许拿出一个断点在 getter 方法里面，并且看谁访问了特别的 getter
+- 它让意图更加清晰和明确：通过访问 ivar `_anIvar` 你可以明确的访问 `self->_anIvar`.这可能导致问题。在 block 里面访问 ivar （你捕捉并且 retain 了 self，即使你没有明确的看到 self 关键词）。
+- 它自动产生KVO 通知。
+- 在消息发送的时候增加的开销是微不足道的。更多关于性能问题的介绍你可以看 [Should I Use a Property or an Instance Variable?](http://blog.bignerdranch.com/4005-should-i-use-a-property-or-an-instance-variable/)。
+
+#### Init 和 Dealloc
+
+
+有一个例外：永远不要在 init 方法（以及其他初始化方法）里面用 getter 和 setter 方法，你应当直接访问实例变量。这样做是为了防止有子类时，出现这样的情况：它的子类最终重载了其 setter 或者 getter 方法，因此导致该子类去调用其他的方法、访问那些处于不稳定状态，或者称为没有初始化完成的属性或者 ivar 。记住一个对象仅仅在 init 返回的时候，才会被认为是达到了初始化完成的状态。
+
+同样在 dealloc 方法中（在 dealloc 方法中，一个对象可以在一个 不确定的状态中）这是同样需要被注意的。
 
 * [Advanced Memory Management Programming Guide](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmPractical.html#//apple_ref/doc/uid/TP40004447-SW6) under the self-explanatory section "Don't Use Accessor Methods in Initializer Methods and dealloc";
 * [Migrating to Modern Objective-C](http://adcdownload.apple.com//wwdc_2012/wwdc_2012_session_pdfs/session_413__migrating_to_modern_objectivec.pdf) at WWDC 2012 at slide 27;
 * in a [pull request](https://github.com/NYTimes/objective-c-style-guide/issues/6) form Dave DeLong's. 
 
-Moreover, using the setter in the init will not play nicely with `UIAppearence` proxy (please refer to [UIAppearance for Custom Views](http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/) for additional informations).
--------------------
-#### Dot-Notation
 
-When using the setter/getter always prefer the dot notation.
-Dot-notation should *always* be used for accessing and mutating properties.
+此外，在 init 中使用 setter 不会很好执行  `UIAppearence`  代理（参见  [UIAppearance for Custom Views](http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/) 看更多相关信息)。
 
-**For example:**
-```objective-c
+#### 点符号
+
+
+当使用 setter getter 方法的时候尽量使用点符号。应该总是用点符号来访问以及设置属性。
+
+**例子:**
+
+```Objective-C
 view.backgroundColor = [UIColor orangeColor];
 [UIApplication sharedApplication].delegate;
+
 ```
 
-**Not:**
-```objective-c
+**不要这样:**
+
+```Objective-C
 [view setBackgroundColor:[UIColor orangeColor]];
 UIApplication.sharedApplication.delegate;
 ```
-Using the dot notation will ensure a visual clue to help distinguish between a property or a typical method call.
 
-### Property Declaration
+使用点符号会让表达更加清晰并且帮助区分属性访问和方法调用
 
-The preferred way to declare a property is the following format
+### 属性定义
+
+
+推荐按照下面的格式来定义属性
 
 ```objective-c
 @property (nonatomic, readwrite, copy) NSString *name;
 ```
 
-The property attributes should be ordered as following: atomicity, read/write and memory-managements storage. By doing this your attributes are more likely to change in the right most position and it's easier to scan with your eyes.
+属性的参数应该按照下面的顺序排列： 原子性，读写 和 内存管理。 这样做你的属性更容易修改正确，并且更好阅读。(译者注：习惯上修改某个属性的修饰符时，一般从属性名从右向左搜索需要修动的修饰符。最可能从最右边开始修改这些属性的修饰符，根据经验这些修饰符被修改的可能性从高到底应为：内存管理 > 读写权限 >原子操作)
 
-You must use `nonatomic` attribute, unless strictly necessary. On iOS, the locking introduced by `atomic` can significantly affect the performances.
 
-Properties that stores a block, in order to keep it alive after the end of the declaration scope, must be `copy` (the block is initially created on the stack, calling `copy` cause the block to be copied on the heap).
+你必须使用 `nonatomic`，除非特别需要的情况。在iOS中，`atomic`带来的锁特别影响性能。
 
-In order to achieve a public getter and a private setter, you can declare the public property as `readonly` and re-declare the same property in the the class extension as `readwrite`:
+属性可以存储一个代码块。为了让它存活到定义的块的结束，必须使用 `copy` （block 最早在栈里面创建，使用 `copy`让 block 拷贝到堆里面去）
+
+
+为了完成一个共有的 getter 和一个私有的 setter，你应该声明公开的属性为 `readonly`  并且在类扩展总重新定义通用的属性为 `readwrite` 的。
 
 ```objective-c
+//.h文件中
 @interface MyClass : NSObject
-@property (nonatomic, readonly) NSObject *object
+@property (nonatomic, readonly, strong) NSObject *object;
+@end
+//.m文件中
+@interface MyClass ()
+@property (nonatomic, readwrite, strong) NSObject *object;
 @end
 
-@implementation MyClass ()
-@property (nonatomic, readwrite, strong) NSObject *object
+@implementation MyClass
+//Do Something cool
 @end
+
 ```
 
-If the name of a `BOOL` property is expressed as an adjective, the property can omit the "is" prefix but specifies the conventional name for the get accessor, for example:
+描述`BOOL`属性的词如果是形容词，那么setter不应该带`is`前缀，但它对应的 getter 访问器应该带上这个前缀，如：
 
 ```objective-c
 @property (assign, getter=isEditable) BOOL editable;
 ```
-Text and example taken from the [Cocoa Naming Guidelines](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/Articles/NamingIvarsAndTypes.html#//apple_ref/doc/uid/20001284-BAJGIIJE).
 
-In the implementation file avoid the use of `@synthesize`, Xcode is already adding this for you.
+文字和例子引用自 [Cocoa Naming Guidelines](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/Articles/NamingIvarsAndTypes.html#//apple_ref/doc/uid/20001284-BAJGIIJE)。
 
-#### Private Properties
+在实现文件中应避免使用`@synthesize`,因为Xcode已经自动为你添加了。
 
-Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. Named categories (e.g. `ZOCPrivate`) should never be used unless extending another class.
+#### 私有属性
 
-**For example:**
+
+私有属性应该定义在类的实现文件的类的扩展 (匿名的 category) 中。不允许在有名字的的 category(如 `ZOCPrivate`）中定义私有属性，除非你扩展其他类。
+
+**例子:**
 
 ```objective-c
 @interface ZOCViewController ()
@@ -1031,11 +1055,14 @@ Private properties should be declared in class extensions (anonymous categories)
 @end
 ```
 
-### Mutable Object
+### 可变对象
 
-Any property that potentially can be set with a mutable object (e.g. `NSString`,`NSArray`,`NSURLRequest`) must have the memory-management type to `copy`. This is done in order to ensure the encapsulation and prevent that the value is changed after the property is set without that the object know it.
 
-You should also avoid to expose mutable object in the public interface, because this allows clients of your class to change your own internal representation and break the encapsulation. You can provide a read-only property that returns an immutable copy of your object:
+任何可以用来用一个可变的对象设置的（(比如 `NSString`,`NSArray`,`NSURLRequest`)）属性的的内存管理类型必须是 `copy` 的。
+
+这是为了确保防止在不明确的情况下修改被封装好的对象的值(译者注：比如执行 array(定义为 copy 的 NSArray 实例) = mutableArray，copy 属性会让 array 的 setter 方法为 array = [mutableArray copy], [mutableArray copy] 返回的是不可变的 NSArray 实例，就保证了正确性。用其他属性修饰符修饰，容易在直接赋值的时候，array 指向的是 NSMuatbleArray 的实例，在之后可以随意改变它的值，就容易出错)。
+
+你应该同时避免暴露在公开的接口中可变的对象，因为这允许你的类的使用者改变类自己的内部表示并且破坏类的封装。你可以提供可以只读的属性来返回你对象的不可变的副本。
 
 ```objective-c
 /* .h */
@@ -1047,46 +1074,55 @@ You should also avoid to expose mutable object in the public interface, because 
 }
 ```
 
-### Lazy Loading
+### 懒加载（Lazy Loading）
 
-There are cases when instantiating an object can be expensive and/or needs to be configured once and has some configuration involved that you don't want to clutter the caller method.
+当实例化一个对象需要耗费很多资源，或者配置一次就要调用很多配置相关的方法而你又不想弄乱这些方法时，我们需要重写 getter 方法以延迟实例化，而不是在 init 方法里给对象分配内存。通常这种操作使用下面这样的模板：
 
-In this case, instead of allocating the object in the init method one could opt for overriding the property getter for lazy instantiation. Usually the template for this kind of operation is the following:
 
 ```objective-c
+
 - (NSDateFormatter *)dateFormatter {
   if (!_dateFormatter) {
     _dateFormatter = [[NSDateFormatter alloc] init];
         NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-        [dateFormatter setLocale:enUSPOSIXLocale];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSSS"];
+        [_dateFormatter setLocale:enUSPOSIXLocale];
+        [_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];//毫秒是SSS，而非SSSSS
   }
   return _dateFormatter;
 }
+
 ```
 
-Even though this can be beneficial in some circumstance we advice to be thoughtful when you decide to do, and actually this should be avoided. The following are the arguments against the use of property with lazy initialization:
-
-* The getter should not have side effect. By looking a getter on the right-hand side you're not thinking that this is causing an object to be allocated or will lead to side effect. In fact, trying to call a getter without using the returned value the compiler will emit the warning "getter should not used for side effect";
-* You're moving the cost of the initialization as side effect of the first access, this will lead to difficulties to optimize performance issues (that are also hard to instrument);
-* The moment of instantiation can be non deterministic: for example you're expecting that this property is first accessed by a method but as soon as you change the class implementation, the accessor gets called before your original expectation. This can cause problems especially if the instantiation logic has dependencies on other state of the class that may be different. In general is better to explicitly express the dependency;
-* This behavior might not be KVO friendly. If the getter changes the reference it should fire a KVO notification for notify the change, it can be weird to receive a change notification when accessing a getter.
+即使这样做在某些情况下很不错，但是在实际这样做之前应当深思熟虑。事实上，这样的做法是可以避免的。下面是使用延迟实例化的争议。
 
 
-## Methods
 
-### Parameter Assert
-Your method may require some parameter to satisfy certain condition (i.e. not to be nil): in such cases it's a good practice to use `NSParameterAssert()` to assert the condition and eventually throwing an exception.
+* getter 方法应该避免副作用。看到 getter 方法的时候，你不会想到会因此创建一个对象或导致副作用，实际上如果调用 getter 方法而不使用其返回值编译器会报警告 “Getter 不应该仅因它产生的副作用而被调用”。
 
-### Private methods
+> 副作用指当调用函数时，除了返回函数值之外，还对主调用函数产生附加的影响。例如修改全局变量（函数外的变量）或修改参数。函数副作用会给程序设计带来不必要的麻烦，给程序带来十分难以查找的错误，并且降低程序的可读性。（译者注）
 
-Never prefix your private method with a single underscore `_`, this prefix is reserved by Apple, doing otherwise expose you to the risk of overriding an existing Apple's private method.
+* 你在第一次访问的时候改变了初始化的消耗，产生了副作用，这会让优化性能变得困难（以及测试）
+* 这个初始化可能是不确定的：比如你期望属性第一次被一个方法访问，但是你改变了类的实现，访问器在你预期之前就得到了调用，这样可以导致问题，特别是初始化逻辑可能依赖于类的其他不同状态的时候。总的来说最好明确依赖关系。
+* 这个行为不是 KVO 友好的。如果 getter 改变了引用，他应该通过一个  KVO 通知来通知改变。当访问 getter 的时候收到一个改变的通知很奇怪。
 
-## Equality
 
-In case you need to implement equality remember the contract: you need to implement both the `isEqual` and the `hash` methods. If two objects are considered equal through `isEqual`, the `hash` method must return the same value, but if `hash` returns the same value the object are not guaranteed to be equals.
+##  方法
 
-This contracts boils down to how the lookup of those objects is done when are stored in collections (i.e. `NSDictionary` and `NSSet` use hash table data structure underneath).
+### 参数断言
+
+
+你的方法可能要求一些参数来满足特定的条件（比如不能为nil），在这种情况下啊最好使用 `NSParameterAssert()` 来断言条件是否成立或是抛出一个异常。
+
+###  私有方法
+
+
+永远不要在你的私有方法前加上 `_` 前缀。这个前缀是 Apple 保留的。不要冒重载苹果的私有方法的险。
+
+##  相等性
+
+当你要实现相等性的时候记住这个约定：你需要同时实现`isEqual` 和 `hash`方法。如果两个对象是被`isEqual`认为相等的，它们的 `hash` 方法需要返回一样的值。但是如果  `hash` 返回一样的值，并不能确保他们相等。
+
+这个约定当对象被存储在集合中（如 `NSDictionary` 和 `NSSet` 在底层使用 hash 表数据的数据结构）的时候，用来查找这些对象的。
 
 ```objective-c
 @implementation ZOCPerson
@@ -1100,7 +1136,7 @@ This contracts boils down to how the lookup of those objects is done when are st
         return NO;
     }
 
-    // check objects properties (name and birthday) for equality
+    // check objects properties (name and birthday) for equality （检查对象属性（名字和生日）的相等性
     ...
     return propertiesMatch;
 }
@@ -1111,15 +1147,19 @@ This contracts boils down to how the lookup of those objects is done when are st
 
 @end
 ```
--------------------
-It is important to notice that the hash method must not return a constant. This is a typical error and causes serious problems as it will cause 100% of collisions in the hash table as the value returned by the hash method is actually used as key in the hash table.
 
-You should also always implement a typed equality check method with the following format `isEqualTo<#class-name-without-prefix#>:`
-If you can, it's always preferable to call the typed equal method in order to avoid the type checking overhead.
 
-A complete pattern for the isEqual* method should be as so:
+一定要注意 hash 方法不能返回一个常量。这是一个典型的错误并且会导致严重的问题，因为实际上`hash`方法的返回值会作为对象在 hash 散列表中的 key,这会导致 hash 表 100% 的碰撞。
+
+
+你总是应该用 `isEqualTo<#class-name-without-prefix#>:` 这样的格式实现一个相等性检查方法。如果你这样做，会优先调用这个方法来避免上面的类型检查。
+
+一个完整的 isEqual 方法应该是这样的：
+
 
 ```objective-c
+
+
 - (BOOL)isEqual:(id)object {
     if (self == object) {
       return YES;
@@ -1145,32 +1185,28 @@ A complete pattern for the isEqual* method should be as so:
   return haveEqualNames && haveEqualBirthdays;
 }
 ```
+> 译者注：
+> 一般而言我们会直接调用自定义的`isEqualTo__ClassName__:`方法，对类的实例判等。
+> 
+> 像相等性的开篇已经提到的那样，这里应该复写`isEqual:`方法，因为NSObject的`isEqual:`方法显然不会考虑我们自定义类的类型判断及属性的相等性。当我们自定义的类的对象处在无序集合中被查找时，会自动调用`isEqual:`。同样的该类的`hash`方法，也会在集合查找对象的时候被使用，我们也可以通过复写`hash`方法以达到用自己的标准来判定对象是否`hash`等同。
+> 
+> 我们实现的`hash`方法应该建立在系统提供的各种对象的`hash`方法之上（像开篇的例程那样）。不推荐自己去实现某种`hash`算法来替代系统提供的`hash`算法，这一般而言会大大影响性能或者准确性，系统提供的`hash`算法已经经过无数次修缮，足以满足你的要求。
 
-Given an object instance the computation of the `hash` should be deterministic, this is extremely important if the object is added to a container object (i.e. `NSArray`, `NSSet`, or `NSDictionary`) otherwise the behavior will be undefined (all container objects use the object's hash to do the lookup and enforce specific property like the uniqueness of the objects contained). That said, the calculation of the hash should always be made only by using immutable properties or, better yet, by guarantee the immutability of the objects.
+一个对象实例的 `hash` 计算结果应该是确定的。当它被加入到一个容器对象（比如 `NSArray`, `NSSet`, 或者 `NSDictionary`）的时候这是很重要的，否则行为会无法预测（所有的容器对象使用对象的 hash 来查找或者实施特别的行为，如确定唯一性）这也就是说，应该用不可变的属性来计算 hash 值，或者，最好保证对象是不可变的。
+
+# Categories
 
 
-# Categories 分类
+虽然我们知道这样写很丑, 但是我们应该要在我们的 category 方法前加上自己的小写前缀以及下划线，比如`- (id)zoc_myCategoryMethod`。 这种实践同样[被苹果推荐](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/ProgrammingWithObjectiveC/CustomizingExistingClasses/CustomizingExistingClasses.html#//apple_ref/doc/uid/TP40011210-CH6-SW4)。
 
-It is ugly, we know, but categories should always be prefixed with your lower case prefix and an underscore i.e. `- (id)zoc_myCategoryMethod`. This practice is also [recommended by Apple](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/ProgrammingWithObjectiveC/CustomizingExistingClasses/CustomizingExistingClasses.html#//apple_ref/doc/uid/TP40011210-CH6-SW4).
-
-虽然我们知道这样写很丑。但是我们经常要在我们的分类方法前加上自己的小写前缀以及下划线，比如`- (id)zoc_myCategoryMethod`。 这种实践同样被苹果推荐[recommended by Apple](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/ProgrammingWithObjectiveC/CustomizingExistingClasses/CustomizingExistingClasses.html#//apple_ref/doc/uid/TP40011210-CH6-SW4).
+这是非常必要的。因为如果在扩展的 category 或者其他 category 里面已经使用了同样的方法名，会导致不可预计的后果。实际上，实际被调用的是最后被加载的那个 category 中方法的实现(译者注：如果导入的多个 category 中有一些同名的方法导入到类里时，最终调用哪个是由编译时的加载顺序来决定的，最后一个加载进来的方法会覆盖之前的方法)。
 
 
-This is absolutely needed because implementing a category method with a name already existing in the extended object or in another category may result in an undefined behavior. Practically, what is going to happen is that the implementation of the last category loaded will be the one that gets called. 
-
-这是绝对需要的，因为如果category的名字可能在扩展的类或者其他category里面已经使用了，会导致不可预计的后果。实际上，最后被实现的那个 category 会成为实际被调用的。
-
-In case you want to be sure that you're not replacing any implementation with your own category you can set the environment variable `OBJC_PRINT_REPLACED_METHODS` to `YES`, this will print in the console the names of the methods that have been replaced. 
-At the time of writing LLVM 5.1 does not emit any warning or error for this, so be careful and don't override methods in categories.
-
-你想要确保你没有用你的 category 取代任何一个实现的话，可以设置一个环境变量 OBJC_PRINT_REPLACED_METHODS 为 YES，这样会打印到Console中那些被取代的方法名字。这个时候  LLVM 5.1  不会为此发出任何警告和错误提示，所以自己小心不要在 categories 中重载方法咯。
-
-A good practice is to use prefix also for category names.
-
+如果想要确认你的分类方法没有覆盖其他实现的话，可以把环境变量 OBJC_PRINT_REPLACED_METHODS 设置为 YES，这样那些被取代的方法名字会打印到 Console 中。现在 LLVM 5.1  不会为此发出任何警告和错误提示，所以自己小心不要在分类中重载方法。
 
 一个好的实践是在 category 名中使用前缀。
 
-**Example: 例子 **
+** 例子 **
 
 ```objective-c
 @interface NSDate (ZOCTimeExtensions)
@@ -1178,7 +1214,7 @@ A good practice is to use prefix also for category names.
 @end
 ```
 
-**Not: 不是 **
+** 不要这样 **
 
 ```objective-c
 @interface NSDate (ZOCTimeExtensions)
@@ -1186,13 +1222,14 @@ A good practice is to use prefix also for category names.
 @end
 ```
 
-Category can be used to group related method in a header file. This is a very common practice in Apple's framework (nearby is proposed an extract from `NSDate` header) and we strongly encourage to do the same in your code. 
-In our experience creating this groups can be helpful in further refactoring: when the interface of a class starts growing can be a signal that your class is doing to much and therefore violating the Single Responsibility Principle, the previously created groups be used to better understand the different responsibilities and help in breaking down the class in more self-contained components.
 
-Category 可以用来在头文件中定义一组功能相似的方法。这是在 Apple的 Framework 中（下面的取自`NSDate` 头）。我们也强烈建议在自己的代码中这样使用。
+分类可以用来在头文件中定义一组功能相似的方法。这是在 Apple的 Framework 也很常见的一个实践（下面例子的取自`NSDate` 头文件）。我们也强烈建议在自己的代码中这样使用。
 
-我们的经验是，创建一组对以后的重构十分有帮助。当一个类的接口 when the interface of a class starts growing can be a signal that your class is doing to much and therefore violating the Single Responsibility Principle, the previously created groups be used to better understand the different responsibilities and help in breaking down the class in more self-contained components.
+我们的经验是，创建一组分类对以后的重构十分有帮助。一个类的接口增加的时候，可能意味着你的类做了太多事情，违背了类的单一功能原则。 
 
+之前创造的方法分组可以用来更好地进行不同功能的表示，并且把类打破在更多自我包含的组成部分里。
+
+ 
 ```objective-c
 
 @interface NSDate : NSObject <NSCopying, NSSecureCoding>
@@ -1212,30 +1249,32 @@ Category 可以用来在头文件中定义一组功能相似的方法。这是�
 @end
 ```
 
-# Protocols 协议
 
-A great miss in the Objective-C world is the outcome of the latest decades about abstract interfaces. The term interface is typically used to refer to the `.h` file of a class but it has also another meaning well known to Java programmers which is basically used to describe to a set of methods not backed by a concrete implementation.
 
-在Objective-C的世界里面经常错过的一个东西是抽象接口。接口
+#  Protocols
 
-In Objective-C the latter case is achieved by using protocols. For historical reasons, protocols (used as Java interfaces) are not so much used in Objective-C code and in general by the community. It's mainly because the majority of the code developed at Apple don't embrace this approach and almost all developers tend to follow Apple's patterns and guidelines. Apple uses protocols almost only for the delegation pattern.
-The concept of abstract interface is very powerful, has roots in the computer science history and there are no reasons to pretend it can't be used in Objective-C.
+在 Objective-C 的世界里面经常错过的一个东西是抽象接口。接口（interface）这个词通常指一个类的 `.h` 文件，但是它在 Java 程序员眼里有另外的含义： 一系列不依赖具体实现的方法的定义。(译者注：在OC中，类的接口对应在.m文件中都会有具体的实现，但Java中接口更接近于OC中的抽象接口或者说协议(protocol))
 
-Here will be explained a powerful usage of protocols (intended as abstract interfaces) going through a concrete example: starting from a very bad designed architecture up to reaching a very well and reusable piece of code.
+在 Objective-C 里是通过 protocol 来实现抽象接口的。因为历史原因，protocol （使用方法类似java的接口）并没有大量地在Objective-C的代码中使用也没有在社区中普及(指的是那种像Java程序员使用接口那样来使用protocol的方式)。一个主要原因是大多数的 Apple 开发的代码没有采用这种的方式，而几乎所有的开发者都是遵从 Apple 的模式以及指南。Apple 几乎只是在委托模式下使用 protocol。
 
-The example presented is the implementation of a RSS feed reader (think of it as a common test task asked during technical interviews).
+但是抽象接口的概念很强大，在计算机科学的历史中颇有渊源，没有理由不在 Objective-C 中使用。
 
-The requirement is straightforward: presenting a remote RSS feed in a table view.
+这里通过一个具体的例子来解释 protocol 的强大力量（用作抽象接口）：把非常糟糕的设计的架构改造为一个良好的可复用的代码。
 
-A very naïve approach would be to create a `UITableViewController` subclass and code the entire logic for the retrieving of the feed data, the parsing and the displaying in one place, which is, in other words, a MVC (Massive View Controller). This would work but it's very poorly designed and unfortunately it'd suffice to pass the interview step in some not-so-demanding tech startups.
+这个例子是在实现一个 RSS 阅读器（它可是经常在技术面试中作为一个测试题呢）。
 
-A minimal step forward would be to follow the Single Responsibility Principle and create at least 2 components to do the different tasks:
+要求很简单：在TableView中展示一个远程的RSS订阅。
 
-- a feed parser to parse the results gathered from an endpoint
-- a feed reader to display the results
+一个幼稚的方法是创建一个 `UITableViewController` 的子类，并且把所有的检索订阅数据，解析以及展示的逻辑放在一起，或者说是一个 MVC (Massive View Controller)。这可以跑起来，但是它的设计非常糟糕，不过它足够过一些要求不高的面试了。
 
-The interfaces for these classes could be as so:
--------------------
+最小的步骤是遵从单一功能原则，创建至少两个组成部分来完成这个任务：
+
+- 一个 feed 解析器来解析搜集到的结果
+- 一个 feed 阅读器来显示结果
+
+
+这些类的接口可以是这样的：
+
 ```objective-c
 
 @interface ZOCFeedParser : NSObject
@@ -1262,7 +1301,9 @@ The interfaces for these classes could be as so:
 
 ```
 
-The `ZOCFeedParser` is initialized with a `NSURL` to the endpoint to fetch the RSS feed (under the hood it will probably use NSXMLParser and NSXMLParserDelegate to create meaningful data) and the `ZOCTableViewController` is initialized with the parser. We want it to display the values retrieved by the parser and we do it using delegation with the following protocol:
+
+`ZOCFeedParser` 用 `NSURL` 进行初始化，来获取 RSS 订阅（在这之下可能会使用 NSXMLParser 和 NSXMLParserDelegate 创建有意义的数据），`ZOCTableViewController` 会用这个 parser 来进行初始化。 我们希望它显示 parser 接受到的值并且我们用下面的 protocol 实现委托：
+
 
 ```objective-c
 
@@ -1277,13 +1318,15 @@ The `ZOCFeedParser` is initialized with a `NSURL` to the endpoint to fetch the R
 
 ```
 
-It's a perfectly reasonable and suitable protocol to deal with RSS, I'd say. The view controller will conform to it in the public interface:
+
+我要说，这是一个处理RSS业务的完全合理而恰当的protocol。这个ViewController在Public接口中将遵循这个protocol：
 
 ```objective-c
 @interface ZOCTableViewController : UITableViewController <ZOCFeedParserDelegate>
 ```
 
-and the final creation code is like so: 
+
+最后创建的代码是这样子的：
 
 ```objective-c
 NSURL *feedURL = [NSURL URLWithString:@"http://bbc.co.uk/feed.rss"];
@@ -1294,11 +1337,13 @@ ZOCTableViewController *tableViewController = [[ZOCTableViewController alloc] in
 feedParser.delegate = tableViewController;
 ```
 
-So far so good and you're probably happy with this new code, but how much of this code can be effectively reused? The view controller can only deal with objects of type `ZOCFeedParser`: at this point we just split the code in 2 components without any additional and tangible value than separation of responsibilities.
+到目前你可能觉得你的代码还是不错的，但是有多少代码是可以有效复用的呢？view controller 只能处理 `ZOCFeedParser` 类型的对象： 从这点来看我们只是把代码分离成了两个组成部分，而没有做任何其他有价值的事情。
 
-The responsibility of the view controller should be to "display items provided by <someone>" but if we are allowed to pass to it only `ZOCFeedParser` objects this can't hold. Here surfaces the need for a more general type of object to be used by the view controller.
 
-We modify our feed parser introducing the `ZOCFeedParserProtocol` protocol (in the ZOCFeedParserProtocol.h file where also `ZOCFeedParserDelegate` will be).
+view controller 的职责应该是“显示某些东西提供的内容”，但是如果我们只允许传递`ZOCFeedParser`的话，就不是这样的了。这就体现了需要传递给 view controller 一个更泛型的对象的需求。
+
+
+我们使用  `ZOCFeedParserProtocol` 这个 protocol (在 ZOCFeedParserProtocol.h 文件里面，同时文件里也有 `ZOCFeedParserDelegate` )。
 
 ```objective-c
 
@@ -1323,7 +1368,8 @@ We modify our feed parser introducing the `ZOCFeedParserProtocol` protocol (in t
 
 ```
 
-Notice that the delegate protocol now deals with objects conforming to our new protocol and the interface file of the ZOCFeedParser would be more skinny:
+
+注意这个代理 protocol 现在处理响应我们新的 protocol， 而且 ZOCFeedParser 的接口文件更加精炼了：
 
 ```objective-c
 
@@ -1335,9 +1381,10 @@ Notice that the delegate protocol now deals with objects conforming to our new p
 
 ```
 
-As `ZOCFeedParser`now conforms to `ZOCFeedParserProtocol`, it must implement all the required methods.
-At this point the view controller can accept any object conforming to the new protocol, having the certaincy that the object will respond to `start` and `stop` methods and that it will provide info through the delegate property. This is all the view controller should know about the given objects and no implementation details should concern it.
--------------------
+
+因为 `ZOCFeedParser` 实现了 `ZOCFeedParserProtocol`，它需要实现所有的`required`方法。
+从这点来看 viewController能接受任何遵循该协议的对象，只要确保所有的对象都会响应`start`和`stop`方法并通过`delegate`属性提供信息(译者注：因为protocol默认情况下所有的方法定义都是`required`的)。对指定的对象而言，这就是viewController所要知道的一切,且不需要知道其实现的细节。
+
 
 ```objective-c
 
@@ -1349,33 +1396,30 @@ At this point the view controller can accept any object conforming to the new pr
 
 ```
 
-The change in the above snippet of code might seem a minor change, but actually it is a huge improvement as the view controller would work against a contract rather than a concrete implementation. This leads to many advantages:
+上面的代码片段的改变看起来不多，但是有了一个巨大的提升。view controller 将基于协议而不是具体的实现来工作。这带来了以下的优点：
 
-- the view controller can now accept any object that provide some information via the delegate property: this can be a RSS remote feed parser, a local one, a service that read other types of data remotely or even a service that fetch data from the local database;
-- the feed parser object can be totally reused (as it was before after the first refactoring step);
-- `ZOCFeedParser` and `ZOCFeedParserDelegate` can be reused by other components;
-- `ZOCViewController` (UI logic apart) can be reused;
-- it is easier to test as it'd be possible to use a mock object conforming to the expected protocol.
+- view controller 现在可以接收通过`delegate`属性提供信息的任意对象：可以是  RSS 远程解析器，或者本地解析器，或是一个读取其他远程或者本地数据的服务
+- `ZOCFeedParser` 和 `ZOCFeedParserDelegate` 可以被其他组成部分复用
+- `ZOCViewController` （UI逻辑部分）可以被复用
+- 测试更简单了，因为可以用 mock 对象来达到 protocol 预期的效果
 
-When implementing a protocol you should always strive to adhere to the [Liskov Substitution Principle](http://en.wikipedia.org/wiki/Liskov_substitution_principle). This principle states that you should be able to replace one implementation of an interface ("protocol" in the Objective-C lingo) with another without breaking either the client or the implementation.
+当实现一个 protocol 你总应该坚持 [里氏替换原则](http://en.wikipedia.org/wiki/Liskov_substitution_principle)。这个原则是：你应该可以取代任意接口（也就是Objective-C里的的"protocol"）实现，而不用改变客户端或者相关实现。
 
-In other words this means that your protocol should not leak the detail of the implementing classes; be even more careful when designing the abstraction expressed by you protocol and always keep in mind that the underlay implementation is irrelevant, what really matters is the contract that the abstraction expose to the consumer.
+此外，这也意味着`protocol`不该关心类的实现细节；设计protocol的抽象表述时应非常用心，并且要牢记它和它背后的实现是不相干的，真正重要的是协议（这个暴露给使用者的抽象表述）。
 
-Everything that is designed to be reused in future is implicitly better code and should be always the programmer's goal. Code designed this way is what makes the difference between an experienced programmer and a newbie.
+任何在未来可复用的设计，无形当中可以提高代码质量，这也应该一直是程序员的追求。是否这样设计代码，就是大师和菜鸟的区别。
 
-The final code proposed here can be found [here](http://github.com/albertodebortoli/ADBFeedReader).
+最后的代码可以在[这里](https://github.com/KevinHM/ADBFeedReader) 找到。
+
+
 
 # NSNotification
 
-When you define your own `NSNotification` you should define your notification's name as a string constant. Like any string constant that you want to make available to other classes, it should be declared as `extern` in the public interface, and defined privately in the corresponding implementation. 
-Because you're exposing this symbol in the header you should follow the usual namespace rule prefixing the notification name with the class name that belongs to.
-It's also good practice to name the notification using the verb Did/Will and terminate the name with the word "Notifications".
+当你定义你自己的 `NSNotification` 的时候你应该把你的通知的名字定义为一个字符串常量，就像你暴露给其他类的其他字符串常量一样。你应该在公开的接口文件中将其声明为 `extern` 的， 并且在对应的实现文件里面定义。
 
-当你定义你自己的 `NSNotification` 的时候你应该定义把你的 notification 的名字定义为一个字符串常量，就像很多你暴露给其他类的字符串常量一样。 他应该在 public 的 接口中定义为 `extern`， 在对应的实现文件里面定义为私有的。
+因为你在头文件中暴露了符号，所以你应该按照统一的命名空间前缀法则，用类名前缀作为这个通知名字的前缀。 
 
-因为你在头文件中暴露了符号，所以你应该按照通用的命名空间前缀法则，用类名作为这个 notification 名字的前缀。 
-
-同时，用一个 Did/Will 这样的动词以及用 "Notifications" 结尾来命名这个  notification 也是一个好的实践。  
+同时，用一个 Did/Will 这样的动词以及用 "Notifications" 后缀来命名这个通知也是一个好的实践。 
 
 ```objective-c
 // Foo.h
@@ -1385,17 +1429,16 @@ extern NSString * const ZOCFooDidBecomeBarNotification
 NSString * const ZOCFooDidBecomeBarNotification = @"ZOCFooDidBecomeBarNotification";
 ```
 
-# Beautifying the code  美化代码
 
-### Spacing 空格
+#  美化代码
 
-* Indent using 4 spaces. Never indent with tabs. Be sure to set this preference in Xcode.
-* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
+###  空格
 
-* 缩进使用4个空格。 永远不要使用　tab, 确保在 Xcode 的设置里面是这样设置的。
-* 方法的大括号和另外的大括号(`if`/`else`/`switch`/`while` etc.)  总是在同一行开始，在新起一行结束。
+* 缩进使用 4 个空格。 永远不要使用  tab, 确保你在 Xcode 的设置里面是这样设置的。
+* 方法的大括号和其他的大括号(`if`/`else`/`switch`/`while` 等) 总是在同一行开始，在新起一行结束。
 
-**Preferred:**
+**推荐:**
+
 ```objective-c
 if (user.isHappy) {
     //Do something
@@ -1405,7 +1448,8 @@ else {
 }
 ```
 
-**Not Preferred:**
+**不推荐:**
+
 ```objective-c
 if (user.isHappy)
 {
@@ -1415,11 +1459,15 @@ if (user.isHappy)
 }
 ```
 
-* There should be exactly one blank line between methods to aid in visual clarity and organization. Whitespace within methods should separate functionality, but often there should probably be new methods.
-* Prefer using auto-synthesis. But if necessary, `@synthesize` and `@dynamic` should each be declared on new lines in the implementation.
-* Colon-aligning method invocation should often be avoided. There are cases where a method signature may have more than 3 colons and colon-aligning makes the code more readable. Always colon align methods, even if they contain blocks.
 
-**Preferred:**
+
+* 方法之间应该要有一个空行来帮助代码看起来清晰且有组织。 方法内的空格应该用来分离功能，但是通常不同的功能应该用新的方法来定义。
+* 优先使用 auto-synthesis。但是如果必要的话， `@synthesize` and `@dynamic` 
+* 在实现文件中的声明应该新起一行。
+* 应该总是让冒号对齐。有一些方法签名可能超过三个冒号，用冒号对齐可以让代码更具有可读性。即使有代码块存在，也应该用冒号对齐方法。
+
+
+**推荐:**
 
 ```objective-c
 [UIView animateWithDuration:1.0
@@ -1429,10 +1477,11 @@ if (user.isHappy)
                  completion:^(BOOL finished) {
                      // something
                  }];
+
 ```
 
 
-**Not Preferred:**
+**不推荐:**
 
 ```objective-c
 [UIView animateWithDuration:1.0 animations:^{
@@ -1442,64 +1491,50 @@ if (user.isHappy)
 }];
 ```
 
-If auto indentation falls into bad readability, declare blocks in variables before or reconsider your method signature.
+如果自动对齐让可读性变得糟糕，那么应该在之前把 block 定义为变量，或者重新考虑你的代码签名设计。
 
-### Line Breaks 换行
-Line breaks are an important topic since this style guide is focused for print and online readability.
+###  换行
 
+本指南关注代码显示效果以及在线浏览的可读性，所以换行是一个重要的主题。
 
-从风格关注打印以及在线可读性开始，换行是一个重要的主题
+举个例子：
 
-For example:
 ```objective-c
 self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
 ```
 
-A long line of code like the one above should be carried on to the second line adhering to this style guide's Spacing section (two spaces).
-
-一个像上面的长行的代码在第二以一个间隔段（2个空格）延续
+一个像上面的长行的代码在第二行以一个间隔（2个空格）延续
 
 ```objective-c
 self.productsRequest = [[SKProductsRequest alloc] 
   initWithProductIdentifiers:productIdentifiers];
 ```
 
-### Brackets
+###  括号
 
-Use [Egyptian brackets](https://en.wikipedia.org/wiki/Indent_style#K.26R_style) for:
 
-在以下的地方使用 [Egyptian brackets](https://en.wikipedia.org/wiki/Indent_style#K.26R_style)
-
-* control structures (if-else, for, switch)
+在以下的地方使用 [Egyptian风格 括号](https://en.wikipedia.org/wiki/Indent_style#K.26R_style) （译者注：又称 K&R 风格，代码段括号的开始位于一行的末尾，而不是另外起一行的风格。关于为什么叫做 Egyptian Brackets，可以参考 <http://blog.codinghorror.com/new-programming-jargon/> )
 
 * 控制语句 (if-else, for, switch)
 
+非 Egyptian 括号可以用在：
 
-非 Egyptian 括号可以用在
-
-Non-Egyptian brackets are accepted for:
-
-* class implementations (if any)
-* method implementations
+* 类的实现（如果存在)
+* 方法的实现
 
 
+# 代码组织
+
+[来自](http://nshipster.com/pragma/) Mattt Thompson
+
+> code organization is a matter of hygiene  (代码组织是卫生问题)
 
 
-# Code Organization 代码组织
+我们十分赞成这句话。清晰地组织代码和规范地进行定义, 是你对自己以及其他阅读代码的人的尊重。
 
-[Quoting](http://nshipster.com/pragma/) Mattt Thompson
+## 利用代码块
 
-> code organization is a matter of hygiene  代码组织是卫生问题
-
-我们十分赞成。你是否清晰地组织代码以及定义的习惯是你对你自己以及其他可能会看你代码的人的尊重。
-
-We could not agree more. Having you code clearly organized in a clean and defined manner is a way to show respect for yourself and other people that will read and change you code (consider the future you included).
-
-## Exploit Code Block 利用代码块
-
-A very obscure GCC behavior that it is also supported by Clang is the ability of a code block to return the value of the latest statement if enclosing in round bracket.
-
-一个GCC非常模糊的特性，以及同时Clang也有的特性是代码块如果在闭合的圆括号内的话，会返回最后语句的值
+一个 GCC 非常模糊的特性，以及 Clang 也有的特性是，代码块如果在闭合的圆括号内的话，会返回最后语句的值
 
 
 -------------------
@@ -1509,48 +1544,33 @@ NSURL *url = ({
     [NSURL URLWithString:urlString];
 });
 ```
-This feature can be nicely organized to group small chunk of code that usually are necessary only for the sole purpose of setting up a class.
-This gives a reader an important visual clue and help reduce the visual noise focusing on the most important variable in the function.
-Additionally, this technique has the advantage that all the variables declared inside the code block, as one might expect, are valid only inside that scope, this mean that the your not polluting the method's stack trace and you can reuse the variable name without having duplicated symbols.
 
 
-这个特性非常适合组织小块的代码，通常是设置一个类。他让读者一个重要的线索并且减少干扰，能让读者聚焦于关键的变量和函数中。此外，这个技术有一个邮电，所有的变量都在代码块中，也就是只在代码块的区域中有效，这意味着可以减少对其他作用域的命名污染。
+
 
 ## Pragma 
 
 ### Pragma Mark
 
-`#pragma mark -` is a great way to organize the code inside a class and helps you grouping methods implementation.
-We suggest to use `#pragma mark -`to separate:
- 
- `#pragma mark -`  是一个在类内部组织代码并且帮助你分组方法实现的好方法。 我们建议使用  `#pragma mark -` 来分离:
 
-
-- methods in functional groupings 
-- protocols implementations.
-- methods overridden from a superclass
-
+`#pragma mark -`  是一个在类内部组织代码并且帮助你分组方法实现的好办法。 我们建议使用  `#pragma mark -` 来分离:
 
 - 不同功能组的方法 
-- protocols 的实现.
+- protocols 的实现
 - 对父类方法的重写
-
-
-
-
 
 ```objective-c
 
 - (void)dealloc { /* ... */ }
 - (instancetype)init { /* ... */ }
 
-#pragma mark - View Lifecycle View 的生命周期
+#pragma mark - View Lifecycle （View 的生命周期）
 
 - (void)viewDidLoad { /* ... */ }
 - (void)viewWillAppear:(BOOL)animated { /* ... */ }
 - (void)didReceiveMemoryWarning { /* ... */ }
 
-#pragma mark - Custom Accessors 自定义访问器
+#pragma mark - Custom Accessors （自定义访问器）
 
 - (void)setCustomProperty:(id)value { /* ... */ }
 - (id)customProperty { /* ... */ }
@@ -1573,7 +1593,7 @@ We suggest to use `#pragma mark -`to separate:
 
 #pragma mark - ZOCSuperclass
 
-// ... overridden methods from ZOCSuperclass
+// ... 重载来自 ZOCSuperclass 的方法
 
 #pragma mark - NSObject
 
@@ -1581,19 +1601,19 @@ We suggest to use `#pragma mark -`to separate:
 
 ```
 
-The above marks will help to visually separate and organize the code. One of the pros is that you can cmd+click on the mark to jump to the symbol definition.
-Be aware that even though the use of pragma mark is a sign of craftsmanship, it's not a good reason to make grow the number of methods in your class in a unbounded fashion: having too many of them should be a warning sign that your class has too many responsibilities and a good opportunity for refactoring.
 
+上面的标记能明显分离和组织代码。你还可以用  cmd+Click 来快速跳转到符号定义地方。
+但是小心，即使 paragma mark 是一门手艺，但是它不是让你类里面方法数量增加的一个理由：类里面有太多方法说明类做了太多事情，需要考虑重构了。
 
-### Notes about pragma 关于 pragma
+### 关于 pragma
 
-At http://raptureinvenice.com/pragmas-arent-just-for-marks there's a great discussion about pragmas, reported in part here.
+在 http://raptureinvenice.com/pragmas-arent-just-for-marks 有很好的关于 pragma 的讨论了，在这边我们再做部分说明。
 
-While most iOS developers don't play around much with compiler options, some options are useful to control how strictly to check (or not check) your code for errors. Sometimes, though, you want to make an exception directly in your code using a pragma, which purpose is to temporarily disable a compiler behavior.
+大多数 iOS 开发者平时并没有和很多编译器选项打交道。一些选项是对控制严格检查（或者不检查）你的代码或者错误的。有时候，你想要用 pragma 直接产生一个异常，临时打断编译器的行为。
 
-When you use ARC, the compiler inserts memory-management calls for you. There are cases, though, where it can get confused. One such case is when you use `NSSelectorFromString` to have a dynamically-named selector called. Since ARC can't know what the method will be and what kind of memory management to use, you'll be warned with `performSelector may cause a leak because its selector is unknown`.
+当你使用ARC的时候，编译器帮你插入了内存管理相关的调用。但是这样可能产生一些烦人的事情。比如你使用  `NSSelectorFromString`  来动态地产生一个 selector 调用的时候，ARC不知道这个方法是哪个并且不知道应该用那种内存管理方法，你会被提示 `performSelector may cause a leak because its selector is unknown（执行 selector 可能导致泄漏，因为这个 selector 是未知的）`.
 
-If you know your code won't leak, you can suppress the warning for just this instance by wrapping it like this:
+如果你知道你的代码不会导致内存泄露，你可以通过加入这些代码忽略这些警告
 
 ```objective-c
 #pragma clang diagnostic push
@@ -1604,16 +1624,18 @@ If you know your code won't leak, you can suppress the warning for just this ins
 #pragma clang diagnostic pop
 ```
 
-Note how we disable the -Warc-performSelector-leaks check by pushing and popping the change around our code. This assures us we don't disable it globally, which would be a huge mistake.
 
-The entire list of options that can be enable or disabled can be found at [The Clang User's Manual](http://clang.llvm.org/docs/UsersManual.html) to learn about all of them.
+注意我们是如何在相关代码上下文中用 pragma 停用 -Warc-performSelector-leaks 检查的。这确保我们没有全局禁用。如果全局禁用，可能会导致错误。
 
-Suppressing warnings for unused variables
+全部的选项可以在 [The Clang User's Manual](http://clang.llvm.org/docs/UsersManual.html)  找到并且学习。
 
-It's useful to be told that a variable you've defined is going unused. In most cases, you want to remove these references to improve performance (however slightly), but sometimes you want to keep them. Why? Perhaps they have a future usage or the functionality is only temporarily removed. Either way, a smarter way to suppress the warning without brutally commenting out the relevant lines, is to use the `#pragma unused()`:
+
+### 忽略没用使用变量的编译警告
+
+告诉你申明的变量它将不会被使用，这种做法很有用。大多数情况下，你希望移除这些引用来（稍微地）提高性能，但是有时候你希望保留它们。为什么？或许它们以后有用，或者有些特性只是暂时移除。无论如何，一个消除这些警告的好方法是用相关语句进行注解，使用 `#pragma unused()`:
 
 ```objective-c
-- (void)giveMeFive
+- (NSInteger)giveMeFive
 {
     NSString *foo;
     #pragma unused (foo)
@@ -1622,13 +1644,12 @@ It's useful to be told that a variable you've defined is going unused. In most c
 }
 ```
 
-Now you can keep your code in place without the compiler complaining about it. And yes, that pragma needs to go below the offending code.
+现在你的代码不用任何编译警告了。注意你的 pragma 需要标记到问题代码之下。
 
-## Explicit warnings and errors 明确编译器警告和错误
+## 明确编译器警告和错误
 
-The compiler is a robot: it will mark what's wrong with your code using a set of rules that've been defined by Clang. But, every so often you're smarter than it. Often, you might find some offending code that you know will lead to problems but, for whatever reason, can't fix yourself at the moment. You can explicitly signal errors like this:
 
-编译器是一个机器人，它会标记你代码中被Clang规则定义为错误的地方。但是，你总是比Clang更聪明。通常，你会发现一些 讨厌的代码 会导致这个问题，而且不论怎么做，你都解决不了。你可以这样明确一个错误
+编译器是一个机器人，它会标记你代码中被 Clang 规则定义为错误的地方。但是，你总是比 Clang 更聪明。通常，你会发现一些讨厌的代码会导致这个问题，但是暂时却解决不了。你可以这样明确一个错误：
 
 
 ```objective-c
@@ -1640,9 +1661,8 @@ The compiler is a robot: it will mark what's wrong with your code using a set of
 ```
 
 
-类似的，你可以这样标明一个 警告
+类似的，你可以这样标明一个警告
 
-You can signal warnings similarly:
 
 ```objective-c
 - (float)divide:(float)dividend by:(float)divisor
@@ -1657,21 +1677,29 @@ You can signal warnings similarly:
 }
 ```
 
-## Docstrings  代码内文档
+## 字符串文档
 
-All non-trivial methods, interfaces, categories, and protocol declarations should have accompanying comments describing their purpose and how they fit into the larger picture. For more examples, see the Google Style Guide around [File and Declaration Comments](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml#File_Comments).
 
-To summarize: There are two types of docstrings, long-form and short-form.
+所有重要的方法，接口，分类以及协议定义应该有伴随的注释来解释它们的用途以及如何使用。更多的例子可以看 Google 代码风格指南中的 [File and Declaration Comments](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml#File_Comments)。
 
-A short-form docstring fits entirely on one line, including the comment slashes. It is used for simple functions, especially (though by no means exclusively) ones that are not part of a public API:
+简而言之：有长的和短的两种字符串文档。
+
+短文档适用于单行的文件，包括注释斜杠。它适合简短的函数，特别是（但不仅仅是）非 public 的 API：
 
 ```
 // Return a user-readable form of a Frobnozz, html-escaped.
 ```
 
-Note that the text is specified as an action ("return") rather than a description ("returns").
 
-If the description spills past one line, you should move to the long-form docstring: a summary line (one physical line) preceded by an opening block comment with two asterisks on a line of its own (/\*\*, terminated by a period, question mark, or exclamation point, followed by a blank line, followed by the rest of the doc string starting at the same cursor position as the first quote of the first line, ending with an end-block comment (\*/) on a line by itself.
+文本应该用一个动词 ("return")  而不是 "returns" 这样的描述。
+
+如果描述超过一行，应改用长字符串文档：
+
+ * 以`/**`开始
+ * 换行写一句总结的话，以`?或者!或者.`结尾。
+ * 空一行
+ * 在与第一行对齐的位置开始写剩下的注释
+ * 最后用`*/`结束。
 
 ```
 /**
@@ -1683,32 +1711,26 @@ If the description spills past one line, you should move to the long-form docstr
 */
 ```
 
-A function must have a docstring unless it meets all of the following criteria:
 
-* not externally visible
-* very short
-* obvious
+一个函数必须有一个字符串文档，除非它符合下面的所有条件：
 
-The docstring should describe the function's calling syntax and its semantics, not its implementation.
+* 非公开
+* 很短
+* 显而易见
 
-## Comments  注释
+字符串文档应该描述函数的调用符号和语义，而不是它如何实现。
 
+##  注释
 
-When they are needed, comments should be used to explain why a particular piece of code does something. Any comments that are used must be kept up-to-date or deleted.
+当它需要的时候，注释应该用来解释特定的代码做了什么。所有的注释必须被持续维护或者干脆就删掉。
 
+块注释应该被避免，代码本身应该尽可能就像文档一样表示意图，只需要很少的打断注释。  *例外： 这不能适用于用来产生文档的注释*
 
-
-
-Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. *Exception: This does not apply to those comments used to generate documentation.*
-
-### Header Documentation  头文档
-
-The documentation of class should be done using the Doxygen/AppleDoc syntax only in the .h files when possible. Documentation should be provided for methods and properties.
-
+###  头文档
 
 一个类的文档应该只在 .h 文件里用 Doxygen/AppleDoc 的语法书写。 方法和属性都应该提供文档。
 
-**For example: 例子: **
+**例子: **
 
 ```objective-c
 /**
@@ -1724,38 +1746,38 @@ The documentation of class should be done using the Doxygen/AppleDoc syntax only
 ```
 
 
+# 对象间的通讯
 
+对象之间需要通信，这也是所有软件的基础。再非凡的软件也需要通过对象通信来完成复杂的目标。本章将深入讨论一些设计概念，以及如何依据这些概念来设计出良好的架构。
 
-# Inter-Object Communication
+## Block 
 
-Every non-trivial software is based on objects that need to communicate with each other to meet complex goals. This chapter is about design concepts going first into deep explanations on how the armory will achieve great architectures works and how it should be used.
+Block 是 Objective-C 版本的 lambda 或者 closure（闭包）。
 
-## Blocks 代码块
-
-Blocks are the Objective-C version of well-knows constructs called lambdas or closures available in other languages for many years now.
-
-They are a great way to design asynchronous APIs as so:
+使用 block 定义异步接口:
 
 ```objective-c
 - (void)downloadObjectsAtPath:(NSString *)path
                    completion:(void(^)(NSArray *objects, NSError *error))completion;
 ```
 
-When designing something like the above, try to declare functions and methods to take no more than one block and always make the blocks be the last arguments. It is a good approach to try to combine data and error in one block instead of two separate blocks (usually one for the success and one for the failure).
+当你定义一个类似上面的接口的时候，尽量使用一个单独的 block 作为接口的最后一个参数。把需要提供的数据和错误信息整合到一个单独 block 中，比分别提供成功和失败的 block 要好。
 
-You should do this because:
+以下是你应该这样做的原因：
 
-* Usually there are part of code that are shared between them (i.e. dismiss a progress or an activity indicator);
-* Apple is doing the same, and it is always good to be consistent with the platform;
-* Since Blocks are typically multiple lines of code, having the block be other than the last argument would break up the call site[1];
-* Taking more than one block as arguments would make the call site potentially unwieldy in length. It also introduces complexity[1].
 
-Consider the above method, the signature of the completion block is very common: the first parameter regards the data the caller is interested in, the second parameter is the error encountered. The contract should be therefore as follow:
--------------------
-* if `objects` is not nil, then `error` must be nil
-* if `objects` is nil, then `error` must not be nil
+* 通常这成功处理和失败处理会共享一些代码（比如让一个进度条或者提示消失）；
+* Apple 也是这样做的，与平台一致能够带来一些潜在的好处；
+* block 通常会有多行代码，如果不作为最后一个参数放在后面的话，会打破调用点；
+* 使用多个 block 作为参数可能会让调用看起来显得很笨拙，并且增加了复杂性。
 
-as the caller of this method is first interested in the actual data, an implementation like so is preferred:
+看上面的方法，完成处理的 block 的参数很常见：第一个参数是调用者希望获取的数据，第二个是错误相关的信息。这里需要遵循以下两点：
+
+* 若 `objects` 不为 nil，则 `error` 必须为 nil
+* 若 `objects` 为 nil，则 `error` 必须不为 nil
+
+因为调用者更关心的是实际的数据，就像这样：
+
 
 ```objective-c
 - (void)downloadObjectsAtPath:(NSString *)path
@@ -1769,47 +1791,69 @@ as the caller of this method is first interested in the actual data, an implemen
 }
 ```
 
-Moreover, as for synchronous methods, some of Apple's APIs write garbage values to the error parameter (if non-NULL) in successful cases, so checking the error can cause false positives.
+
+此外，Apple 提供的一些同步接口在成功状态下向 error 参数（如果非 NULL) 写入了垃圾值，所以检查 error 的值可能出现问题。
+
+### 深入 Block
+
+一些关键点：
+
+* block 是在栈上创建的 
+* block 可以复制到堆上
+* Block会捕获栈上的变量(或指针)，将其复制为自己私有的const(变量)。
+* (如果在Block中修改Block块外的)栈上的变量和指针，那么这些变量和指针必须用`__block`关键字申明(译者注：否则就会跟上面的情况一样只是捕获他们的瞬时值)。
 
 
-### Under the Hood 高级技术
+如果 block 没有在其他地方被保持，那么它会随着栈生存并且当栈帧（stack frame）返回的时候消失。仅存在于栈上时，block对对象访问的内存管理和生命周期没有任何影响。
 
-Some key points:
+如果 block 需要在栈帧返回的时候存在，它们需要明确地被复制到堆上，这样，block 会像其他 Cocoa 对象一样增加引用计数。当它们被复制的时候，它会带着它们的捕获作用域一起，retain 他们所有引用的对象。
 
-* Blocks are created on the stack
-* Blocks can be copied to the heap
-* Blocks have their own private const copies of stack variables (and pointers)
-* Mutable stack variables and pointers must be declared with the __block keyword
+如果一个 block引用了一个栈变量或指针，那么这个block初始化的时候会拥有这个变量或指针的const副本，所以(被捕获之后再在栈中改变这个变量或指针的值)是不起作用的。(译者注：所以这时候我们在block中对这种变量进行赋值会编译报错:`Variable is not assignable(missing __block type specifier)`，因为他们是副本而且是const的.具体见下面的例程)。
 
-If blocks aren't kept around anywhere, will remain on the stack and will go away when their stack frame returns. While on the stack, a block has no effect on the storage or lifetime of anything it accesses. If blocks need to exist after the stack frame returns, they can be copied to the heap and this action is an explicit operation. This way, a block will gain reference-counting as all objects in Cocoa. When they are copied, they take their captured scope with them, retaining any objects they refer. If a block references a stack variable or pointer, then when the block is initialized it is given its own copy of that variable declared const, so assignments won't work. When a block is copied, the `__block` stack variables it reference are copied to the heap and after the copy operation both block on the stack and brand new block on the heap refer to the variables on the heap.
+当一个 block 被复制后，`__block` 声明的栈变量的引用被复制到了堆里，复制完成之后，无论是栈上的block还是刚刚产生在堆上的block(栈上block的副本)都会引用该变量在堆上的副本。
 
-LLDB shows that a block is a nice piece of things.
+(下面代码是译者加的)
+
+```objective-c
+   ...
+   CGFloat blockInt = 10;
+   void (^playblock)(void) = ^{
+        NSLog(@"blockInt = %zd", blockInt);
+    };
+    blockInt ++;
+    playblock();
+    ...
+    
+    //结果为:blockInt = 10
+```
+
+用 LLDB 来展示 block 是这样子的：
 
 ![](./images/blocks_debugger.png)
 
-The most important thing to note is that `__block` variables and pointers are treated inside the block as structs that obviously handle the reference to the real value/object.
 
-Blocks are first-class citizens in the Objective-C runtime: they have an `isa` pointer which defines a class through which the Objective-C runtime can access methods and storage. In a non-ARC environment you can mess things up for sure, and cause crashes due to dangling pointers. `__block` applies only when using the variables in the block, it simply says to the block:
+最重要的事情是 `__block` 声明的变量和指针在 block 里面是作为显示操作真实值/对象的结构来对待的。
 
-> Hey, this pointer or primitive type relies on the stack with its own address. Please refer to this little friend with a new variable on the stack. I mean… refer to the object with double dereference, and don't retain it.
-Thank you, sir.
 
-If at some time after the declaration but before the invocation of the block, the object has been released and deallocated, the execution of the block will cause a crash. `__block` variables are not retained within the block. In the deep end… it's all about pointers, references, dereferences and retain count stuff.
+block 在 Objective-C 的 runtime(运行时) 里面被当作一等公民对待：他们有一个 `isa` 指针，一个类也是用 `isa` 指针在Objective-C 运行时来访问方法和存储数据的。在非 ARC 环境肯定会把它搞得很糟糕，并且悬挂指针会导致 crash。`__block` 仅仅对 block 内的变量起作用，它只是简单地告诉 block：
+
+> 嗨，这个指针或者原始的类型依赖它们在的栈。请用一个栈上的新变量来引用它。我是说，请对它进行双重解引用，不要 retain 它。
+谢谢，哥们。
+
+
+如果在定义之后但是 block 没有被调用前，对象被释放了，那么 block 的执行会导致 crash。 `__block`  变量不会在 block 中被持有，最后... 指针、引用、解引用以及引用计数变得一团糟。
 
 [blocks_uth1]:  http://developer.apple.com/library/ios/#documentation/cocoa/Conceptual/Blocks/Articles/00_Introduction.html
 [blocks_uth2]: http://ios-blog.co.uk/tutorials/programming-with-blocks-an-overview/
 
 
-### Retain cycles on self self 的循环引用
-
-It's important not to get into retain cycles when using blocks and asynchronous dispatches. Always set a `weak` reference to any variable that could cause a retain cycle. Moreover, it is a good practice to nil the properties holding the blocks (i.e. `self.completionBlock = nil`) this will break potential retain cycle introduced by the block capturing the scope. 
-
-当使用代码块和异步分发的时候，要注意避免引用循环。 总是对变量使用 `weak` 引用会导致引用循环。 此外，把持有 blocks 的属性设置为 nil (i.e. `self.completionBlock = nil`) 是一个好的实践。它会打破 blocks 捕获的作用域带来的引用循环。
+###  self 的循环引用
 
 
+当使用代码块和异步分发的时候，要注意避免引用循环。 总是使用 `weak` 来引用对象，避免引用循环。（译者注：这里更为优雅的方式是采用影子变量@weakify/@strongify [这里有更为详细的说明](https://github.com/jspahrsummers/libextobjc/blob/master/extobjc/EXTScope.h)） 此外，把持有 block 的属性设置为 nil (比如 `self.completionBlock = nil`) 是一个好的实践。它会打破 block 捕获的作用域带来的引用循环。
 
 
-**Example:**
+**例子:**
 
 ```objective-c
 __weak __typeof(self) weakSelf = self;
@@ -1818,7 +1862,7 @@ __weak __typeof(self) weakSelf = self;
 }];
 ```
 
-**Not:**
+**不要这样:**
 
 ```objective-c
 [self executeBlock:^(NSData *data, NSError *error) {
@@ -1826,7 +1870,7 @@ __weak __typeof(self) weakSelf = self;
 }];
 ```
 
-**Example with multiple statements:**
+**多个语句的例子:**
 
 ```objective-c
 __weak __typeof(self)weakSelf = self;
@@ -1839,7 +1883,7 @@ __weak __typeof(self)weakSelf = self;
 }];
 ```
 
-**Not:**
+**不要这样:**
 
 ```objective-c
 __weak __typeof(self)weakSelf = self;
@@ -1849,22 +1893,24 @@ __weak __typeof(self)weakSelf = self;
 }];
 ```
 
-You should add these two lines as snippets to Xcode and always use them exactly like this:
+
+你应该把这两行代码作为 snippet 加到 Xcode 里面并且总是这样使用它们。
 
 ```objective-c
 __weak __typeof(self)weakSelf = self;
 __strong __typeof(weakSelf)strongSelf = weakSelf;
 ```
 
-Here we dig further about the subtle things to consider about the `__weak` and the `__strong` qualifiers for self inside blocks. To summarize, we can refer to self in three different ways inside a block:
+这里我们来讨论下 block 里面的 self 的 `__weak` 和 `__strong`  限定词的一些微妙的地方。简而言之，我们可以参考 self 在 block 里面的三种不同情况。
 
-1. using the keyword `self` directly inside the block
-2. declaring a `__weak` reference to self outside the block and referring to the object via this weak reference inside the block
-3. declaring a `__weak` reference to self outside the block and creating a `__strong` reference to self using the weak reference inside the block
+1. 直接在 block 里面使用关键词 self
+2. 在 block 外定义一个 `__weak` 的 引用到 self，并且在 block 里面使用这个弱引用
+3. 在 block 外定义一个 `__weak` 的 引用到 self，并在在 block 内部通过这个弱引用定义一个 `__strong`  的引用。
 
-**Case 1: using the keyword `self` inside a block**
 
-If we use directly the keyword `self` inside a block, the object is retained at block declaration time within the block (actually when the block is [copied][blocks_caveat13] but for sake of simplicity we can forget about it) . A const reference to self has its place inside the block and this affects the reference counting of the object. If the block is used by other classes and/or passed around we may want to retain self as well as all the other objects used by the block since they are *needed* for the execution of the block. 
+**方案 1. 直接在 block 里面使用关键词 `self`**
+
+如果我们直接在 block 里面用 self 关键字，对象会在 block 的定义时候被 retain，（实际上 block 是 [copied][blocks_caveat13]  但是为了简单我们可以忽略这个）。一个 const 的对 self 的引用在 block 里面有自己的位置并且它会影响对象的引用计数。如果这个block被其他的类使用并且(或者)彼此间传来传去，我们可能想要在 block 中保留 self，就像其他在 block 中使用的对象一样. 因为他们是block执行所需要的.
 
 ```objective-c
 dispatch_block_t completionBlock = ^{
@@ -1877,7 +1923,8 @@ MyViewController *myController = [[MyViewController alloc] init...];
                  completion:completionHandler];
 ```
 
-No big deal. But... what if the block is retained by self in a property (as the following example) and therefore the object (self) retains the block?
+
+没啥大不了。但是如果通过一个属性中的 `self` 保留 了这个 block（就像下面的例程一样）,对象( self )保留了 block 会怎么样呢？
 
 ```objective-c
 self.completionHandler = ^{
@@ -1890,17 +1937,18 @@ MyViewController *myController = [[MyViewController alloc] init...];
                  completion:self.completionHandler];
 ```
 
-This is what is well known as a retain cycle and retain cycles usually should be avoided. The warning we receive from CLANG is:
 
-```objective-c
-Capturing 'self' strongly in this block is likely to lead to a retain cycle
+这就是有名的 retain cycle, 并且我们通常应该避免它。这种情况下我们收到 CLANG 的警告：
+
+```objective-c 
+Capturing 'self' strongly in this block is likely to lead to a retain cycle （在 block 里面发现了 `self` 的强引用，可能会导致循环引用）
 ```
+所以 `__weak` 就有用武之地了。
 
-Here comes in the `__weak` qualifier.
+**方案 2. 在 block 外定义一个 `__weak` 的 引用到 self，并且在 block 里面使用这个弱引用**
 
-**Case 2: declaring a `__weak` reference to self outside the block and use it inside the block**
 
-Declaring a `__weak` reference to self outside the block and referring to it via this weak reference inside the block avoids retain cycles. This is what we usually want to do if the block is already retained by self in a property.
+这样会避免循坏引用，也是通常情况下我们的block作为类的属性被self retain 的时候会做的。
 
 ```objective-c
 __weak typeof(self) weakSelf = self;
@@ -1914,17 +1962,20 @@ MyViewController *myController = [[MyViewController alloc] init...];
                  completion:self.completionHandler];
 ```
 
-In this example the block does not retain the object and the object retains the block in a property. Cool. We are sure that we can refer to self safely, at worst, it is nilled out by someone. The question is: how is it possible for self to be "destroyed" (deallocated) within the scope of a block?
 
-Consider the case of a block being copied from an object to another (let's say myController) as a result of the assignment of a property. The former object is then released before the copied block has had a chance to execute.
+这个情况下 block 没有 retain 对象并且对象在属性里面 retain 了 block 。所以这样我们能保证了安全的访问 self。 不过糟糕的是，它可能被设置成 nil 的。问题是：如何让 self 在 block 里面安全地被销毁。
 
-The next step is interesting.
+考虑这么个情况：block 作为属性(property)赋值的结果，从一个对象被复制到另一个对象(如 myController)，在这个复制的 block 执行之前，前者（即之前的那个对象）已经被解除分配。
 
-**Case 3: declaring a `__weak` reference to self outside the block and use a `__strong` reference inside the block**
+下面的更有意思。
 
-You may think, at first, this is a trick to use self inside the block avoiding the retain cycle warning. This is not the case. The strong reference to self is created at *block execution time* while using self in the block is evaluated at *block declaration time*, thus retaining the object.
--------------------
-[Apple documentation][blocks_caveat1] reports that "For non-trivial cycles, however, you should use" this approach: 
+**方案 3. 在 block 外定义一个 `__weak` 的 引用到 self，并在在 block 内部通过这个弱引用定义一个 `__strong`  的引用**
+
+你可能会想，首先，这是避免 retain cycle  警告的一个技巧。
+
+这不是重点，这个 self 的强引用是在block 执行时 被创建的，但是否使用 self 在 block 定义时就已经定下来了， 因此self (在block执行时) 会被 retain.
+
+[Apple 文档][blocks_caveat1] 中表示 "为了 non-trivial cycles ，你应该这样" ：
 
 ```objective-c
 MyViewController *myController = [[MyViewController alloc] init...];
@@ -1943,25 +1994,29 @@ myController.completionHandler =  ^(NSInteger result) {
 };
 ```
 
-First of all, this example looks wrong to me. How can self be deallocated and be nilled out if the block itself is retained in the `completionHandler` property? The `completionHandler` property can be declared as `assign` or `unsafe_unretained` to allow the object to be deallocated after the block is passed around.
-I can't see the reason for doing that. If other objects need the object (self), the block that is passed around should retain the object and therefore the block should not be assigned to a property. No `__weak`/`__strong` usage should be involved in this case.
 
-Anyway, in other cases it is possible for weakSelf to become nil just like the second case explained (declaring a weak reference outside the block and use it inside). 
+首先，我觉得这个例子看起来是错误的。如果 block 本身在 completionHandler 属性中被 retain 了，那么 self 如何被 delloc 和在 block 之外赋值为 nil 呢? completionHandler 属性可以被声明为  `assign` 或者 `unsafe_unretained` 的，来允许对象在 block 被传递之后被销毁。
 
-Moreover, what is the meaning of "trivial block" for Apple? It is my understanding that a trivial block is a block that is not passed around, it's used within a well defined and controlled scope and therefore the usage of the weak qualifier is just to avoid a retain cycle.
+我不能理解这样做的理由，如果其他对象需要这个对象（self），block 被传递的时候应该 retain 对象，所以 block 应该不被作为属性存储。这种情况下不应该用 `__weak`/`__strong` 
 
-As [a][blocks_caveat2] [lot][blocks_caveat3] [of][blocks_caveat4] [online][blocks_caveat5] [references][blocks_caveat6], books ([Effective Objective-C 2.0][blocks_caveat14] by [Matt Galloway][blocks_caveat16] and [Pro Multithreading and Memory Management for iOS and OS X][blocks_caveat15] by Kazuki Sakamoto & Tomohiko Furumoto) discuss this edge case, the topic is not well understood yet by the majority of the developers.
+总之，其他情况下，希望 weakSelf 变成 nil 的话，就像第二种情况解释那么写（在 block 之外定义一个弱应用并且在 block 里面使用）。
 
-The real benefit of using the strong reference inside of a block is to be robust to preemption. Going again through the above 3 cases, during the execution of a block:
+还有，Apple的 "trivial block" 是什么呢。我们的理解是 trivial block 是一个不被传送的 block ，它在一个良好定义和控制的作用域里面，weak 修饰只是为了避免循环引用。
 
-**Case 1: using the keyword `self` inside a block**
 
-If the block is retained by a property, a retain cycle is created between self and the block and both objects can't be destroyed anymore. If the block is passed around and copied by others, self is retained for each copy.
+虽然有 Kazuki Sakamoto 和 Tomohiko Furumoto) 讨论的 [一][blocks_caveat2] [些][blocks_caveat3] [的][blocks_caveat4] [在线][blocks_caveat5] [参考][blocks_caveat6],  [Matt Galloway][blocks_caveat16] 的 ([Effective Objective-C 2.0][blocks_caveat14] 和 [Pro Multithreading and Memory Management for iOS and OS X][blocks_caveat15] ，大多数开发者始终没有弄清楚概念。
 
-**Case 2: declaring a `__weak` reference to self outside the block and use it inside the block**
+在 block 内用强引用的优点是，抢占执行的时候的鲁棒性。在 block 执行的时候, 再次温故下上面的三个例子：
 
-There is no retain cycle and no matter if the block is retained or not by a property. If the block is passed around and copied by others, when executed, weakSelf can have been turned nil.
-The execution of the block can be preempted and different subsequent evaluations of the weakSelf pointer can lead to different values (i.e. weakSelf can become nil at a certain evaluation).
+**方案 1. 直接在 block 里面使用关键词 `self`**
+
+如果 block 被属性 retain，self 和 block 之间会有一个循环引用并且它们不会再被释放。如果 block 被传送并且被其他的对象 copy 了，self 在每一个 copy 里面被 retain
+
+**方案 2. 在 block 外定义一个 `__weak` 的 引用到 self，并且在 block 里面使用这个弱引用**
+
+不管 block 是否通过属性被 retain ，这里都不会发生循环引用。如果 block 被传递或者 copy 了，在执行的时候，weakSelf 可能已经变成 nil。
+
+block 的执行可以抢占，而且对 weakSelf 指针的调用时序不同可以导致不同的结果(如：在一个特定的时序下 weakSelf 可能会变成nil)。
 
 ```objective-c
 __weak typeof(self) weakSelf = self;
@@ -1972,9 +2027,9 @@ dispatch_block_t block =  ^{
 };
 ```
 
-**Case 3: declaring a `__weak` reference to self outside the block and use a `__strong` reference inside the block**
+**方案 3. 在 block 外定义一个 `__weak` 的 引用到 self，并在在 block 内部通过这个弱引用定义一个 `__strong`  的引用。**
 
-There is no retain cycle and, again, no matter if the block is retained or not by a property. If the block is passed around and copied by others, when executed, `weakSelf` can have been turned nil. When the strong reference is assigned and it is not nil, we are sure that the object is retained for the entire execution of the block if preemption occurs and therefore subsequent evaluations of strongSelf will be consistent and will lead to the same value since the object is now retained. If strongSelf evaluates to nil usually the execution is returned since the block cannot execute properly.
+不管 block 是否通过属性被 retain ，这里也不会发生循环引用。如果 block 被传递到其他对象并且被复制了，执行的时候，weakSelf 可能被nil，因为强引用被赋值并且不会变成nil的时候，我们确保对象 在 block 调用的完整周期里面被 retain了，如果抢占发生了，随后的对 strongSelf 的执行会继续并且会产生一样的值。如果 strongSelf 的执行到 nil，那么在 block 不能正确执行前已经返回了。
 
 ```objective-c
 __weak typeof(self) weakSelf = self;
@@ -1982,7 +2037,7 @@ myObj.myBlock =  ^{
     __strong typeof(self) strongSelf = weakSelf;
     if (strongSelf) {
       [strongSelf doSomething]; // strongSelf != nil
-      // preemption, strongSelf still not nil
+      // preemption, strongSelf still not nil（抢占的时候，strongSelf 还是非 nil 的)
       [strongSelf doSomethingElse]; // strongSelf != nil
     }
     else {
@@ -1991,14 +2046,14 @@ myObj.myBlock =  ^{
     }
 };
 ```
-
-In an ARC-based environment, the compiler itself alerts us with an error if trying to access an instance variable using the `->` notation. The error is very clear:
+ 
+在ARC条件中，如果尝试用 `->` 符号访问一个实例变量，编译器会给出非常清晰的错误信息：
 
 ```objective-c
-Dereferencing a __weak pointer is not allowed due to possible null value caused by race condition, assign it to a strong variable first.
+Dereferencing a __weak pointer is not allowed due to possible null value caused by race condition, assign it to a strong variable first. (对一个 __weak 指针的解引用不允许的，因为可能在竞态条件里面变成 null, 所以先把他定义成 strong 的属性)
 ```
 
-It can be shown with the following code:
+可以用下面的代码展示
 
 ```objective-c
 __weak typeof(self) weakSelf = self;
@@ -2007,13 +2062,14 @@ myObj.myBlock =  ^{
 };
 ```
 
-In the very end:
 
-* **Case 1**: should be used only when the block is not assigned to a property, otherwise it will lead to a retain cycle.
+在最后
 
-* **Case 2**: should be used when the block is assigned to a property.
+* **方案 1**: 只能在 block 不是作为一个 property 的时候使用，否则会导致 retain cycle。
 
-* **Case 3**: it is related to concurrent executions. When asynchronous services are involved, the blocks that are passed to them can be executed at a later period and there is no certainty about the existence of the self object.
+* **方案 2**:  当 block 被声明为一个 property 的时候使用。
+
+* **方案 3**: 和并发执行有关。当涉及异步的服务的时候，block 可以在之后被执行，并且不会发生关于 self 是否存在的问题。
 
 [blocks_caveat1]: http://developer.apple.com/library/mac/#releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html
 [blocks_caveat2]: http://dhoerl.wordpress.com/2013/04/23/i-finally-figured-out-weakself-and-strongself/
@@ -2030,45 +2086,46 @@ In the very end:
 [blocks_caveat15]: http://www.amazon.it/Pro-Multithreading-Memory-Management-Ios/dp/1430241160
 [blocks_caveat16]: https://twitter.com/mattjgalloway
 
-## Delegate and DataSource
+## 委托和数据源
 
-Delegation is a widespread pattern throughout Apple's frameworks and it is one of the most important patterns in the Gang of Four's book "Design Patterns". The delegation pattern is unidirectional, the message sender (the delegant) needs to know about the recipient (the delegate), but not the other way around. The coupling between the objects is loosen the sender only knows that its delegate conforms to a specific protocol.
+[委托模式](https://www.wikiwand.com/zh/%E5%A7%94%E6%89%98%E6%A8%A1%E5%BC%8F) 是 Apple 的框架里面使用广泛的模式，同时它是四人帮的书“设计模式”中的重要模式之一。委托代理模式是单向的，消息的发送方（委托方）需要知道接收方（代理方）是谁，反过来就没有必要了。对象之间耦合较松，发送方仅需知道它的代理方是否遵守相关 protocol 即可。
 
-In its pure form, delegation is about providing callbacks to the delegate, which means that the delegate implements a set of methods with void return type.
+本质上，委托代理模式仅需要代理方提供一些回调方法，即代理方需要实现一系列空返回值的方法。
 
-Unfortunately this has not been respected over years by the APIs from Apple and therefore developers acted imitating this misleading approach. A classic example is the [UITableViewDelegate](https://developer.apple.com/library/ios/documentation/uikit/reference/UITableViewDelegate_Protocol/Reference/Reference.html) protocol.
+不幸的是 Apple 的 API 并没有遵守这个原则，开发者也效仿 Apple 进入了一个误区。典型的例子就是 [UITableViewDelegate](https://developer.apple.com/library/ios/documentation/uikit/reference/UITableViewDelegate_Protocol/Reference/Reference.html) 协议。
 
-While some methods have void return type and look like callbacks:
+它的一些方法返回 void 类型，就像我们所说的回调：
 
 ```objective-c
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath;
 ```
 
-others are definitely not:
+但是其他的就不是那么回事：
 
 ```objective-c
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender;
 ```
 
-When the delegant asks for some kind of information to the delegate object, the direction implied is from the delegate to the delegant and to the other way around anymore. This is conceptually different and a new name should be use to describe the pattern: DataSource.
+当委托者询问代理者一些信息的时候，这就暗示着信息是从代理者流向委托者而非相反的过程。 这(译者注：委托者 ==Data==> 代理者)是概念性的不同，须用另一个新的名字来描述这种模式：数据源模式。
 
-One could argue that Apple has a [UITableViewDataSouce](https://developer.apple.com/library/ios/documentation/uikit/reference/UITableViewDataSource_Protocol/Reference/Reference.html) protocol for it (forced under the name of the delegate pattern) but in reality it is used for methods providing information about how the real data should be presented.
+可能有人会说 Apple 有一个 [UITableViewDataSouce](https://developer.apple.com/library/ios/documentation/uikit/reference/UITableViewDataSource_Protocol/Reference/Reference.html)  protocol 来做这个（虽然使用委托模式的名字），但是实际上它的方法是用来提供真实的数据应该如何被展示的信息的。
 
 ```objective-c
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 ```
 
-Moreover, in the above 2 methods Apple mixed the presentation layer with the data layer which is clearly ugly and in the end very few developers felt bad about it over times and even here we'll call delegate methods both methods with void return type and not void for simplicity.
+此外，以上两个方法 Apple 混合了展示层和数据层，这显的非常糟糕，但是很少的开发者感到糟糕。而且我们在这里把空返回值和非空返回值的方法都天真地叫做委托方法。
 
-To split the concepts, the following approach should be used:
+为了分离概念，我们应该这样做：
 
-* delegate pattern: when the delegant needs to notify the delegate about event occurred
-* datasource pattern: when the delegant needs to fetch information from the datasource object
+* 委托模式(delegate pattern)：事件发生的时候，委托者需要通知代理者。
+* 数据源模式(datasource pattern): 委托者需要从数据源对象拉取数据。
 
-Here is a concrete example:
+
+这个是实际的例子：
 
 ```objective-c
 @class ZOCSignUpViewController;
@@ -2081,7 +2138,6 @@ Here is a concrete example:
 - (ZOCUserCredentials *)credentialsForSignUpViewController:(ZOCSignUpViewController *)controller;
 @end
 
-@protocol ZOCSignUpViewControllerDataSource <NSObject>
 
 @interface ZOCSignUpViewController : UIViewController
 
@@ -2091,25 +2147,28 @@ Here is a concrete example:
 @end
 
 ```
--------------------
-Delegate methods should be always have the caller as first parameter as in the above example otherwise delegate objects could not be able to distinguish between different instances of delegants. In other words, if the caller is not passed to the delegate object, there would be no way for any delegate to deal with 2 delegant object. So, following is close to blasphemy:
+
+
+代理方法必须以调用者(即委托者)作为第一个参数，就像上面的例子一样。否则代理者无法区分不同的委托者实例。换句话说，调用者(委托者)没有被传递给代理，那就没有方法让代理处理两个不同的委托者，所以下面这种写法人神共怒：
+
 
 ```objective-c
 - (void)calculatorDidCalculateValue:(CGFloat)value;
 ```
 
-By default, methods in protocols are required to be implemented by delegate objects. It is possible to mark some of them as optional and to be explicit about the required method using the `@required` and `@optional` keywords as so: 
+默认情况下，代理者需要实现 protocol 的方法。可以用`@required` 和  `@optional` 关键字来标记方法是否是必要的还是可选的(默认是 `@required`: 必需的)。
+
 
 ```objective-c
 @protocol ZOCSignUpViewControllerDelegate <NSObject>
 @required
-- (void)signUpViewController:(ZOCSignUpViewController *)controller didProvideSignUpInfo:(NSDictionary *);
+- (void)signUpViewController:(ZOCSignUpViewController *)controller didProvideSignUpInfo:(NSDictionary *)dict;
 @optional
 - (void)signUpViewControllerDidPressSignUpButton:(ZOCSignUpViewController *)controller;
 @end
 ```
 
-For optional methods, the delegant must check if the delegate actually implements a specific method before sending the message to it (otherwise a crash would occur) as so:
+对于可选的方法，委托者必须在发送消息前检查代理是否确实实现了特定的方法（否则会 crash）：
 
 ```objective-c
 if ([self.delegate respondsToSelector:@selector(signUpViewControllerDidPressSignUpButton:)]) {
@@ -2117,15 +2176,16 @@ if ([self.delegate respondsToSelector:@selector(signUpViewControllerDidPressSign
 }
 ```
 
-### Inheritance
+###   继承
 
-Sometimes you may need to override delegate methods. Consider the case of having two UIViewController subclasses: UIViewControllerA and UIViewControllerB, with the following class hierarchy.
+
+有时候你可能需要重载代理方法。考虑有两个 UIViewController 子类的情况：UIViewControllerA 和 UIViewControllerB，有下面的类继承关系。
 
 `UIViewControllerB < UIViewControllerA < UIViewController`
 
-`UIViewControllerA` conforms to `UITableViewDelegate` and implements `- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath`.
+`UIViewControllerA` 遵从 `UITableViewDelegate` 并且实现了 `- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath`.
 
-You want to provide a different implementation for the method above in `UIViewControllerB`. An implementation like the following will work:
+你可能会想要在 `UIViewControllerB` 中提供一个不同的实现，这个实现可能是这样子的：
 
 ```objective-c
 
@@ -2139,21 +2199,16 @@ You want to provide a different implementation for the method above in `UIViewCo
 
 ```
 
-But what if the given method was not implemented in the superclass (`UIViewControllerA`)?
-
-The invocation
-
-```objective-c
-[super respondsToSelector:@selector(tableView:heightForRowAtIndexPath:)]
-```
-
-will use the NSObject's implementation that will lookup, under the hood, in the context of `self` and clearly self implements the method but the app will crash at the next line with the following error:
+但是如果超类(`UIViewControllerA`)没有实现这个方法呢？此时调用`[super respondsToSelector:@selector(tableView:heightForRowAtIndexPath:)]`方法，将使用 NSObject 的实现，在 `self` 上下文深入查找并且明确 `self` 实现了这个方法（因为 `UITableViewControllerA` 遵从 `UITableViewDelegate`），但是应用将在下一行发生崩溃，并提示如下错误信息：
 
 ```
 *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[UIViewControllerB tableView:heightForRowAtIndexPath:]: unrecognized selector sent to instance 0x8d82820'
+
+*** 由于未捕获异常 `NSInvalidArgumentException(无效的参数异常)`导致应用终止，理由是：向实例 ox8d82820 发送了无法识别的 selector `- [UIViewControllerB tableView:heightForRowAtIndexPath:]`
+
 ```
 
-In this case we need to ask if instances of a specific class can respond to a given selector. The following code would do the trick:
+这种情况下我们需要来询问特定的类实例是否可以响应对应的 selector。下面的代码提供了一个小技巧：
 
 ```objective-c
 
@@ -2167,24 +2222,29 @@ In this case we need to ask if instances of a specific class can respond to a gi
 
 ```
 
-As code as the one above is ugly, often it'd be better to design the architecture in a way that delegate methods don't need to be overridden.
+就像上面丑陋的代码，通常它会是更好的设计架构的方式，因为这种方式代理方法不需要被重写。
 
-### Multiple Delegation
+###  多重委托
 
-Multiple delegation is a very fundamental concept that, unfortunately, the majority of developers are hardly familiar with and too often NSNotifications are used instead. As you may have noticed, delegation and datasource are inter-object communication pattern involving only 2 objects: 1 delegant and 1 delegate.
 
-DataSource pattern is forced to be 1 to 1 as the information the sender asks for can be provided by one and only one object. Things are different for the delegate pattern and it would be perfectly reasonable to have many delegate objects waiting for the callbacks.
+多重委托是一个非常基础的概念，但是，大多数开发者对此非常不熟悉而使用 NSNotifications。就像你可能注意到的，委托和数据源是对象之间的通讯模式，但是只涉及两个对象：委托者和委托。
 
-There are cases where at least 2 objects are interested in receiving the callbacks from a particular delegant and the latter wants to know all of its delegates. This approach maps better a distributed system and more generically how complex flows of information usually go in wide software.
 
-Multiple delegation can be achieved in many ways and the reader is dared to find a proper personal implementation. A very neat implementation of multiple delegation using the forward mechanism is given by Luca Bernardi in his [LBDelegateMatrioska](https://github.com/lukabernardi/LBDelegateMatrioska).
+数据源模式强制一对一的关系，当发送者请求信息时有且只能有一个对象来响应。对于代理模式而言这会有些不同，我们有足够的理由要去实现很多代理者等待(唯一委托者的)回调的场景。
 
-A basic implementation is given here to unfold the concept. Even if in Cocoa there are ways to store weak references in a data structure to avoid retain cycles, here we use a class to hold a weak reference to the delegate object as single delegation does.
+
+一些情况下至少有两个对象对特定委托者的回调感兴趣，而后者(即委托者)需要知道他的所有代理。这种方法在分布式系统下更为适用并且广泛使用于大型软件的复杂信息流程中。
+
+多重委托可以用很多方式实现，但读者更在乎找到适合自己的个人实现。Luca Bernardi 在他的 [LBDelegateMatrioska](https://github.com/lukabernardi/LBDelegateMatrioska)中提供了上述范式的一个非常简洁的实现。
+
+这里给出一个基本的实现,方便你更好地理解这个概念。即使在Cocoa中也有一些在数据结构中保存 weak 引用来避免 引用循环的方法， 这里我们使用一个类来保留代理对象的 weak 引用(就像单一代理那样):
 
 ```objective-c
 @interface ZOCWeakObject : NSObject
 
-@property (nonatomic, weak, readonly) id object;
+@property (nonatomic, readonly, weak) id object; 
+//译者注：这里原文并没有很好地实践自己在本书之前章节所讨论的关于property属性修饰符的
+//人体工程学法则: 从左到右： 原子性 ===》 读写权限 (别名) ===》 内存管理权限符
 
 + (instancetype)weakObjectWithObject:(id)object;
 - (instancetype)initWithObject:(id)object;
@@ -2238,7 +2298,9 @@ A basic implementation is given here to unfold the concept. Even if in Cocoa the
 @end
 ```
 
-A simple component using weak objects to achieve multiple delegation:
+
+使用 weak 对象来实现多重代理的简单组件：
+
 
 ```objective-c
 @protocol ZOCServiceDelegate <NSObject>
@@ -2255,7 +2317,8 @@ A simple component using weak objects to achieve multiple delegation:
 @property (nonatomic, strong) NSMutableSet *delegates;
 @end
 ```
--------------------
+
+
 ```objective-c
 @implementation ZOCGeneralService
 - (void)registerDelegate:(id<ZOCServiceDelegate>)delegate {
@@ -2284,29 +2347,35 @@ A simple component using weak objects to achieve multiple delegation:
 @end
 ```
 
-With the `registerDelegate:` and `deregisterDelegate:` methods, it is easy to connect/disconnect cables between components: if at some point in time a delegate object is not interested in receiving the callbacks from a delegant, it has the chance to just 'unsubscribe'.
-This can be useful when there are different views waiting for some callback to update the shown info: if a view is temporarily hidden (but still alive) it could make sense for it to just unsubscribe to those callbacks.
+在 `registerDelegate:` 和 `deregisterDelegate:` 方法的帮助下，连接/解除组件之间的联系很简单：在某些时间点上，如果代理不需要接收委托者的回调，仅仅需要'unsubscribe'.
+
+当不同的 view 等待同一个回调来更新界面展示的时候，这很有用：如果 view 只是暂时隐藏（但是仍然存在），它仅仅需要取消对回调的订阅。
 
 
-# Aspect Oriented Programming
+# 面向切面编程
 
-Aspect Oriented Programming (AOP) is something not well-known in the Objective-C community but it should be as the runtime is so powerful that AOP should be one of the first things that comes to the mind. Unfortunately, as there is no standard de facto library, nothing comes ready to use out-of-the-box from Apple and the topic is far from being trivial, developers still don't think of it in nowadays. 
-
-Quoting the [Aspect Oriented Programming](http://en.wikipedia.org/wiki/Aspect-oriented_programming) Wikipedia page:
-
-> An aspect can alter the behavior of the base code (the non-aspect part of a program) by applying advice (additional behavior) at various join points (points in a program) specified in a quantification or query called a pointcut (that detects whether a given join point matches).
+Aspect Oriented Programming (AOP，面向切面编程) 在 Objective-C 社区内没有那么有名，但是 AOP 在运行时可以有巨大威力。 但是因为没有事实上的标准，Apple 也没有开箱即用的提供，也显得不重要，开发者都不怎么考虑它。
 
 
-In the world of Objective-C this means using the runtime features to add *aspects* to specific methods. The additional behaviors given by the aspect can be either:
+引用 [Aspect Oriented Programming](http://en.wikipedia.org/wiki/Aspect-oriented_programming) 维基页面:
 
-* add code to be performed before a specific method call on a specific class
-* add code to be performed after a specific method call on a specific class
-* add code to be performed instead of the original implementation of a specific method call on a specific class
+> An aspect can alter the behavior of the base code (the non-aspect part of a program) by applying advice (additional behavior) at various join points (points in a program) specified in a quantification or query called a pointcut (that detects whether a given join point matches). (一个切面可以通过在多个 join points 中附加的行为来改变基础代码的行为(程序的非切面的部分) )
 
-There are many ways to achieve this we are not digging into deep here, basically all of them leverage the power of the runtime. 
-[Peter Steinberger](https://twitter.com/steipete) wrote a library, [Aspects](https://github.com/steipete/Aspects) that fits the AOP approach perfectly. We found it reliable and well-designed and we are going to use it here for sake of simplicity.
-As said for all the AOP-ish libraries, the library does some cool magic with the runtime, replacing and adding methods (further tricks over the method swizzling technique).
-The API of Aspect are interesting and powerful:
+
+在 Objective-C 的世界里，这意味着使用运行时的特性来为指定的方法追加 *切面* 。切面所附加的行为可以是这样的：
+
+
+* 在类的特定方法调用前运行特定的代码
+* 在类的特定方法调用后运行特定的代码
+* 增加代码来替代原来的类的方法的实现
+
+
+有很多方法可以达成这些目的，但是我们没有深入挖掘，不过它们主要都是利用了运行时。 [Peter Steinberger](https://twitter.com/steipete) 写了一个库，[Aspects](https://github.com/steipete/Aspects) 完美地适配了 AOP 的思路。我们发现它值得信赖以及设计得非常优秀，所以我们就在这边作为一个简单的例子。
+
+对于所有的 AOP库，这个库用运行时做了一些非常酷的魔法，可以替换或者增加一些方法（比 method swizzling 技术更有技巧性）
+
+
+Aspect 的 API 有趣并且非常强大：
 
 ```objective-c
 + (id<AspectToken>)aspect_hookSelector:(SEL)selector
@@ -2319,9 +2388,11 @@ The API of Aspect are interesting and powerful:
                             error:(NSError **)error;
 ```
 
-For instance, the following code will perform the block parameter after the execution of the method `myMethod:` (instance or class method that be) on the class `MyClass`.
+
+比如，下面的代码会对于执行 `MyClass` 类的 `myMethod:`  (实例或者类的方法) 执行块参数。
 
 ```objective-c
+
 [MyClass aspect_hookSelector:@selector(myMethod:)
                  withOptions:AspectPositionAfter
                   usingBlock:^(id<AspectInfo> aspectInfo) {
@@ -2330,18 +2401,21 @@ For instance, the following code will perform the block parameter after the exec
                        error:nil];
 ```
 
-In other words: the code provided in the block parameter will always be executed after each call of the `@selector` parameter on any object of type `MyClass` (or on the class itself if the method is a class method).
 
-We added an aspect on `MyClass` for the method `myMethod:`.
+换一句话说：任意的 `MyClass` 类型的对象(或者是类型本身当这个 @selector 方法为类方法时)的 `@selector` 方法执行完后，就会执行这个代码中块参数所提供的代码。
 
-Usually AOP is used to implement cross cutting concern. Perfect example to leverage are analytics or logging.
+我们为 `MyClass` 类的 `myMethod:` 方法增加了切面。
 
-In the following we will present the use of AOP for analytics. Analytics are a popular "feature" to include in iOS projects, with a huge variety of choices ranging from Google Analytics, Flurry, MixPanel, etc.
-Most of them have tutorials describing how to track specific views and events including a few lines of code inside each class.
+通常 AOP 被用来实现横向切面。统计与日志就是一个完美的例子。
 
-On Ray Wenderlich's blog there is a long [article](http://www.raywenderlich.com/53459/google-analytics-ios) with some sample code to include in your view controller in order to track an event with [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/):
+下面的例子里面，我们会用AOP用来进行统计。统计是iOS项目里面一个热门的特性，有很多选择比如 Google Analytics, Flurry, MixPanel, 等等.
+
+大部分统计框架都有教程来指导如何追踪特定的界面和事件，包括在每一个类里写几行代码。
+
+在 Ray Wenderlich 的博客里有 [文章](http://www.raywenderlich.com/53459/google-analytics-ios) 和一些示例代码，通过在你的 view controller 里面加入 [Google Analytics](https://developers.google.com/analytics/devguides/collection/ios/)  进行统计。
 
 ```objective-c
+
 - (void)logButtonPress:(UIButton *)button {
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"UX"
@@ -2351,9 +2425,11 @@ On Ray Wenderlich's blog there is a long [article](http://www.raywenderlich.com/
 }
 ```
 
-The code above sends an event with context information whenever a button is tapped. Things get worse when you want to track a screen view:
+
+上面的代码在按钮点击的时候发送了特定的上下文事件。但是当你想追踪屏幕的时候会变得很糟。
 
 ```objective-c
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
@@ -2363,23 +2439,29 @@ The code above sends an event with context information whenever a button is tapp
 }
 ```
 
-This should look like a code smell to the most of the experienced iOS developers. We are actually making the view controller dirty adding lines of code that should not belong there as it's not responsibility of the view controller to track events. You could argue that you usually have a specific object responsible for analytics tracking and you inject this object inside the view controller but the problem is still there and no matter where you hide the tracking logic: you eventually end up inserting some lines of code in the `viewDidAppear:`.
+对于大部分有经验的iOS工程师，这看起来不是很好的代码。我们让 view controller 变得更糟糕了。因为我们加入了统计事件的代码，但是它不是 view controller 的职能。你可以反驳，因为你通常有特定的对象来负责统计追踪，并且你将代码注入了 view controller ，但是无论你隐藏逻辑，问题仍然存在 ：你最后还是在`viewDidAppear:` 后插入了代码。
 
-We can use AOP to track screen views on specific `viewDidAppear:` methods, and moreover, we could use the same approach to add event tracking in other methods we are interested in, for instance when the user taps on a button (i.e. trivially calling the corresponding IBAction).
 
-This approach is clean and unobtrusive:
 
-* the view controllers will not get dirty with code that does not naturally belongs to them
-* it becomes possible to specify a SPOC file (single point of customization) for all the aspects to add to our code
-* the SPOC should be used to add the aspects at the very startup of the app
-* if the SPOC file is malformed and at least one selector or class is not recognized, the app will crash at startup (which is cool for our purposes) 
-* the team in the company responsible for managing the analytics usually provides a document with the list of *things* to track; this document could then be easily mapped to a SPOC file
-* as the logic for the tracking is now abstracted, it becomes possible to scale with a grater number of analytics providers
-* for screen views it is enough to specify in the SPOC file the classes involved (the corresponding aspect will be added to the `viewDidAppear:` method), for events it is necessary to specify the selectors. To send both screen views and events, a tracking label and maybe extra meta data are needed to provide extra information (depending on the analytics provider).
+我们可以在类的 `viewDidAppear:` 方法上使用 AOP 来追踪屏幕，并且我们可以使用同样的方法在其他我们感兴趣的方法上添加事件追踪。比如当用户点击某个按钮时(比如:一般调用对应的 IBAction).
 
-We may want a SPOC file similar to the following (also a .plist file would perfectly fit as well):
+
+方法很简洁且不具侵入性：
+
+* view controller 不会被不属于它的代码污染
+* 为所有加入到我们代码的切面指定一个 SPOC 文件 (single point of customization)提供了可能
+* SPOC 应该在 App 刚开始启动的时候用来添加切面
+* 如果SPOC文件异常,至少有一个 selector 或者 类 识别不出来，应用将会在启动时崩溃(对我们来说这很酷).
+* 公司负责统计的团队通常会提供统计文档，罗列出需要追踪的事件。这个文档可以很容易映射到一个 SPOC 文件。
+* 追踪逻辑抽象化之后，扩展到很多其他统计框架会很方便
+* 对于屏幕视图，对于需要定义 selector 的方法，只需要在 SPOC 文件修改相关的类（相关的切面会加入到 `viewDidAppear:` 方法）。如果要同时发送屏幕视图和事件，需要（依靠统计提供方）提供一个追踪的标示或者可能还需要提供其他的元信息。
+
+
+
+我们可能希望一个 SPOC 文件类似下面的（同样的一个 .plist 文件会适配）
 
 ```objective-c
+
 NSDictionary *analyticsConfiguration()
 {
     return @{
@@ -2415,9 +2497,11 @@ NSDictionary *analyticsConfiguration()
 }
 ```
 
-The architecture proposed is hosted on GitHub on the [EF Education First](https://github.com/ef-ctx/JohnnyEnglish/blob/master/CTXUserActivityTrackingManager.m) profile.
+
+提及的架构托管 在 Github 的[EF Education First](https://github.com/ef-ctx/JohnnyEnglish/blob/master/CTXUserActivityTrackingManager.m) 中.
 
 ```objective-c
+
 - (void)setupWithConfiguration:(NSDictionary *)configuration
 {
     // screen views tracking
@@ -2427,11 +2511,13 @@ The architecture proposed is hosted on GitHub on the [EF Education First](https:
         [clazz aspect_hookSelector:@selector(viewDidAppear:)
                        withOptions:AspectPositionAfter
                         usingBlock:^(id<AspectInfo> aspectInfo) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSString *viewName = trackedScreen[@"label"];
-                [tracker trackScreenHitWithName:viewName];
-            });
-        }];
+               dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), 
+                          ^{
+                          NSString *viewName = trackedScreen[@"label"];
+                        [tracker trackScreenHitWithName:viewName];
+                      });
+                  }
+                            error:nil];
 
     }
 
@@ -2443,45 +2529,50 @@ The architecture proposed is hosted on GitHub on the [EF Education First](https:
         [clazz aspect_hookSelector:selektor
                        withOptions:AspectPositionAfter
                         usingBlock:^(id<AspectInfo> aspectInfo) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                UserActivityButtonPressedEvent *buttonPressEvent = [UserActivityButtonPressedEvent eventWithLabel:trackedEvents[@"label"]];
-                [tracker trackEvent:buttonPressEvent];
-            });
-        }];
+               dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), 
+                      ^{
+                            UserActivityButtonPressedEvent *buttonPressEvent = \
+                                [UserActivityButtonPressedEvent \
+                                    eventWithLabel:trackedEvents[@"label"]];
+                            [tracker trackEvent:buttonPressEvent];
+                      });
+                }
+                       error:nil];
 
     }
 }
 ```
 
 
+# 参考资料
 
-# References 参考
-
-Here are some of the documents from Apple that informed the style guide:
+这里有一些和风格指南有关的苹果的文档：
 
 * [The Objective-C Programming Language](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html)
 * [Cocoa Fundamentals Guide](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CocoaFundamentals/Introduction/Introduction.html)
 * [Coding Guidelines for Cocoa](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html)
 * [iOS App Programming Guide](http://developer.apple.com/library/ios/#documentation/iphone/conceptual/iphoneosprogrammingguide/Introduction/Introduction.html)
-* [Apple Objective-C conventions](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/ProgrammingWithObjectiveC/Conventions/Conventions.html): code conventions from Apple;
+* [Apple Objective-C conventions](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/ProgrammingWithObjectiveC/Conventions/Conventions.html): 来自苹果的代码约定
 
-Others:
+其他：
 
-* [Objcetive-Clean](http://objclean.com): an attempt to write a standard for writing Objective-C code with Xcode integration;
+* [Objective-Clean](http://objclean.com): an attempt to write a standard for writing Objective-C code with Xcode integration;
 * [Uncrustify](http://uncrustify.sourceforge.net/): source code beautifier.
 
-### Other Objective-C Style Guides 其他的 Objective-C 风格指南
+### 其他的 Objective-C 风格指南
 
-Here are some of the documents from Apple that informed the style guide. If something has not been mentioned in this book, it's probably covered in great detail in one of these:
 
-From Apple:
+这里有一些和风格指南有关的苹果的文档。如果有一些本书没有涉猎的地方，你或许能在这些之中找到详细说明。
+
+
+来自 Apple 的：
 
 * [The Objective-C Programming Language](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html)
 * [Cocoa Fundamentals Guide](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CocoaFundamentals/Introduction/Introduction.html)
 * [Coding Guidelines for Cocoa](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html)
 * [iOS App Programming Guide](http://developer.apple.com/library/ios/#documentation/iphone/conceptual/iphoneosprogrammingguide/Introduction/Introduction.html)
 
-From the community:
+来自社区的：
 
 * [NYTimes Objective-C Style Guide](https://github.com/NYTimes/objetive-c-style-guide)
 * [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
