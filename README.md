@@ -962,7 +962,7 @@ Your method may require some parameter to satisfy certain condition (i.e. not to
 
 ### Private methods
 
-Never prefix your private method with a single underscore `_`, this prefix is reserved by Apple, doing otherwise expose you to the risk of overriding an existing Apple's private method.
+Never prefix your private method with a single underscore `_`, this prefix is reserved by Apple, doing otherwise expose you to the risk of overriding an existing Apple's private method. A recommended approach is to use the `p_` prefix (e.g. `p_privateMethod`).
 
 ## Equality
 
@@ -2077,7 +2077,7 @@ A simple component using weak objects to achieve multiple delegation:
     }
 }
 
-- (void)_notifyDelegates {
+- (void)p_notifyDelegates {
     ...
     for (ZOCWeakObject *object in self.delegates) {
         if (object.object) {
