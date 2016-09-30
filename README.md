@@ -1991,7 +1991,7 @@ A basic implementation is given here to unfold the concept. Even if in Cocoa the
 ```objective-c
 @interface ZOCWeakObject : NSObject
 
-@property (nonatomic, weak, readonly) id object;
+@property (nonatomic, readonly, weak) id object;
 
 + (instancetype)weakObjectWithObject:(id)object;
 - (instancetype)initWithObject:(id)object;
