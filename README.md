@@ -938,7 +938,7 @@ In this case, instead of allocating the object in the init method one could opt 
 ```objective-c
 - (NSDateFormatter *)dateFormatter {
   if (!_dateFormatter) {
-    _dateFormatter = [[NSDateFormatter alloc] init];
+        _dateFormatter = [[NSDateFormatter alloc] init];
         NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
         [dateFormatter setLocale:enUSPOSIXLocale];
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSSS"];
