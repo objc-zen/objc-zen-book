@@ -239,7 +239,7 @@ When coding with conditionals, the left hand margin of the code should be the "g
         return;
     }
 
-    //Do something important
+    // Do something important
 }
 ```
 
@@ -248,7 +248,7 @@ When coding with conditionals, the left hand margin of the code should be the "g
 ```objective-c
 - (void)someMethod {
     if ([someOther boolValue]) {
-        //Do something important
+        // Do something important
     }
 }
 ```
@@ -1243,10 +1243,10 @@ NSString * const ZOCFooDidBecomeBarNotification = @"ZOCFooDidBecomeBarNotificati
 **Preferred:**
 ```objective-c
 if (user.isHappy) {
-    //Do something
+    // Do something
 }
 else {
-    //Do something else
+    // Do something else
 }
 ```
 
@@ -1254,9 +1254,9 @@ else {
 ```objective-c
 if (user.isHappy)
 {
-    //Do something
+    // Do something
 } else {
-    //Do something else
+    // Do something else
 }
 ```
 
@@ -2103,13 +2103,13 @@ The API of Aspect are interesting and powerful:
 
 ```objective-c
 + (id<AspectToken>)aspect_hookSelector:(SEL)selector
-                      withOptions:(AspectOptions)options
-                       usingBlock:(id)block
-                            error:(NSError **)error;
+                           withOptions:(AspectOptions)options
+                            usingBlock:(id)block
+                                 error:(NSError **)error;
 - (id<AspectToken>)aspect_hookSelector:(SEL)selector
-                      withOptions:(AspectOptions)options
-                       usingBlock:(id)block
-                            error:(NSError **)error;
+                           withOptions:(AspectOptions)options
+                            usingBlock:(id)block
+                                 error:(NSError **)error;
 ```
 
 For instance, the following code will perform the block parameter after the execution of the method `myMethod:` (instance or class method that be) on the class `MyClass`.
