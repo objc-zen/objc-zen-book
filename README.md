@@ -235,11 +235,11 @@ When coding with conditionals, the left hand margin of the code should be the "g
 
 ```objective-c
 - (void)someMethod {
-  if (![someOther boolValue]) {
-      return;
-  }
+    if (![someOther boolValue]) {
+        return;
+    }
 
-  //Do something important
+    //Do something important
 }
 ```
 
@@ -247,9 +247,9 @@ When coding with conditionals, the left hand margin of the code should be the "g
 
 ```objective-c
 - (void)someMethod {
-  if ([someOther boolValue]) {
-    //Do something important
-  }
+    if ([someOther boolValue]) {
+        //Do something important
+    }
 }
 ```
 ## Complex Conditions
@@ -760,12 +760,12 @@ Nevertheless, unavoidable singleton objects should use a thread-safe pattern for
 
 ```objective-c
 + (instancetype)sharedInstance {
-   static id sharedInstance = nil;
-   static dispatch_once_t onceToken = 0;
-   dispatch_once(&onceToken, ^{
-      sharedInstance = [[self alloc] init];
-   });
-   return sharedInstance;
+    static id sharedInstance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
 }
 ```
 
@@ -914,7 +914,7 @@ You should also avoid to expose mutable object in the public interface, because 
 
 /* .m */
 - (NSArray *)elements {
-  return [self.mutableElements copy];
+    return [self.mutableElements copy];
 }
 ```
 
@@ -926,13 +926,13 @@ In this case, instead of allocating the object in the init method one could opt 
 
 ```objective-c
 - (NSDateFormatter *)dateFormatter {
-  if (!_dateFormatter) {
-    _dateFormatter = [[NSDateFormatter alloc] init];
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
         NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
         [dateFormatter setLocale:enUSPOSIXLocale];
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSSS"];
-  }
-  return _dateFormatter;
+    }
+    return _dateFormatter;
 }
 ```
 
@@ -993,11 +993,11 @@ A complete pattern for the isEqual* method should be as so:
 ```objective-c
 - (BOOL)isEqual:(id)object {
     if (self == object) {
-      return YES;
+        return YES;
     }
 
     if (![object isKindOfClass:[ZOCPerson class]]) {
-      return NO;
+        return NO;
     }
 
     return [self isEqualToPerson:(ZOCPerson *)object];
@@ -1013,7 +1013,7 @@ A complete pattern for the isEqual* method should be as so:
     BOOL birthdaysMatch = (!self.birthday && !person.birthday) ||
                            [self.birthday isEqualToDate:person.birthday];
 
-  return haveEqualNames && haveEqualBirthdays;
+    return haveEqualNames && haveEqualBirthdays;
 }
 ```
 
@@ -1254,9 +1254,9 @@ else {
 ```objective-c
 if (user.isHappy)
 {
-  //Do something
+    //Do something
 } else {
-  //Do something else
+    //Do something else
 }
 ```
 
@@ -1723,7 +1723,7 @@ You may think, at first, this is a trick to use self inside the block avoiding t
 MyViewController *myController = [[MyViewController alloc] init...];
 // ...
 MyViewController * __weak weakMyController = myController;
-myController.completionHandler =  ^(NSInteger result) {
+myController.completionHandler = ^(NSInteger result) {
     MyViewController *strongMyController = weakMyController;
     if (strongMyController) {
         // ...
@@ -1758,7 +1758,7 @@ The execution of the block can be preempted and different subsequent evaluations
 
 ```objective-c
 __weak typeof(self) weakSelf = self;
-dispatch_block_t block =  ^{
+dispatch_block_t block = ^{
     [weakSelf doSomething]; // weakSelf != nil
     // preemption, weakSelf turned nil
     [weakSelf doSomethingElse]; // weakSelf == nil
@@ -1771,12 +1771,12 @@ There is no retain cycle and, again, no matter if the block is retained or not b
 
 ```objective-c
 __weak typeof(self) weakSelf = self;
-myObj.myBlock =  ^{
+myObj.myBlock = ^{
     __strong typeof(self) strongSelf = weakSelf;
     if (strongSelf) {
-      [strongSelf doSomething]; // strongSelf != nil
-      // preemption, strongSelf still not nil
-      [strongSelf doSomethingElse]; // strongSelf != nil
+        [strongSelf doSomething]; // strongSelf != nil
+        // preemption, strongSelf still not nil
+        [strongSelf doSomethingElse]; // strongSelf != nil
     }
     else {
         // Probably nothing...
@@ -1795,7 +1795,7 @@ It can be shown with the following code:
 
 ```objective-c
 __weak typeof(self) weakSelf = self;
-myObj.myBlock =  ^{
+myObj.myBlock = ^{
     id localVal = weakSelf->someIVar;
 };
 ```
