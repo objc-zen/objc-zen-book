@@ -146,8 +146,7 @@ The code extract:
 ```objective-c
 static OSStatus
 SSLVerifySignedServerKeyExchange(SSLContext *ctx, bool isRsa, SSLBuffer signedParams,
-                                 uint8_t *signature, UInt16 signatureLen)
-{
+                                 uint8_t *signature, UInt16 signatureLen) {
   OSStatus        err;
   ...
 
@@ -236,11 +235,11 @@ When coding with conditionals, the left hand margin of the code should be the "g
 
 ```objective-c
 - (void)someMethod {
-  if (![someOther boolValue]) {
-      return;
-  }
+    if (![someOther boolValue]) {
+        return;
+    }
 
-  //Do something important
+    // Do something important
 }
 ```
 
@@ -248,9 +247,9 @@ When coding with conditionals, the left hand margin of the code should be the "g
 
 ```objective-c
 - (void)someMethod {
-  if ([someOther boolValue]) {
-    //Do something important
-  }
+    if ([someOther boolValue]) {
+        // Do something important
+    }
 }
 ```
 ## Complex Conditions
@@ -322,7 +321,7 @@ switch (condition) {
         // ...
         // Multi-line example using braces
         break;
-       }
+    }
     case 3:
         // ...
         break;
@@ -516,8 +515,7 @@ In these days with ARC, it is less likely that you will need to implement the de
 `init` methods should be structured like this:
 
 ```objective-c
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init]; // call the designated initializer
     if (self) {
         // Custom initialization
@@ -550,8 +548,7 @@ The designated initializer is the initializer that takes the full complement of 
 
 - (instancetype)initWithTitle:(NSString *)title
                          date:(NSDate *)date
-                     location:(CLLocation *)location
-{
+                     location:(CLLocation *)location {
     self = [super init];
     if (self) {
         _title    = title;
@@ -562,13 +559,11 @@ The designated initializer is the initializer that takes the full complement of 
 }
 
 - (instancetype)initWithTitle:(NSString *)title
-                         date:(NSDate *)date
-{
+                         date:(NSDate *)date {
     return [self initWithTitle:title date:date location:nil];
 }
 
-- (instancetype)initWithTitle:(NSString *)title
-{
+- (instancetype)initWithTitle:(NSString *)title {
     return [self initWithTitle:title date:[NSDate date] location:nil];
 }
 
@@ -598,8 +593,7 @@ A typical example is whether you create a `UIViewController` subclass overriding
 ```objective-c
 @implementation ZOCViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     // call to the superclass designated initializer
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -625,8 +619,7 @@ Let's see an example of the correct way to implement this:
 ```objective-c
 @implementation ZOCNewsViewController
 
-- (id)initWithNews:(ZOCNews *)news
-{
+- (id)initWithNews:(ZOCNews *)news {
     // call to the immediate superclass's designated initializer
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
@@ -636,8 +629,7 @@ Let's see an example of the correct way to implement this:
 }
 
 // Override the immediate superclass's designated initializer
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     // call the new designated initializer
     return [self initWithNews:nil];
 }
@@ -739,8 +731,7 @@ The generic view controller will check the current device idiom and depending on
 ```objective-c
 @implementation ZOCKintsugiPhotoViewController
 
-- (id)initWithPhotos:(NSArray *)photos
-{
+- (id)initWithPhotos:(NSArray *)photos {
     if ([self isMemberOfClass:ZOCKintsugiPhotoViewController.class]) {
         self = nil;
 
@@ -768,22 +759,20 @@ Generally avoid using them if possible, use dependency injection instead.
 Nevertheless, unavoidable singleton objects should use a thread-safe pattern for creating their shared instance. As of GCD, it is possible to use the `dispatch_once()` function to
 
 ```objective-c
-+ (instancetype)sharedInstance
-{
-   static id sharedInstance = nil;
-   static dispatch_once_t onceToken = 0;
-   dispatch_once(&onceToken, ^{
-      sharedInstance = [[self alloc] init];
-   });
-   return sharedInstance;
++ (instancetype)sharedInstance {
+    static id sharedInstance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
 }
 ```
 
 The use of dispatch_once(), which is synchronous, replaces the following, yet obsolete, idiom:
 
 ```objective-c
-+ (instancetype)sharedInstance
-{
++ (instancetype)sharedInstance {
     static id sharedInstance;
     @synchronized(self) {
         if (sharedInstance == nil) {
@@ -925,7 +914,7 @@ You should also avoid to expose mutable object in the public interface, because 
 
 /* .m */
 - (NSArray *)elements {
-  return [self.mutableElements copy];
+    return [self.mutableElements copy];
 }
 ```
 
@@ -937,13 +926,13 @@ In this case, instead of allocating the object in the init method one could opt 
 
 ```objective-c
 - (NSDateFormatter *)dateFormatter {
-  if (!_dateFormatter) {
-    _dateFormatter = [[NSDateFormatter alloc] init];
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
         NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
         [dateFormatter setLocale:enUSPOSIXLocale];
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSSS"];
-  }
-  return _dateFormatter;
+    }
+    return _dateFormatter;
 }
 ```
 
@@ -1004,11 +993,11 @@ A complete pattern for the isEqual* method should be as so:
 ```objective-c
 - (BOOL)isEqual:(id)object {
     if (self == object) {
-      return YES;
+        return YES;
     }
 
     if (![object isKindOfClass:[ZOCPerson class]]) {
-      return NO;
+        return NO;
     }
 
     return [self isEqualToPerson:(ZOCPerson *)object];
@@ -1024,7 +1013,7 @@ A complete pattern for the isEqual* method should be as so:
     BOOL birthdaysMatch = (!self.birthday && !person.birthday) ||
                            [self.birthday isEqualToDate:person.birthday];
 
-  return haveEqualNames && haveEqualBirthdays;
+    return haveEqualNames && haveEqualBirthdays;
 }
 ```
 
@@ -1254,10 +1243,10 @@ NSString * const ZOCFooDidBecomeBarNotification = @"ZOCFooDidBecomeBarNotificati
 **Preferred:**
 ```objective-c
 if (user.isHappy) {
-    //Do something
+    // Do something
 }
 else {
-    //Do something else
+    // Do something else
 }
 ```
 
@@ -1265,9 +1254,9 @@ else {
 ```objective-c
 if (user.isHappy)
 {
-  //Do something
+    // Do something
 } else {
-  //Do something else
+    // Do something else
 }
 ```
 
@@ -1437,8 +1426,7 @@ Suppressing warnings for unused variables
 It's useful to be told that a variable you've defined is going unused. In most cases, you want to remove these references to improve performance (however slightly), but sometimes you want to keep them. Why? Perhaps they have a future usage or the functionality is only temporarily removed. Either way, a smarter way to suppress the warning without brutally commenting out the relevant lines, is to use the `#pragma unused()`:
 
 ```objective-c
-- (NSUInteger)giveMeFive
-{
+- (NSUInteger)giveMeFive {
     NSString *foo;
     #pragma unused (foo)
 
@@ -1453,8 +1441,7 @@ Now you can keep your code in place without the compiler complaining about it. A
 The compiler is a robot: it will mark what's wrong with your code using a set of rules that've been defined by Clang. But, every so often you're smarter than it. Often, you might find some offending code that you know will lead to problems but, for whatever reason, can't fix yourself at the moment. You can explicitly signal errors like this:
 
 ```objective-c
-- (NSInteger)divide:(NSInteger)dividend by:(NSInteger)divisor
-{
+- (NSInteger)divide:(NSInteger)dividend by:(NSInteger)divisor {
     #error Whoa, buddy, you need to check for zero here!
     return (dividend / divisor);
 }
@@ -1463,8 +1450,7 @@ The compiler is a robot: it will mark what's wrong with your code using a set of
 You can signal warnings similarly:
 
 ```objective-c
-- (float)divide:(float)dividend by:(float)divisor
-{
+- (float)divide:(float)dividend by:(float)divisor {
     #warning Dude, don't compare floating point numbers like this!
     if (divisor != 0.0) {
         return (dividend / divisor);
@@ -1737,7 +1723,7 @@ You may think, at first, this is a trick to use self inside the block avoiding t
 MyViewController *myController = [[MyViewController alloc] init...];
 // ...
 MyViewController * __weak weakMyController = myController;
-myController.completionHandler =  ^(NSInteger result) {
+myController.completionHandler = ^(NSInteger result) {
     MyViewController *strongMyController = weakMyController;
     if (strongMyController) {
         // ...
@@ -1772,7 +1758,7 @@ The execution of the block can be preempted and different subsequent evaluations
 
 ```objective-c
 __weak typeof(self) weakSelf = self;
-dispatch_block_t block =  ^{
+dispatch_block_t block = ^{
     [weakSelf doSomething]; // weakSelf != nil
     // preemption, weakSelf turned nil
     [weakSelf doSomethingElse]; // weakSelf == nil
@@ -1785,12 +1771,12 @@ There is no retain cycle and, again, no matter if the block is retained or not b
 
 ```objective-c
 __weak typeof(self) weakSelf = self;
-myObj.myBlock =  ^{
+myObj.myBlock = ^{
     __strong typeof(self) strongSelf = weakSelf;
     if (strongSelf) {
-      [strongSelf doSomething]; // strongSelf != nil
-      // preemption, strongSelf still not nil
-      [strongSelf doSomethingElse]; // strongSelf != nil
+        [strongSelf doSomething]; // strongSelf != nil
+        // preemption, strongSelf still not nil
+        [strongSelf doSomethingElse]; // strongSelf != nil
     }
     else {
         // Probably nothing...
@@ -1809,7 +1795,7 @@ It can be shown with the following code:
 
 ```objective-c
 __weak typeof(self) weakSelf = self;
-myObj.myBlock =  ^{
+myObj.myBlock = ^{
     id localVal = weakSelf->someIVar;
 };
 ```
@@ -2117,13 +2103,13 @@ The API of Aspect are interesting and powerful:
 
 ```objective-c
 + (id<AspectToken>)aspect_hookSelector:(SEL)selector
-                      withOptions:(AspectOptions)options
-                       usingBlock:(id)block
-                            error:(NSError **)error;
+                           withOptions:(AspectOptions)options
+                            usingBlock:(id)block
+                                 error:(NSError **)error;
 - (id<AspectToken>)aspect_hookSelector:(SEL)selector
-                      withOptions:(AspectOptions)options
-                       usingBlock:(id)block
-                            error:(NSError **)error;
+                           withOptions:(AspectOptions)options
+                            usingBlock:(id)block
+                                 error:(NSError **)error;
 ```
 
 For instance, the following code will perform the block parameter after the execution of the method `myMethod:` (instance or class method that be) on the class `MyClass`.
@@ -2187,8 +2173,7 @@ This approach is clean and unobtrusive:
 We may want a SPOC file similar to the following (also a .plist file would perfectly fit as well):
 
 ```objective-c
-NSDictionary *analyticsConfiguration()
-{
+NSDictionary *analyticsConfiguration() {
     return @{
         @"trackedScreens" : @[
             @{
@@ -2225,8 +2210,7 @@ NSDictionary *analyticsConfiguration()
 The architecture proposed is hosted on GitHub on the [EF Education First](https://github.com/ef-ctx/JohnnyEnglish/blob/master/CTXUserActivityTrackingManager.m) profile.
 
 ```objective-c
-- (void)setupWithConfiguration:(NSDictionary *)configuration
-{
+- (void)setupWithConfiguration:(NSDictionary *)configuration {
     // screen views tracking
     for (NSDictionary *trackedScreen in configuration[@"trackedScreens"]) {
         Class clazz = NSClassFromString(trackedScreen[@"class"]);
