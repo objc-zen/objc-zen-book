@@ -321,7 +321,7 @@ switch (condition) {
         // ...
         // Multi-line example using braces
         break;
-       }
+    }
     case 3:
         // ...
         break;
